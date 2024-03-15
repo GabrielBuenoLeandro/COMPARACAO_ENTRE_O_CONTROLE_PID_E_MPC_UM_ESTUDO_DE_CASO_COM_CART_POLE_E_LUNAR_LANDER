@@ -16,11 +16,17 @@ Para deduzir as equações de movimento do sistema, será considerado o diagrama
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/b090f698-71ce-40e3-9e8a-f6f44d95741d" alt="Figura2">
 </p>
 
-o movimento horizontal do carro é dado pela equação 1:
+o movimento horizontal do carro é dado pela equação:
 
 $$
-    M\frac{d^2x}{dt} = u - H,  (1)
+ M\frac{d^2x}{dt} = u - H.
 $$
+
+A representação do deslocamento do centro de massa do pêndulo ($x_c$) é ilustrado na Figura abaixo:
+
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/raw/main/assets/89855274/afe4a17a-8c2e-4b06-9a35-263bd3fc4660" alt="Figura3">
+</p>
 
 
 
