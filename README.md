@@ -139,12 +139,10 @@ $$
 
 Para o projeto do controle PID será adotado um ambiente Cartpole do Gym, que se trata de um pêndulo invertido, como equacionado acima, onde as entradas possíveis são:
 
-<p align="center">
 | Número | Ação                              |
 |:------:|:---------------------------------:|
 |   0    | Empurre o carrinho para à esquerda|
 |   1    | Empurre o carrinho para à direita |
-</p>
 
 Sendo a saída:
 
