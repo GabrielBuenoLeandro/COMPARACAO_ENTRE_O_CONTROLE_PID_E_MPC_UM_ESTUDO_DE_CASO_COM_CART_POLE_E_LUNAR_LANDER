@@ -54,3 +54,6 @@ Próximo passo é encontrar o deslocamento rotacional:
 
 o  movimento rotacional da haste do pêndulo ao redor de seu centro de gravidade é descrito pela equação:
 
+$$
+I\frac{d^2\theta}{dt} = V\ell sen\theta - H\ell cos\theta,
+$$
