@@ -162,3 +162,11 @@ O equacionamento já está pronto, sendo necessário agora saber quais são os v
 Não se pode realmente obter muitas informações úteis da posição ou ângulo, mas o fato de que a velocidade e a velocidade angular são retas são muito importantes. Isso sugere que a simulação da carreta é fisicamente precisa, pois uma força constante está produzindo uma aceleração constante tanto linearmente quanto angularmente.
 
 Agora será trabalhado as acelerações lineares e angulares apenas encontrando a inclinação dos seus respectivos gráficos. Para tal, será empregado linregress do pacote Scipy, os resultados encontrados são:
+
+$$
+\ddot{x} = 0,19524\frac{m^2}{s},
+$$
+
+$$
+ \ddot{\theta} =-0,29775\frac{rad^2}{s},
+$$
