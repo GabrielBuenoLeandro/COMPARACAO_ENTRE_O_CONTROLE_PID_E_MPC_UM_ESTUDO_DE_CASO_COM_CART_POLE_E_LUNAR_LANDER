@@ -208,4 +208,21 @@ $$
 
 note que o valor escolhido de $\ell$ apresenta $I$ positivo.
 
+Agora, será estimada a massa do carro ($M$) a partir da equação:
+
+$$
+(M + m)\frac{d^2 x}{dt^2} + m\ell \frac{d^2 \theta}{dt^2} = u,
+$$
+
+substituindo os valores conhecidos, como $m = 0,5kg$, $u = 1N$ e $\ell = 0,65m$, obtém-se:
+
+$$
+M = \frac{u - m\ell\ddot{\theta}-m\ddot{x}}{\ddot{x}} = \frac{1 + 0,5\cdot 0,65\cdot 0,29775 - 0,5\cdot 0,19524}{0,19524} = 5,11754 kg.
+$$
+
+Os resultados encontrados/fixados foram:
+
+| $M [kg]$ | $m [kg]$ | $\ell [m]$ | $I[N\cdot m]$        |
+|----------|----------|------------|----------------------|
+| 5,11754  | 0,5      | 0,65       | $1,8537\times 10^{-3}$|
 
