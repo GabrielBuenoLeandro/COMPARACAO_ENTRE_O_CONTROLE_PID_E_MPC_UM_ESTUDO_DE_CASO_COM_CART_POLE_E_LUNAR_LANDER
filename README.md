@@ -52,5 +52,5 @@ Próximo passo é encontrar o deslocamento rotacional:
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/97aab695-b4b8-4642-b335-dacb25efa05d" alt="Figura4">
 </p>
 
-![Figura4](https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/97aab695-b4b8-4642-b335-dacb25efa05d)
+o  movimento rotacional da haste do pêndulo ao redor de seu centro de gravidade é descrito pela equação:
 
