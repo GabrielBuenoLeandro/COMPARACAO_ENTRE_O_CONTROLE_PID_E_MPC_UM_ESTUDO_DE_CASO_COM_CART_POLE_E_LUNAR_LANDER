@@ -130,3 +130,16 @@ $$
 $$
 \frac{[m^2\ell^2 s^2 - (M+m)\{(I+m\ell^2)s^2-mg\ell\}]}{m\ell}\Theta (s) = U(s),
 $$
+
+por fim, tem-se a função de transferência:
+
+$$
+\frac{\Theta (s)}{U(s)} = \frac{m\ell}{(m^2\ell^2-(M+m)(I+m\ell^2))s^2+(M+m)mg\ell}.
+$$
+
+Para o projeto do controle PID será adotado um ambiente Cartpole do Gym, que se trata de um pêndulo invertido, como equacionado acima, onde as entradas possíveis são:
+
+| Número | Ação                              |
+|--------|-----------------------------------|
+| 0      | Empurre o carrinho para à esquerda|
+| 1      | Empurre o carrinho para à direita |
