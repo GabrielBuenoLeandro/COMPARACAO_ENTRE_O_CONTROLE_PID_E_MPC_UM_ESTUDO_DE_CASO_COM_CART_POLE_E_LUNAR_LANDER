@@ -170,3 +170,5 @@ $$
 $$
  \ddot{\theta} =-0,29775\frac{rad^2}{s},
 $$
+
+um fato interessante, é que esses valores permanecem constantes independentemente do número de simulações, o que leva a crer que o ambiente CartPole possui um embasamento físico por trás.
