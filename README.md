@@ -78,4 +78,4 @@ $$
  m\frac{d^2}{dt}(\ell) = V - mg\Longrightarrow  0 = V-mg.
 $$
 
-note que $H$ e $V$ são desconhecidos, mas a \textit{priori} não se trata de um problema, pois pela equação penúltima é possível expressar $H$ e na última equação tem-se que $V=mg$, levando ao próximo passo, substituir esses valores na primeira equação, obtem:
+note que $H$ e $V$ são desconhecidos, mas a priori não se trata de um problema, pois pela equação penúltima é possível expressar $H$ e na última equação tem-se que $V=mg$, levando ao próximo passo, substituir esses valores na primeira equação, obtem:
