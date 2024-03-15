@@ -91,3 +91,13 @@ $$
 $$
 
  substituindo a aquação $m\frac{d^2}{dt}(x+\ell\theta) = H$ na equação $M\frac{d^2x}{dt} = u - H$, tem-se:
+
+ $$
+ \frac{d^2x}{dt^2} = u - m\frac{d^2}{dt^2} (x + \ell\theta),
+ $$
+
+ reorganizando os termos:
+
+ $$
+  M\frac{d^2x}{dt^2} + m\frac{d^2}{dt^2} (x + \ell\theta) = u,
+ $$
