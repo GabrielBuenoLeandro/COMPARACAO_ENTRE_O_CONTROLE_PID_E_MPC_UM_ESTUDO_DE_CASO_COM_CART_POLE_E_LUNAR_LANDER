@@ -144,3 +144,13 @@ Para o projeto do controle PID será adotado um ambiente Cartpole do Gym, que se
 |   0    | Empurre o carrinho para à esquerda|
 |   1    | Empurre o carrinho para à direita |
 
+Sendo a saída:
+
+| Número | Observação               | Mínimo                 | Máximo                 |
+|:------:|:------------------------|:-----------------------|:-----------------------|
+|   0    | Posição do carrinho     | -4,8                   | 4,8                     |
+|   1    | Velocidade do carrinho  | -Inf                   | Inf                     |
+|   2    | Ângulo do polo          | ~ -0,418 rad (-24°)    | ~ 0,418 rad (24°)      |
+|   3    | Velocidade angular do polo | -Inf                | Inf                     |
+
+O equacionamento já está pronto, sendo necessário agora saber quais são os valores de massa, comprimento e momento de inércia, bem, na verdade, não precisa saber o valor exato de cada uma dessas grandezas, pode-se aproximá-las com simulação e um pouco de física. Então será aplicado uma força à direita e traçar como o sistema se comporta.  Como o ambiente fornece os valores de velocidade e velocidade angular, é possível plotá-los para encontrar alguns valores para as variáveis supracitadas:
