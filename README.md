@@ -4,9 +4,9 @@
 
  # CartPole - Implementação do PID
  
-<div class="text-justify">
+
   O primeiro passo é modelar o sistema de pêndulo invertido (CartPole), a ideia é encontrar como a entrada é dinamicamente transferida para a saída através da função de transferência do sistema, que para o sistema pêndulo invertido é a força aplicada na lateral ($u$) e a saída o ângulo do pêndulo ($\theta$):
-</div>
+
 
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/5b909e59-ac82-4594-8147-c86c43f08cd0" alt="Figura1">
@@ -182,3 +182,30 @@ Para continuar, considere a figura abaixo:
 </p>
 
 a força à direita deve resultar um torque no sentido anti-horário conforme a figura acima, que pela convenção é positivo, se considerar a entrada uma força de $1$ à direita, deve se observar a região que o torque é positivo, pois para massa e comprimento muito grande, o torque será negativo, pois a força não conseguirá restabelecer o sistema, para a tal análise será tomada a equação abaixo:
+
+$$
+ (I + m\ell^2)\frac{d^2\theta}{dt^2} + m\ell\frac{d^2x}{dt^2} - mg\ell\theta = 0,
+$$
+
+como o intuito é mantê-lo equilibrado, $\theta \approx 0$, abrindo a possibilidade de reescrever a equação como segue:
+
+$$
+(I + m\ell^2)\frac{d^2\theta}{dt^2}   = - m\ell\frac{d^2x}{dt^2},
+$$
+
+onde $\frac{d^2\theta}{dt^2} = -0,29775 \frac{rad^2}{s}$ e $\frac{d^2x}{dt^2}  = 0,19524 \frac{m^2}{s}$, o valor de $m$ adotado será  $0,5 kg$, logo:
+
+$$
+I = \frac{0,0976\ell - 0,1488\ell^2}{0,29775},
+$$
+
+ a equação acima expressa $I$ em função de $\ell$. Ao variar $\ell$ de $0$ a $1m$, obtém-se o gráfico:
+
+
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/9a838f8a-87b5-47fb-a2d2-4ed8fae0986e" alt="Grafico2">
+</p>
+
+note que o valor escolhido de $\ell$ apresenta $I$ positivo.
+
+
