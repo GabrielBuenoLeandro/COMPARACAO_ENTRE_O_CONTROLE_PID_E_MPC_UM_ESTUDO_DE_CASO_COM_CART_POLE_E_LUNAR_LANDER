@@ -111,3 +111,22 @@ $$
 $$
  (M+m)s^2 X(s) + m\ell s^2\Theta(s) = U(s),
 $$
+
+a ideia se volta em obter a relação da saída ($\Theta (s)$) em relação a entrada ($U(s)$), por isso o $X(s)$ deve ser eliminado, logo:
+
+$$
+((I + m\ell^2)s^2 - mg\ell)\Theta(s) + m\ell s^2 X(s) = 0,
+$$
+
+$$
+X(s) = -\frac{\{(I+m\ell^2)s^2-mg\ell\}}{m\ell s^2} \Theta (s),
+$$
+
+substituindo a equação acima na equação $ (M+m)s^2 X(s) + m\ell s^2\Theta(s) = U(s)$, chega-se:
+
+$$
+-(M+m)\cancel{s^2} \frac{\{(I+m\ell^2)s^2-mg\ell\}}{m\ell \cancel{s^2}} \Theta (s) + m\ell s^2\Theta(s) = U(s),
+$$
+$$
+\frac{[m^2\ell^2 s^2 - (M+m)\{(I+m\ell^2)s^2-mg\ell\}]}{m\ell}\Theta (s) = U(s),
+$$
