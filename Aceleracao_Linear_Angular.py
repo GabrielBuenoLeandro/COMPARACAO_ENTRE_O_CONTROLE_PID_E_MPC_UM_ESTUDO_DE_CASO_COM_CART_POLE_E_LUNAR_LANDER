@@ -1,6 +1,9 @@
 # Importando as Bibliotecas
 import gym
 from matplotlib import pyplot as plt
+import numpy as np
+from scipy.stats import linregress
+
 
 # Gráfico: "Resultados da aplicação de uma força constante à direita." 
 
@@ -25,22 +28,26 @@ for _ in range(100):
 
 env.close()
 
-# Plote dos resultados
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
-ax1.plot(P[:t[0]])
-ax1.set_xlabel('Amostras')
-ax1.set_ylabel('m')
-ax1.set_title("Posição")
-ax2.plot(V[:t[0]], 'tab:orange')
-ax2.set_xlabel('Amostras')
-ax2.set_ylabel('m/s')
-ax2.set_title("Velocidade")
-ax3.plot(A[:t[0]], 'tab:green')
-ax3.set_xlabel('Amostras')
-ax3.set_ylabel('rad')
-ax3.set_title("Ângulo")
-ax4.plot(Va[:t[0]], 'tab:red')
-ax4.set_xlabel('Amostras')
-ax4.set_ylabel('rad/s')
-ax4.set_title("Velocidade angular")
-fig.tight_layout()
+# Dados de exemplo
+x = np.arange(0, t[0])
+Vl = np.array(V[:t[0]])
+Vt = np.array(Va[:t[0]])
+
+# Aplicando a regressão linear
+resultl = linregress(x, Vl)
+resultt = linregress(x, Vt)
+
+# Exibindo os resultados
+print("Aceleração Linear")
+print("Inclinação:", resultl.slope)
+print("Interceptação:", resultl.intercept)
+print("Coeficiente de correlação:", resultl.rvalue)
+print("Valor p:", resultl.pvalue)
+print("Erro padrão:", resultl.stderr)
+print()
+print("Aceleração Angular")
+print("Inclinação:", resultt.slope)
+print("Interceptação:", resultt.intercept)
+print("Coeficiente de correlação:", resultt.rvalue)
+print("Valor p:", resultt.pvalue)
+print("Erro padrão:", resultt.stderr)
