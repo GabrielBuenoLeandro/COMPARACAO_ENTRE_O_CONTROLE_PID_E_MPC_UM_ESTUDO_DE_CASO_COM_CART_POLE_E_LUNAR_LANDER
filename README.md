@@ -16,5 +16,11 @@ Para deduzir as equações de movimento do sistema, será considerado o diagrama
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/b090f698-71ce-40e3-9e8a-f6f44d95741d" alt="Figura2">
 </p>
 
+o movimento horizontal do carro é dado pela equação:
+
+$$
+    M\frac{d^2x}{dt} = u - H,
+$$
+
 
 
