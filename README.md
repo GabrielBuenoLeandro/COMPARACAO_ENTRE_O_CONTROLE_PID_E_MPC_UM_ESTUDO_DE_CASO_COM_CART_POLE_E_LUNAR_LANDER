@@ -43,5 +43,5 @@ $$
 no entanto, como $\ell$ é uma constante e sua segunda derivada é zero, a equação acima pode ser reformulada da seguinte maneira:
 
 $$
-m\frac{d^2}{dt}(-\ell\:cos\theta) = mg - V \Longrightarrow  m\frac{d^2}{dt}(\ell\:cos\theta) = V-mg.
+m\frac{d^2}{dt}(-\ell cos\theta) = mg - V \Longrightarrow  m\frac{d^2}{dt}(\ell cos\theta) = V-mg.
 $$
