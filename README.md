@@ -45,3 +45,5 @@ no entanto, como $\ell$ é uma constante e sua segunda derivada é zero, a equa�
 $$
 m\frac{d^2}{dt}(-\ell cos\theta) = mg - V \Longrightarrow  m\frac{d^2}{dt}(\ell cos\theta) = V-mg.
 $$
+
+Próximo passo é encontrar o deslocamento rotacional:
