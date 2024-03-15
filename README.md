@@ -238,4 +238,18 @@ A função de transferência faz sentido a priori, pois uma força para a direit
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/6560787a-0ec9-426c-848e-dc34d0665c73" alt="entval">
 </p>
 
+A partir da figura acima, nota-se que a F.T não conseguiu representar o sistema adequadamente. A F.T. responde de forma muito lenta aos estímulos de entrada. Portanto, é necessário ajustá-la para obter respostas mais abruptas. Ao observar os passos anteriores, a aceleração considerada levou em conta $8$ amostras, com um intervalo de $1s$ entre amostras, para realmente encontrar a inclinação. No entanto, devido à natureza computacional, o tempo é significativamente menor. Assim, as acelerações em $x$ e angular serão multiplicadas por um fator ($k$) até que a F.T. alcance um desempenho satisfatório. Dessa forma, será retornado a equação da inércia:
 
+$$
+(I + m\ell^2)\frac{d^2\theta}{dt^2}\cancel{k}   = - m\ell\frac{d^2x}{dt^2} \cancel{k},
+$$
+
+logo, o momento de inércia é independente do valor de $(k)$. Portanto, os valores de $(I)$ e $(\ell)$ permanecem inalterados, sendo $(1,8537\times 10^{-3} N\cdot m)$ e $(0,65 m)$, respectivamente.
+
+Em teoria, à medida que a aceleração aumenta e a força permanece constante, a massa total deveria diminuir. Em termos matemáticos, isso é evidenciado pela Segunda Lei de Newton, onde $m$ é mantido constante em $0,5 m$, resultando em uma diminuição de $M$ (massa total), conforme descrito a seguir:
+
+$$
+ M = \frac{u - k\:m\ell\ddot{\theta}-k\:m\ddot{x}}{k\ddot{x}},
+$$
+
+um aspecto crucial a ser considerado é que a massa do carrinho deve ser um valor positivo ($M > 0$). Portanto:
