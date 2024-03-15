@@ -57,3 +57,5 @@ o  movimento rotacional da haste do pêndulo ao redor de seu centro de gravidade
 $$
 I\frac{d^2\theta}{dt} = V\ell sen\theta - H\ell cos\theta,
 $$
+
+ onde I é o momento de inércia de inércia da haste em relação ao centro de gravidade.
