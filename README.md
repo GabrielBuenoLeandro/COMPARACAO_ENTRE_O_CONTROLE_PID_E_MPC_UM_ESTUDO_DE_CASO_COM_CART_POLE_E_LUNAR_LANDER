@@ -34,10 +34,10 @@ $$
 m\frac{d^2}{dt}(x+\ell sen\theta) = H,
 $$
 
-o $y_c$ pode ser encontrado subtraindo $\ell\:sen\theta$ de $\ell$, agora basta tomar a sua segunda derivada e igual a resultante de forças verticais ($mg-V$):
+o $y_c$ pode ser encontrado subtraindo $\ell sen\theta$ de $\ell$, agora basta tomar a sua segunda derivada e igual a resultante de forças verticais ($mg-V$):
 
 $$
-m\frac{d^2}{dt}(\ell-\ell\:cos\theta) = mg - V,
+m\frac{d^2}{dt}(\ell-\ell cos\theta) = mg - V,
 $$
 
 
