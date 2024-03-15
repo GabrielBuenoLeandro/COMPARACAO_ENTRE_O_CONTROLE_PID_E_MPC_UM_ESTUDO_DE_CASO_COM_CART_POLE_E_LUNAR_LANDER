@@ -40,4 +40,4 @@ $$
 m\frac{d^2}{dt}(\ell-\ell cos\theta) = mg - V,
 $$
 
-
+No entanto, como $\ell$ é uma constante e sua segunda derivada é zero, a equação acima pode ser reformulada da seguinte maneira:
