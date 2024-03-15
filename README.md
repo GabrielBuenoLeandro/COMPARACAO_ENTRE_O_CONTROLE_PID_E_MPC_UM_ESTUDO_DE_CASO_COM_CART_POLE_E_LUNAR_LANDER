@@ -1,4 +1,4 @@
-# Controle PID MPC Para os Ambientes CartPole e LunarLander
+# Controle PID e MPC Aplicado aos Ambientes CartPole e LunarLander
 
  Este repositório contém os códigos utilizados no meu Trabalho de Final de Curso (TFC). 
 
@@ -249,7 +249,20 @@ logo, o momento de inércia é independente do valor de $(k)$. Portanto, os valo
 Em teoria, à medida que a aceleração aumenta e a força permanece constante, a massa total deveria diminuir. Em termos matemáticos, isso é evidenciado pela Segunda Lei de Newton, onde $m$ é mantido constante em $0,5 m$, resultando em uma diminuição de $M$ (massa total), conforme descrito a seguir:
 
 $$
- M = \frac{u - k\:m\ell\ddot{\theta}-k\:m\ddot{x}}{k\ddot{x}},
+ M = \frac{u - k m\ell\ddot{\theta}-k m\ddot{x}}{k\ddot{x}},
 $$
 
 um aspecto crucial a ser considerado é que a massa do carrinho deve ser um valor positivo ($M > 0$). Portanto:
+
+$$
+   0 < \frac{u - k m\ell\ddot{\theta}-k m\ddot{x}}{k\ddot{x}} \Rightarrow 0 < 1 + k\cdot 0,5\cdot 0,65\cdot 0,29775-k\cdot 0,5\cdot 0,19524,
+$$
+
+ao resolver a inequação acima, chega-se a $k<1174,74$, logo, para determinar o valor de ($k$), ele será variado de 1 a 1174, considerando 1000 etapas (amostras). Um conjunto de etapas compõe os episódios, sendo que cada episódio é concluído quando o ângulo do polo não está mais na faixa de $( \pm 12^\circ) (-0,2095 a 0,2095)$. Sendo como segue:
+
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/61e0f5b0-afe8-43e4-8a04-7ea39f6c2444" alt="episodio">
+</p>
+
+
+
