@@ -65,3 +65,15 @@ As Equações do  movimento horizontal , balanço das forças horizontais e for�
 $$
 I\frac{d^2\theta}{dt} = V\ell\theta - H\ell,
 $$
+
+$$
+M\frac{d^2x}{dt} = u - H,
+$$
+
+$$
+m\frac{d^2}{dt}(x+\ell\theta) = H,
+$$
+
+$$
+ m\frac{d^2}{dt}(\ell) = V - mg\Longrightarrow  0 = V-mg.
+$$
