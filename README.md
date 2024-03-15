@@ -172,3 +172,7 @@ $$
 $$
 
 um fato interessante, é que esses valores permanecem constantes independentemente do número de simulações, o que leva a crer que o ambiente CartPole possui um embasamento físico por trás.
+
+Para continuar, considere a figura abaixo:
+
+![Figura5](https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/22110556-bcef-44f4-a10b-4475bd02d127)
