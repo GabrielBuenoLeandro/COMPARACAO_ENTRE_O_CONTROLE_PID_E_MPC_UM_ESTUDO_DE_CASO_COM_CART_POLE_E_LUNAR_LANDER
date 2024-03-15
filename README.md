@@ -30,6 +30,10 @@ A representação do deslocamento do centro de massa do pêndulo ($x_c$) é ilus
 
 Na Figura acima, observa-se que a coordenada $x_c$ do carrinho é obtida pela soma do deslocamento horizontal do centro de massa da coordenada que se encontra, representado como $x_c=x + \ell\:\sin\theta$, e tomando a segunda derivada de $x_c$ e efetuando o balanço das forças horizontais, conforme a equação abaixo:
 
+$$
+m\frac{d^2}{dt}(x+\ell\:sen\theta) = H
+$$
+
 
 
 
