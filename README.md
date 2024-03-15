@@ -24,6 +24,10 @@ $$
 
 A representação do deslocamento do centro de massa do pêndulo ($x_c$) é ilustrado na Figura abaixo:
 
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/afe4a17a-8c2e-4b06-9a35-263bd3fc4660" alt="Figura3">
+</p>
+
 ![Figura3](https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/afe4a17a-8c2e-4b06-9a35-263bd3fc4660)
 
 
