@@ -122,7 +122,7 @@ $$
 X(s) = -\frac{\{(I+m\ell^2)s^2-mg\ell\}}{m\ell s^2} \Theta (s),
 $$
 
-substituindo a equação acima na equação $ (M+m)s^2 X(s) + m\ell s^2\Theta(s) = U(s)$, chega-se:
+substituindo a equação acima na equação $(M+m)s^2 X(s) + m\ell s^2\Theta(s) = U(s)$, chega-se:
 
 $$
 -(M+m)\cancel{s^2} \frac{\{(I+m\ell^2)s^2-mg\ell\}}{m\ell \cancel{s^2}} \Theta (s) + m\ell s^2\Theta(s) = U(s),
