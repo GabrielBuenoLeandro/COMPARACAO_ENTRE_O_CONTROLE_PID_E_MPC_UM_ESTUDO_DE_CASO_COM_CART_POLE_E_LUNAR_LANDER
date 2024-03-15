@@ -59,3 +59,5 @@ I\frac{d^2\theta}{dt} = V\ell sen\theta - H\ell cos\theta,
 $$
 
  onde I é o momento de inércia de inércia da haste em relação ao centro de gravidade.
+
+As Equações do  movimento horizontal , balanço das forças horizontais e forças verticais  descrevem o comportamento dinâmico do pêndulo invertido, mas tais equações possuem funções trigonométricas, como seno e cosseno, logo para poder linearizá-las, será adotado um valor muito pequeno de $\theta$, pois a ideia é manter o sistema estável, o que permite dizer que: $cos\theta \approx 1$ e $sen\theta \approx \theta$, logo:
