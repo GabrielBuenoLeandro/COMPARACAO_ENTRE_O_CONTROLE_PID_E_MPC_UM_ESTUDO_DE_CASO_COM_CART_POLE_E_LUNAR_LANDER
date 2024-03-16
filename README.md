@@ -462,3 +462,162 @@ o menor intervalo no qual o nível do sinal é mantido é denominado $T_b$. Seu 
 $$
  \text{Lineares} \Leftarrow \frac{\tau_{min}}{10} \leq T_b \leq \frac{\tau_{min}}{3} \Rightarrow \text{Não lineares},
 $$
+
+ no trecho, onde $\tau_{min}$ representa a menor constante de tempo de interesse, sugere-se, de acordo com Nelles (2001), que, para sistemas lineares, $T_b$ seja escolhido próximo ao valor do intervalo de amostragem. Para sistemas não lineares, por outro lado, recomenda-se que $T_b$ seja aproximadamente igual a $\tau_{max}$, onde $\tau_{max}$ é a constante de tempo do sistema.
+
+ Trabalhando com um modelo ARX, será considerado o tempo de amostragem $T_b$. Logo, são obtidos:
+
+  <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/ca69ce64-4467-4c47-84c1-ba96d0070ab3" alt="teste">
+</p>
+
+é importante observar que o ambiente CartPole reinicia automaticamente sempre que atinge um desvio de aproximadamente $\pm 12^\circ$ (equivalente a $\pm 0,209$ radianos). Essa característica representa um desafio, pois resulta em episódios muito curtos, dificultando a estimativa do modelo ARX. Inicialmente, uma abordagem para solucionar esse problema poderia envolver a redução do intervalo de tempo $T_b$. Isso implicaria em uma diminuição no tempo de amostragem do sistema, permitindo que as ações sejam executadas em períodos mais curtos e, assim, estendendo a duração dos episódios.
+
+No entanto, é crucial observar que essa abordagem não é viável no contexto do ambiente CartPole no Gymnasium. Isso se deve ao fato de que a taxa de amostragem no ambiente CartPole não é diretamente ajustável. O ambiente CartPole foi projetado para simular a física real associada ao problema de um pêndulo invertido sobre um carro, e a taxa de amostragem é intrínseca a essa simulação. Portanto, modificar diretamente a taxa de amostragem do ambiente não é uma opção disponível. Esse aspecto limita a capacidade de ajuste do tempo de amostragem para atender às necessidades específicas do modelo ARX no contexto do problema CartPole.
+
+Para transpor esse desafio, o ambiente passará por dois milhões de iterações, e o episódio mais extenso (com o maior número de passos/amostras) será selecionado para a estimativa do modelo ARX. O episódio mais longo identificado consiste em 183 amostras:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/74ee5a2d-90d5-4d53-92ef-c3fe286ce211" alt="mep">
+</p>
+
+Será utilizado 158 amostras para o treinamento do modelo, sendo as 25 restantes empregadas para validação. O modelo ARX encontrado pelo SysIdentPy, foi:
+
+$$
+ y(k) = 2\cdot y(k-1)- 0,99367\cdot y(k-2)  - 0,00583\cdot u(k-1),
+$$
+
+sendo $RMSE = 0,0057$. Graficamente:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/7cda1a41-1128-4e3a-acab-8d5777a1358d" alt="mdm">
+</p>
+
+## Implementando o GPC
+
+Seja o modelo ARX:
+
+$$
+\begin{split}
+    y(k) + a_1 y(k-1) + a_2 y(k-2) + \cdots + a_n y(k-n) =\\
+    =b_1 u(k-1) + b_2 u(k-2) + \cdots + b_n u(k-n),
+\end{split}
+$$
+
+ para efetuar a predição um passo a frente, basta considerar $k=k+1$, tendo:
+
+ $$
+ \begin{split}
+    y(k+1) + a_1 y(k) + a_2 y(k-1) + \cdots + a_n y(k-n+1) =\\
+    =b_1 u(k) + b_2 u(k-1) + \cdots + b_n u(k-n+1),
+\end{split}
+ $$
+
+em termos de valores preditos:
+
+$$
+\begin{split}
+    \hat{y}(k+1|k) + a_1 y(k) + a_2 y(k-1) + \cdots + a_n y(k-n+1) =\\
+    =b_1 \hat{u}(k|k) + b_2 u(k-1) + \cdots + b_n u(k-n+1),
+\end{split}
+$$
+
+na forma matricial:
+
+$$
+\begin{split}
+    \hat{y}(k+1|k) + 
+\begin{bmatrix}
+    a_1 & a_2 & \cdots & a_n \\
+\end{bmatrix}
+\begin{bmatrix}
+    y(k)\\
+    y(k-1)\\
+    \vdots\\
+    y(k-n+1)
+\end{bmatrix}
+=\\
+=b_1 \hat{u}(k|k) + 
+\begin{bmatrix}
+    b_2 & b_3 & \cdots & b_n
+\end{bmatrix}
+\begin{bmatrix}
+    u(k-1)\\
+    u(k-2)\\
+    \vdots\\
+    u(k-n+1)
+\end{bmatrix}
+\end{split}
+$$
+
+agora considere a predição dois passos a frente ($k=k+2$):
+
+$$
+\begin{split}
+    \hat{y}(k+2|k) + a_1 \hat{y}(k+1|k) + a_2 y(k) + \cdots + a_n y(k-n+2) =\\
+    =b_1 \hat{u}(k+1|k) + b_2 \hat{u}(k|k) + \cdots + b_n u(k-n+2),
+\end{split}
+$$
+
+em forma matricial:
+
+$$
+\begin{split}
+    \begin{bmatrix}
+        a_1 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        \hat{y}(k+1|k)\\
+        \hat{y}(k+2|k)
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        a_2 & a_3 & \cdots & 0\\
+    \end{bmatrix}
+\begin{bmatrix}
+    y(k)\\
+    y(k-1)\\
+    \vdots\\
+    y(k-n+1)
+\end{bmatrix}
+=\\
+= \begin{bmatrix}
+    b_2 & b_1\\
+\end{bmatrix}
+\begin{bmatrix}
+    \hat{u}(k|k)\\
+    \hat{u}(k+1|k)
+\end{bmatrix}
++
+\begin{bmatrix}
+    b_3 & b_4 & \cdots & 0\\
+\end{bmatrix}
+\begin{bmatrix}
+    u(k-1)\\
+    u(k-2)\\
+    \vdots\\
+    u(k-n+1)\\
+\end{bmatrix}
+\end{split},
+$$
+
+predições até $N$ passos à frente ($N>n$):
+
+$$
+\begin{matrix}
+&\hat{y}(k+1|k) + a_1 y(k) + a_2 y(k-1) + \cdots + a_n y(k-n+1) \\
+&= b_1 \hat{u}(k|k) + b_2 u(k-1) + \cdots + b_n u(k-n+1)\\
+&\hat{y}(k+2|k) + a_1 \hat{y}(k+1|k) + a_2 y(k) + \cdots + a_n y(k-n+2) \\
+&= b_1 \hat{u}(k+1|k) + b_2 \hat{u}(k|k) + \cdots + b_n u(k-n+2)\\
+&\hat{y}(k+3|k) + a_1 \hat{y}(k+2|k) + a_2 \hat{y}(k+1|k) + \cdots + a_n y(k-n+3) \\
+&= b_1 \hat{u}(k+2|k) + b_2 \hat{u}(k+1|k) + \cdots + b_n u(k-n+3)\\
+& \vdots\\
+&\hat{y}(k+n|k) + a_1 \hat{y}(k+n-1|k) + \cdots + a_n y(k) \\
+&= b_1 \hat{u}(k+n-1|k) + \cdots + b_n \hat{u}(k|k)\\
+&\hat{y}(k+n+1|k) + a_1 \hat{y}(k+n|k) + \cdots + a_n \hat{y}(k+1|k) \\
+&= b_1 \hat{u}(k+n|k) + \cdots + b_n \hat{u}(k+1|k)\\
+& \vdots\\
+&\hat{y}(k+N|k) + a_1 \hat{y}(k+N-1|k) + \cdots + a_n \hat{y}(k-n+N|k) \\
+&= b_1 \hat{u}(k+N-1|k) + \cdots + b_n \hat{u}(k-n+N|k),
+\end{matrix}
+$$
