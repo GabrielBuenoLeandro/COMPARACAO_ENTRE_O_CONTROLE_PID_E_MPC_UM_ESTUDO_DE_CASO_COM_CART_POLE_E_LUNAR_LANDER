@@ -392,4 +392,16 @@ antes de avançar com as tarefas, é pertinente realizar uma análise gráfica d
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/d8752281-a41c-414c-af0d-0945d3ddab08" alt="pid">
 </p>
 
+observe que a saída $(u)$ assume valores contínuos, mas o ambiente cartpole utilizado é discreto (1 para força à direita e 0 para força à esquerda). Para resolver esse problema, será implementada a seguinte estratégia: se $(u > 0)$, será aplicada uma força à direita; caso contrário, será aplicada uma força à esquerda.
 
+A etapa final consiste em executar a rotina e avaliar o desempenho do sistema do pêndulo invertido. Em resumo, isso proporcionará uma visão direta da sua estabilidade:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/d2f5f1ba-7bbc-4c34-86e6-9aebcadd50c5" alt="ctpidio">
+</p>
+
+O PID se mostrou capaz de controlar o CartPole, ou seja, missão concluída por enquanto:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/0be0e471-958a-4f2d-8f04-b087f9c8f03e" alt="cartpolepid">
+</p>
