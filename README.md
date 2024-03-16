@@ -957,3 +957,41 @@ Conforme mencionado anteriormente, a metodologia de aplicação do modelo define
 ## Estimação do Modelo ARX
 
 Nesse processo, optou-se por empregar uma entrada aleatória, com o objetivo de obter um modelo para as coordenadas x e y, $\theta$ e $v_y$ (velocidade linear em y). Durante a obtenção do modelo, observou-se uma correlação de cada uma das saídas com uma entrada específica, conforme segue:
+
+| Saída  | $p_x$ | $\theta$ | $p_y$ | $v_y$ |
+|--------|-------|----------|-------|-------|
+| Entrada| $u_2$ |  $u_2$   | $u_1$ | $u_1$ |
+
+Dessa forma, a metodologia começou a investigar várias alternativas para cada entrada. A cada iteração, um valor era selecionado aleatoriamente dentre as opções disponíveis. Para $u_1$, o intervalo considerado foi [0, 2] do ambiente e [0, 1] para a identificação, enquanto $u_2$ apresentava três possíveis respostas [0, 1, 3] e [0, 1, -1] para a identificação.
+
+ Novamente, será usado o SysIdentPy para estimar os modelos ARX para os itens já mencionados:
+
+$$
+\begin{matrix}
+    p_x(k) = 1,9986\cdot p_x(k-1) -0,9986 \cdot p_x(k-2)\\
+    -7,3642\cdot 10^{-5}\cdot u_2(k-1) -4,7979\cdot 10^{-4},
+\end{matrix} 
+$$
+
+$$
+\begin{matrix}
+    p_y(k) = -1,9928\cdot p_y(k-1) +0,99279\cdot p_y(k-2)\\
+    +8,1745\cdot 10^{-4}\cdot u_1(k-1) -3,9457\cdot 10^{-4},
+\end{matrix} 
+$$
+
+$$
+\begin{matrix}
+    \theta(k) = -1,9891\cdot \theta(k-1) +0,989\cdot \theta(k-2)\\
+    +1,7201\cdot 10^{-4}\cdot u_2(k-1),
+\end{matrix} 
+$$
+
+$$
+\begin{matrix}
+    v_y(k) = -1.9928\cdot v_y(k-1) +0,99279\cdot v_y(k-2)\\
+    +8,1745\cdot 10^{-4}\cdot u_1(k-1)-3.9457\cdot 10^{-4},
+\end{matrix} 
+$$
+
+Apesar do reduzido número de amostras utilizadas para a construção do modelo, o SysIdentPy obteve sucesso ao capturar um modelo de alta qualidade, que é capaz de representar adequadamente a complexa dinâmica do LunarLander.
