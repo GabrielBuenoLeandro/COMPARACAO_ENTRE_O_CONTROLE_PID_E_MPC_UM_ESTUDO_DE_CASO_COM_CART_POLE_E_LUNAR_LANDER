@@ -621,34 +621,3 @@ $$
 &= b_1 \hat{u}(k+N-1|k) + \cdots + b_n \hat{u}(k-n+N|k),
 \end{matrix}
 $$
-
- permitindo entender alguns padrões, o que possibilita uma implementação matricial para a equação de predição:
-
- $$
- \begin{matrix}
-    \begin{bmatrix}
-        1 & 0 & 0 & \cdots & 0 & 0 & \cdots & 0 & 0\\
-        a_1 & 1 & 1 & \cdots & 0 & 0 & \cdots & 0 & 0\\
-        a_3 & a_1 & 1 & \cdots & 0 & 0 & \cdots & 0 & 0\\
-        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
-        a_{n-1} & a_{n-2} & a_{n_3} & \cdots & 1 & 0 & \cdots 0 & 0\\
-        a_n & a_{n-1} & a_{n-2} & \cdots & a_1 & 1 & \cdots & 0 & 0\\
-        0 & a_n & a_{n-1} & \cdots & a_2 & a_1 & \cdots & 0 & 0\\
-        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
-        0 & 0 & 0 & \cdots & 0 & 0 & \cdots & 1 & 0\\
-        0 & 0 & 0 & \cdots & 0 & 0 & \cdots & a_1 & 1\\
-    \end{bmatrix}
-    \begin{bmatrix}
-        \hat{y}(k+1|k)\\
-        \hat{y}(k+2|k)\\
-        \hat{y}(k+3|k)\\
-        \vdots\\
-        \hat{y}(k+n|k)\\
-        \hat{y}(k+n+1|k)\\
-        \hat{y}(k+n+2|k)\\
-        \vdots\\
-        \hat{y}(k+N-1|k)\\
-        \hat{y}(k+N|k)\\
-    \end{bmatrix}+
-   \end{matrix}
-    $$
