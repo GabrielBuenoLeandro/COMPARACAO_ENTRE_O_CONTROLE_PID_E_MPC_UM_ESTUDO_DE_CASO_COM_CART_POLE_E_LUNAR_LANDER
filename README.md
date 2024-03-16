@@ -621,3 +621,107 @@ $$
 &= b_1 \hat{u}(k+N-1|k) + \cdots + b_n \hat{u}(k-n+N|k),
 \end{matrix}
 $$
+
+permitindo entender alguns padrões, o que possibilita uma implementação matricial para a equação de predição:
+
+$$
+\begin{matrix}
+    \begin{bmatrix}
+        1 & 0 & 0 & \cdots & 0 & 0 & \cdots & 0 & 0\\
+        a_1 & 1 & 1 & \cdots & 0 & 0 & \cdots & 0 & 0\\
+        a_3 & a_1 & 1 & \cdots & 0 & 0 & \cdots & 0 & 0\\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+        a_{n-1} & a_{n-2} & a_{n_3} & \cdots & 1 & 0 & \cdots 0 & 0\\
+        a_n & a_{n-1} & a_{n-2} & \cdots & a_1 & 1 & \cdots & 0 & 0\\
+        0 & a_n & a_{n-1} & \cdots & a_2 & a_1 & \cdots & 0 & 0\\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+        0 & 0 & 0 & \cdots & 0 & 0 & \cdots & 1 & 0\\
+        0 & 0 & 0 & \cdots & 0 & 0 & \cdots & a_1 & 1\\
+    \end{bmatrix}
+    \begin{bmatrix}
+        \hat{y}(k+1|k)\\
+        \hat{y}(k+2|k)\\
+        \hat{y}(k+3|k)\\
+        \vdots\\
+        \hat{y}(k+n|k)\\
+        \hat{y}(k+n+1|k)\\
+        \hat{y}(k+n+2|k)\\
+        \vdots\\
+        \hat{y}(k+N-1|k)\\
+        \hat{y}(k+N|k)\\
+    \end{bmatrix}
+    +\\
+    \begin{bmatrix}
+        a_1 & a_2 & \cdots & a_n\\
+        a_2 & a_3 & \cdots & 0\\
+        a_3 & a_4 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        a_n & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+    \end{bmatrix}
+    \begin{bmatrix}
+        y(k)\\
+        y(k-1)\\
+        \vdots\\
+        y(k-n+1)
+    \end{bmatrix}
+    =\\
+    \begin{bmatrix}
+        b_1 & 0 & \cdots & 0\\
+        b_2 & b_1 & \cdots & 0\\
+        b_3 & b_2 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & b_1
+    \end{bmatrix}
+    \begin{bmatrix}
+        \hat{u}(k|k)\\
+        \hat{u}{k+1|k}\\
+        \vdots\\
+        \hat{u}(k+N-1|K) 
+    \end{bmatrix}
+\end{matrix}
+$$
+
+$$
+\begin{matrix}
+        +\begin{bmatrix}
+            b_2 & b_3 & \cdots & b_n\\
+            b_3 & b_4 & \cdots & 0\\
+            b_4 & b_5 & \cdots & 0\\
+            \vdots & \vdots & \ddots & \vdots\\
+            0 & 0 & \vdots & 0\\
+            0 & 0 & \vdots & 0\\
+            0 & 0 & \vdots & 0\\
+            \vdots & \vdots & \ddots & \vdots\\
+            0 & 0 & \vdots & 0\\
+            0 & 0 & \vdots & 0\\
+        \end{bmatrix}
+    \begin{bmatrix}
+        u(k-1)\\
+        u(k-2)\\
+        \vdots\\
+        u(k-n+1)
+    \end{bmatrix}
+\end{matrix},
+$$
+
+ou ainda:
+
+$$
+\tau_a\hat{y} + S_a y_p = \tau_b \hat{u} + S_b u_p,
+$$
+
+na forma usual de representação, tem-se:
+
+$$
+\hat{y} = \tau_a^{-1}(\tau_b \hat{u} + S_b u_p - S_a y_p ),
+$$
