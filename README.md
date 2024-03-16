@@ -264,5 +264,42 @@ ao resolver a inequação acima, chega-se a $k<1174,74$, logo, para determinar o
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/61e0f5b0-afe8-43e4-8a04-7ea39f6c2444" alt="episodio">
 </p>
 
+ totalizando, são realizados 47 episódios completos. Portanto, para cada valor de $(k)$, a simulação é repetida 47 vezes, e o somatório do Erro Quadrático Médio $(RMSE)$ é calculado. Em seguida, é determinada a média para obter o $(RMSE)$ médio associado a $(k)$, da seguinte forma:
 
+
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/c36d1c00-9272-4884-ad29-78a15c37927f" alt="eq">
+</p>
+
+onde $\hat{y}_k(i)$ representa a simulação livre para cada episódio (Função de Transferência) e ${y}_k$ é o sinal medido para cada episódio, com a média ($\bar{y}_k$) sendo calculada na janela de identificação. Graficamente:
+
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/f1ed2ce7-21e3-4d0c-b34c-16de21b06cee" alt="RMSE1">
+</p>
+
+ ao utilizar o comando min do Python, obtém-se um valor de $\overline{RMSE}$ igual a $0,66019$ para $k=165$. Ao tomar $k=165$, obtém-se uma F.T. que responde melhor aos estímulos da entrada. A nova massa a ser:
+
+$$
+    M = \frac{1 + 165\cdot0,5\cdot0,65\cdot0,29775-165\cdot0,5\cdot0,19524}{165\cdot0,19524} = 0,02668kg,
+$$
+
+com os novos valores dos parâmetros, a Função de Transferência passa a ser:
+
+$$
+ \frac{\Theta (s)}{U(s)} = \frac{0,325}{-0,00661s^2 +  1,67919},
+$$
+
+ considerando a respostas ao degrau:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/9545890c-e1b7-403a-afad-e169c004f0a3" alt="step2">
+</p>
+
+Uma abordagem adicional envolve a identificação das raízes do polinômio no denominador da Função de Transferência, que são 16,3391 e -16,3391. É crucial notar que uma destas raízes está localizada no semiplano direito do eixo real, indicando a presença de um sistema instável.
+
+Como exemplo do desempenho da FT, uma entrada será aplicada ao sistema para analisar como ele se comporta:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/9301adbb-06e6-417e-ab2c-6cc2b2fae07c" alt="entval2">
+</p>
 
