@@ -264,5 +264,18 @@ ao resolver a inequação acima, chega-se a $k<1174,74$, logo, para determinar o
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/61e0f5b0-afe8-43e4-8a04-7ea39f6c2444" alt="episodio">
 </p>
 
+ totalizando, são realizados 47 episódios completos. Portanto, para cada valor de $(k)$, a simulação é repetida 47 vezes, e o somatório do Erro Quadrático Médio $(RMSE)$ é calculado. Em seguida, é determinada a média para obter o $(RMSE)$ médio associado a $(k)$, da seguinte forma:
 
+
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/c36d1c00-9272-4884-ad29-78a15c37927f" alt="eq">
+</p>
+
+onde $\hat{y}_k(i)$ representa a simulação livre para cada episódio (Função de Transferência) e ${y}_k$ é o sinal medido para cada episódio, com a média ($\bar{y}_k$) sendo calculada na janela de identificação. Graficamente:
+
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/f1ed2ce7-21e3-4d0c-b34c-16de21b06cee" alt="RMSE1">
+</p>
+
+![RMSE1](https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/f1ed2ce7-21e3-4d0c-b34c-16de21b06cee)
 
