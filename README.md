@@ -798,3 +798,200 @@ $$
    $$
     y(k) - 3\cdot y(k-1) + 2,99367\cdot y(k-2)  - \color{red}{0,99367y(k-3)}\color{black} = - 0,00583\cdot \Delta u(k-1) ,
    $$
+
+ em vermelho vemos que aumenta um grau o modelo. Agora se torna possível estimar as matrizes $\tau_{a^{'}}^{-1} $, $S_{a^{'}}$, $\tau_b$ e $S_b$. Começando por $\tau_{a^{'}}^{-1}$, considerando $N=4$:
+
+ $$
+ \tau_{a^{'}}^{-1} =
+    \begin{bmatrix}
+        1 & 0 & 0 & 0\\
+       -3 & 1 & 0 & 0\\
+       2,99367 & -3 & 1 & 0\\
+     -0,99367 & 2,99367 & -3 & 1\\
+  \end{bmatrix},
+ $$
+
+ agora será determinado $S_{a^{'}}$:
+
+ $$
+S_{a^{'}} = 
+    \begin{bmatrix}
+        -3 & 2,99367 & -0,99367\\
+        2,99367 & -0,99367 & 0\\
+        -0,99367 & 0 & 0\\
+        0 & 0 & 0\\
+    \end{bmatrix}.
+ $$
+
+ sendo $\tau_b$:
+
+ $$
+\tau_{b} =
+    \begin{bmatrix}
+    -0,00583 & 0 & 0 & 0\\
+       0 &  -0,00583 & 0 & 0\\
+       0 & 0 &  -0,00583 & 0\\
+       0 & 0 & 0 &  -0,00583\\
+    \end{bmatrix},
+ $$
+
+ por fim, tem-se $S_b$, que é uma matriz nula. 
+
+Para estimar a melhor resposta em termos de $\Delta u$, será usado o método product da biblioteca itertools do Python, esse método trabalha com for's alinhados, permitindo estimar todas as possibilidades possíveis. A matriz com as possíveis entradas no formato $N^{H_p} x H_p$, sendo $N$ o número de possibilidades em termos de $\Delta u$, sendo um valor fixo, pois:
+
+$$
+\begin{matrix}
+   u_{k-1} = 1 \text{ e } u_{k} = -1 \Rightarrow \Delta u = -2 \\
+   u_{k-1} = 1 \text{ e } u_{k} = 1 \Rightarrow \Delta u = 0\\
+   u_{k-1} = -1 \text{ e } u_{k} = -1 \Rightarrow \Delta u = 0\\
+   u_{k-1} = -1 \text{ e } u_{k} = 1 \Rightarrow \Delta u = 2 \\
+ \end{matrix},
+$$
+
+logo $\Delta u$ assume três valores possíveis (2, 0, -2), e $H_p$ se refere ao horizonte de previsão máximo, sendo deslizante conforme se tem andamento no processo.
+
+Mas a $Matriz$ adota todas a possibilidades, surgindo assim um empecilho, pois o ambiente CartPole opera com duas respostas possíveis, sendo -1 ou 1, logo se aplicar as possibilidades de acordo com a $Matriz$, pode gerar entrada como 9, 7, 5, 3, 1, -1, -3, -5 e -9, logo foi desenvolvido um método que retorna todas as possibilidades possíveis a depender da resposta anterior ($u_{k-1}$). 
+
+A metodologia utilizada foi aplicar todas as variações de $\Delta u$ possíveis na expressão:
+
+$$
+\hat{y} = G \Delta \hat{u} + f,
+$$
+
+e utilizando a função de custo, foi estimado a matriz $\Delta u$ da forma $H_px1$ que minimiza-se a função de custo, sempre empregando o elemento $1x1$ de $\Delta u$ no instante $k$, na nova iteração o horizonte de desloca em 1 (horizonte deslizante), mas a metodologia segue a mesma. 
+
+O MPC empregado conseguiu controlar o CartPole, conforme o gráfico:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2c6b073c-6ae4-41f8-9e2b-98d33f0cec8c" alt="ctgpcio">
+</p>
+
+# LunarLander - Implementação do PID
+
+O controlador PID foi retirado do repositório LunarLander\_OpenAIGym com melhorias significativas. A ideia de modelar o sistema por meio de um modelo caixa branca não foi bem-sucedida, uma vez que se trata de um sistema MIMO, o que eleva o grau de complexidade. Seria necessário uma função de transferência para cada entrada e saída, tornando complicada a determinação dos parâmetros intrínsecos ao sistema. Assim, este repositório apresenta uma abordagem mais empírica, semelhante ao que ocorre no meio industrial, onde o PID é amplamente utilizado como controlador principal.
+
+A plataforma de aterrissagem permanece fixa nas coordenadas (0,0), sendo permitido a possibilidade de pouso fora da área designada. Além disso, é importante ressaltar que não há restrições quanto ao combustível, sendo considerado infinito para a execução da tarefa.
+
+O primeiro passo é determinar as variáveis de processo a serem controladas, sendo o \textit{boosters} do motor principal e secundário, usados respectivamente para controlar a altitude e o ângulo da nave.
+
+A sonda ajusta-se com base nos sensores para minimizar erros ao longo do tempo, utilizando controle proporcional-derivativo (PD). Altitude, ângulo e velocidades são conhecidos em cada etapa. O erro é calculado como a diferença entre os setpoints e as medições atuais, permitindo controle proporcional. As velocidades são usadas para o controle derivativo. O passo subsequente é definir os setpoints para a implementação do controle PID:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2cd4e0a7-409f-4f42-b271-343fb2e1a1dd" alt="stll">
+</p>
+
+O primeiro setpoint considerado é a altura, com a posição $x$ como setpoint, conforme a figura acima. Se a sonda estiver dentro do cone, deve descer, caso contrário, deve subir. Isso define o termo proporcional. Para o termo derivativo, utiliza-se a velocidade linear em $y$:
+
+$$
+ y_{PD} = k_{p2}\cdot (|x|-y)+k_{d2}\cdot v_y.
+$$
+
+É crucial manter uma inclinação constante da nave em direção ao seu objetivo, pois isso determina a direção do impulso do propulsor principal. Para implementar essa abordagem, utiliza-se o setpoint $x + v_x$, onde $v_x$ é a taxa de variação em $x$, entendendo essa expressão como $x_{t+1}$ para minimizar $\theta$. Quando a sonda está nas bordas extremas do triângulo, ela deve se inclinar $45^\circ$ em direção a plataforma, com essa inclinação diminuindo à medida que a sonda se aproxima do alvo (0,0), de acordo com o setpoint $x_{t+1}$. O controle proporcional é aplicado, onde a posição $x$ diminui à medida que a sonda se aproxima do alvo, enquanto o termo derivativo utiliza a velocidade angular:
+
+$$
+ \theta_{PD} = k_{p2}\cdot \bigg{[} \frac{\pi}{4}\cdot (x+v_x)-\theta\bigg{]}+k_{d2}\cdot v_{\theta}.
+$$
+
+Todos os elementos essenciais foram identificados, exceto pelos valores apropriados dos quatro parâmetros $k_{p1}$, $k_{d1}$, $k_{p2}$ e $k_{d2}$. Para determiná-los, será adotada a técnica de Otimização por Escalada de Montanha. Essa metodologia inicia com a premissa de que todos os parâmetros são inicialmente nulos (sem controle). Após cada tentativa de aterrissagem da sonda e avaliação da pontuação, os parâmetros são ajustados com pequenas variações aleatórias. Se a pontuação da sonda melhorar, os novos valores são mantidos e o processo é repetido. Caso contrário, os novos valores são descartados e tenta-se adicionar ruído aleatório novamente. Os valores encontrados foram: $k_{p1} = 9,0565$, $k_{d1} = -9,9488$, $k_{p2} = 11,9271$ e $k_{d2} = -5,0963$. Após convergir, obtém sucesso no controle da LunarLander:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/9e245ce8-c0b4-41e1-bf1f-69b8ca79e0d4" alt="llpid (2)">
+</p>
+
+## Controle Preditivo Generalizado: Formulação para o LunarLander
+
+A trajetória de referência ($w$) do LunarLander é um pouco mais complexa, na qual serão adotadas algumas estratégias. 
+
+Sabe-se que o ambiente no qual a sonda interage é traduzido por meio de um plano cartesiano. Essa abordagem permite conhecer valores como posição e direção, aspectos de suma importância na navegação da sonda.
+
+Com intuito de implementar o controle preditivo baseado em modelo, será empregado uma matriz rotação para rotacionar o plano cartesiano em $45^\circ$ (o motivo será explicado adiante), por ser bidimensional, tem-se:
+
+$$
+	\begin{bmatrix}
+		x'\\
+		y'\\
+	\end{bmatrix}
+    = 
+    \begin{bmatrix}
+        cos \phi & sen\phi\\
+        -sen \phi & cos \phi\\
+    \end{bmatrix}
+    \begin{bmatrix}
+        x\\
+        y\\
+    \end{bmatrix}
+$$
+
+se considerar $\phi = 45^\circ$ e respectivos valores fornecidos pelo ambiente de observação:
+
+$$
+\begin{split}
+    x' = x\cdot cos\:45^\circ +  y\cdot sen\:45^\circ\\
+    y' = -x\cdot sen\:45^\circ +  y\cdot cos\:45^\circ\\
+\end{split},
+$$
+
+a ideia é rotocionar o plano cartesiano, da seguinte maneira:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/4dc8033b-ef76-405a-ab67-50e90319902c" alt="cart">
+</p>
+
+Com o plano cartesiano rotacionado, é possível estimar três trajetórias de referência. A primeira, em ciano, é definida por $x'=y$. Similarmente ao CartPole, o ângulo $\theta$ do LunarLander deve estar próximo de zero, representando a segunda trajetória de referência. O próximo passo envolve determinar a terceira trajetória de referência para a velocidade linear em $y$, expressa por $v_y = 0,85\cdot y' - 0,1$. Esta ideia será ilustrada.
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/15cd295b-a6ff-4d05-b567-ce75a7f6638b" alt="ssp">
+</p>
+
+
+Para estimar o modelo ARX e facilitar a compreensão, os motores auxiliares de orientação direita e esquerda serão considerados como um só ($u_2$), assumindo 1 para direita e -1 para esquerda, com 0 representando a condição desligada.
+
+Em relação ao incremento de controle ($\Delta u$), uma metodologia alternativa está sendo considerada para o ambiente LunarLander. Enquanto o MPC tradicionalmente penaliza o $\Delta u$ com base em sua magnitude, neste contexto lunar específico, a penalização varia com os propulsores: auxiliares têm penalização de 0,03, o principal de 0,3 e nenhum acionamento não é penalizado. Dessa forma, a proposta é focar no controle absoluto $u$ em vez do incremento $\Delta u$. Quando o horizonte de controle ($H_c$) é menor que o de previsão ($H_p$), $u$ é mantido em 0, permitindo respostas que maximizam a recompensa do ambiente.
+
+Conforme mencionado anteriormente, a metodologia de aplicação do modelo define a função de custo conforme a equação abaixo:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2d1c9884-9a04-456d-8ac8-185ad1b7419c" alt="cll">
+</p>
+
+## Estimação do Modelo ARX
+
+Nesse processo, optou-se por empregar uma entrada aleatória, com o objetivo de obter um modelo para as coordenadas x e y, $\theta$ e $v_y$ (velocidade linear em y). Durante a obtenção do modelo, observou-se uma correlação de cada uma das saídas com uma entrada específica, conforme segue:
+
+| Saída  | $p_x$ | $\theta$ | $p_y$ | $v_y$ |
+|--------|-------|----------|-------|-------|
+| Entrada| $u_2$ |  $u_2$   | $u_1$ | $u_1$ |
+
+Dessa forma, a metodologia começou a investigar várias alternativas para cada entrada. A cada iteração, um valor era selecionado aleatoriamente dentre as opções disponíveis. Para $u_1$, o intervalo considerado foi [0, 2] do ambiente e [0, 1] para a identificação, enquanto $u_2$ apresentava três possíveis respostas [0, 1, 3] e [0, 1, -1] para a identificação.
+
+ Novamente, será usado o SysIdentPy para estimar os modelos ARX para os itens já mencionados:
+
+$$
+\begin{matrix}
+    p_x(k) = 1,9986\cdot p_x(k-1) -0,9986 \cdot p_x(k-2)\\
+    -7,3642\cdot 10^{-5}\cdot u_2(k-1) -4,7979\cdot 10^{-4},
+\end{matrix} 
+$$
+
+$$
+\begin{matrix}
+    p_y(k) = -1,9928\cdot p_y(k-1) +0,99279\cdot p_y(k-2)\\
+    +8,1745\cdot 10^{-4}\cdot u_1(k-1) -3,9457\cdot 10^{-4},
+\end{matrix} 
+$$
+
+$$
+\begin{matrix}
+    \theta(k) = -1,9891\cdot \theta(k-1) +0,989\cdot \theta(k-2)\\
+    +1,7201\cdot 10^{-4}\cdot u_2(k-1),
+\end{matrix} 
+$$
+
+$$
+\begin{matrix}
+    v_y(k) = -1.9928\cdot v_y(k-1) +0,99279\cdot v_y(k-2)\\
+    +8,1745\cdot 10^{-4}\cdot u_1(k-1)-3.9457\cdot 10^{-4},
+\end{matrix} 
+$$
+
+Apesar do reduzido número de amostras utilizadas para a construção do modelo, o SysIdentPy obteve sucesso ao capturar um modelo de alta qualidade, que é capaz de representar adequadamente a complexa dinâmica do LunarLander.
