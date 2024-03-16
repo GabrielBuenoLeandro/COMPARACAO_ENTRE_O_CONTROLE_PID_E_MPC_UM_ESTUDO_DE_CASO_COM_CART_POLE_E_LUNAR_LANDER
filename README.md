@@ -944,3 +944,16 @@ Com o plano cartesiano rotacionado, é possível estimar três trajetórias de r
 </p>
 
 
+Para estimar o modelo ARX e facilitar a compreensão, os motores auxiliares de orientação direita e esquerda serão considerados como um só ($u_2$), assumindo 1 para direita e -1 para esquerda, com 0 representando a condição desligada.
+
+Em relação ao incremento de controle ($\Delta u$), uma metodologia alternativa está sendo considerada para o ambiente LunarLander. Enquanto o MPC tradicionalmente penaliza o $\Delta u$ com base em sua magnitude, neste contexto lunar específico, a penalização varia com os propulsores: auxiliares têm penalização de 0,03, o principal de 0,3 e nenhum acionamento não é penalizado. Dessa forma, a proposta é focar no controle absoluto $u$ em vez do incremento $\Delta u$. Quando o horizonte de controle ($H_c$) é menor que o de previsão ($H_p$), $u$ é mantido em 0, permitindo respostas que maximizam a recompensa do ambiente.
+
+Conforme mencionado anteriormente, a metodologia de aplicação do modelo define a função de custo conforme a equação abaixo:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2d1c9884-9a04-456d-8ac8-185ad1b7419c" alt="cll">
+</p>
+
+## Estimação do Modelo ARX
+
+Nesse processo, optou-se por empregar uma entrada aleatória, com o objetivo de obter um modelo para as coordenadas x e y, $\theta$ e $v_y$ (velocidade linear em y). Durante a obtenção do modelo, observou-se uma correlação de cada uma das saídas com uma entrada específica, conforme segue:
