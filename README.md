@@ -749,3 +749,20 @@ $$
         a_{n+1}^{'} = -a_n,
     \end{matrix}
 $$
+
+ a ordem do modelo passa a ser $n+1$, devido a inclusão implicíta de um integrador e tempo discreto.
+
+O próximo passo é determinar a equação de predição em termos de $\Delta u$, processo semelhante a equação de predição em termos de $u$, da seguinte maneira:
+
+$$
+ \begin{matrix}
+    y(k) + a_1^{'} y(k-1) + \cdots + a_n^{'} y(k-n) + a_{n+1}^{'} y(k-n-1)\\
+    = b_1 \Delta u(k-1) + \cdots + b_n \Delta u(k-n),
+  \end{matrix}
+ $$
+
+ logo:
+
+ $$
+ \tau_a^{'}\hat{y} + S_{a^{'}} y_p = \tau_b \hat{u} + S_b u_p,
+ $$
