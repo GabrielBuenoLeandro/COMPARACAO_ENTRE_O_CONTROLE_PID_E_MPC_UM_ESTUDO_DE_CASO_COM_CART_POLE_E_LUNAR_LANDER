@@ -303,3 +303,93 @@ Como exemplo do desempenho da FT, uma entrada será aplicada ao sistema para ana
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/9301adbb-06e6-417e-ab2c-6cc2b2fae07c" alt="entval2">
 </p>
 
+Logo, pode-se representar o diagrama de blocos em malha aberta do sistema:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/a55dcd4c-8a33-4ef4-b077-599bda8f5321" alt="DBFT">
+</p>
+
+Onde $U(s)$ representa a direção da força aplicada (com 1 indicando para a direita e -1 para a esquerda), enquanto $\Theta$ refere-se ao ângulo do pêndulo.
+
+## Sintonia do PID
+
+Para estabilizar o sistema, será introduzido um controlador PID (Proporcional, Integral e Derivativo). Um controlador PID  é composto por três elementos ajustáveis, os quais são adaptados com base na discrepância entre um ponto de ajuste definido $(r(t))$ e uma variável de processo medida $(y_m(t))$:
+
+$$
+ e(t) = r(t) - y_m(t).
+$$
+
+A saída de um controlador PID $(u(t))$ é determinada pela soma dos termos Proporcional, Integral e Derivativo, onde $K_P$, $K_I$ e $K_D$ são constantes ajustáveis que podem ser modificadas para otimizar o desempenho do controlador:
+
+$$
+ g_c(t) = K_P \cdot e(t) + K_I\cdot \int_0^t e(t) dt + K_D \cdot \frac{de(t)}{dt},
+$$
+
+passando para o domínio de Laplace:
+
+$$
+ G_c(s) = K_P \cdot e(t) + K_I\cdot \frac{1}{s}+ K_D \cdot s = \frac{K_D\cdot s^2 + K_P \cdot s + K_I}{s},
+$$
+
+Com o PID já introduzido, a equação do PID no domínio no tempo será reescrita da seguinte maneira:
+
+$$
+ g(t) = K_C \cdot e(t) + \frac{K_C}{\tau_I}\cdot \int_0^t e(t) dt + K_C\cdot \tau_I \cdot \frac{de(t)}{dt},
+$$
+
+observe que $(K_P = K_C)$, $(K_I = \frac{K_C}{\tau_I})$ e $(K_D = K_C \cdot \tau_D)$. Portanto, no domínio de Laplace, a expressão para um controlador PID pode ser representada da seguinte maneira:
+
+$$
+ G_c(s)  = \frac{K_C \cdot \tau_D\cdot s^2 + K_C \cdot s + \frac{K_C}{\tau_I}}{s}.
+$$
+
+Será implementada uma realimentação negativa no sistema representado na figura abaixo, uma vez que um sistema de malha fechada com PID é uma abordagem comum em controle de sistemas. Neste arranjo, o controlador ajusta dinamicamente a saída, respondendo à diferença entre a saída desejada e a saída real:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/c6d4666b-d6d4-47aa-8e88-3ce846358f55" alt="PIDneg">
+</p>
+
+
+Na determinação dos valores de $K_P$, $K_I$ e $K_D$, o pacote GEKKO será empregado. Este pacote, uma ferramenta em Python dedicada ao aprendizado de máquina e otimização de inteiros mistos, bem como a equações algébricas diferenciais, utilizará a equação do PID. Nessa equação, $\tau_i$ é igual a 2 e $\tau_d$ é igual a 0,25. Posteriormente, o pacote fornecerá o valor de $K_C$. A partir desse ponto, os parâmetros podem ser facilmente determinados. O ponto em questão será considerado como $\theta=0$ $(r(t))$. Dado que o processo envolve minimização, a metodologia a ser adotada é a seguinte:
+
+$$
+ e(t) = r(t) - y_m(t),
+$$
+
+o GEKKO, ao buscar a minimização do erro, simplifica o processo, necessitando apenas da introdução da Função de Transferência e da aplicação do impulso à entrada. Os valores estimados estão vinculados ao $K_C$ determinado, o qual é 0,5, os valores de $\tau_i$ e $\tau_d$ foram previamente estabelecidos como 2 e 0,25, respectivamente:
+
+| Termos       | Relação com $K_C$ | Valor |
+|--------------|-------------------|-------|
+| Proporcional | $K_C$             | 0,5   |
+| Integral     | $\frac{K_C}{\tau_I}$ | 0,25 |
+| Derivativo   | $K_C \cdot \tau_D$  | 0,125 |
+
+ os parâmetros $K_P$, $K_I$ e $K_D$ serão inseridos na equação do PID, levando a:
+
+ $$
+ g(t) = 0,5 \cdot e(t) + 0,25\cdot \int_0^t e(t) dt + 0,125 \cdot \frac{de(t)}{dt}.
+ $$
+
+ Ainda é necessário determinar o valor do erro, sua integral e derivada no contexto do controle de um pêndulo invertido (cartpole). Dado que o setpoint almejado (representado por $( r(t) )$ ) é manter o pêndulo em pé, idealmente, esse setpoint é zero. Assim, o erro torna-se o próprio ângulo do cartpole, enquanto a derivada é a velocidade angular, ambas informações fornecidas pela biblioteca Gymnasium.
+
+ Além disso, é crucial estimar a integral do erro. Fisicamente, a integral pode ser interpretada como a soma acumulativa da posição ao longo do tempo. Este componente integral no controle é valioso para corrigir o erro acumulado ao longo do tempo, contribuindo para a estabilidade do sistema e a redução de desvios significativos. Matematicamente a integral é dada por:
+
+ $$
+ \int_0^t e(t) dt = \sum_{i=0}^n \theta_i,
+ $$
+
+aqui, $\theta_i$ representa o ângulo do pêndulo invertido, e $n$ é o número atual de episódio.
+
+Portanto, ao considerar o ângulo, a velocidade angular e a integral do erro, é possível formar um conjunto abrangente de informações para implementa o PID no ambiente do pêndulo invertido, da seguinte maneira:
+
+$$
+ u_n = 0,5 \cdot \theta_n + 0,25\cdot \sum_{i=0}^n \theta_i + 0,125 \cdot \omega_n.
+$$
+
+antes de avançar com as tarefas, é pertinente realizar uma análise gráfica da saída do GEKKO, uma vez que essa visualização servirá como alicerce para as etapas subsequentes deste trabalho:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/d8752281-a41c-414c-af0d-0945d3ddab08" alt="pid">
+</p>
+
+
