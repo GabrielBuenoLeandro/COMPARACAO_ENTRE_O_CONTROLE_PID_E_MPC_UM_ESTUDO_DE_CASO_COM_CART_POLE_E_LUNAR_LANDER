@@ -512,3 +512,143 @@ $$
     =b_1 u(k) + b_2 u(k-1) + \cdots + b_n u(k-n+1),
 \end{split}
  $$
+
+em termos de valores preditos:
+
+$$
+\begin{split}
+    \hat{y}(k+1|k) + a_1 y(k) + a_2 y(k-1) + \cdots + a_n y(k-n+1) =\\
+    =b_1 \hat{u}(k|k) + b_2 u(k-1) + \cdots + b_n u(k-n+1),
+\end{split}
+$$
+
+na forma matricial:
+
+$$
+\begin{split}
+    \hat{y}(k+1|k) + 
+\begin{bmatrix}
+    a_1 & a_2 & \cdots & a_n \\
+\end{bmatrix}
+\begin{bmatrix}
+    y(k)\\
+    y(k-1)\\
+    \vdots\\
+    y(k-n+1)
+\end{bmatrix}
+=\\
+=b_1 \hat{u}(k|k) + 
+\begin{bmatrix}
+    b_2 & b_3 & \cdots & b_n
+\end{bmatrix}
+\begin{bmatrix}
+    u(k-1)\\
+    u(k-2)\\
+    \vdots\\
+    u(k-n+1)
+\end{bmatrix}
+\end{split}
+$$
+
+agora considere a predição dois passos a frente ($k=k+2$):
+
+$$
+\begin{split}
+    \hat{y}(k+2|k) + a_1 \hat{y}(k+1|k) + a_2 y(k) + \cdots + a_n y(k-n+2) =\\
+    =b_1 \hat{u}(k+1|k) + b_2 \hat{u}(k|k) + \cdots + b_n u(k-n+2),
+\end{split}
+$$
+
+em forma matricial:
+
+$$
+\begin{split}
+    \begin{bmatrix}
+        a_1 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        \hat{y}(k+1|k)\\
+        \hat{y}(k+2|k)
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        a_2 & a_3 & \cdots & 0\\
+    \end{bmatrix}
+\begin{bmatrix}
+    y(k)\\
+    y(k-1)\\
+    \vdots\\
+    y(k-n+1)
+\end{bmatrix}
+=\\
+= \begin{bmatrix}
+    b_2 & b_1\\
+\end{bmatrix}
+\begin{bmatrix}
+    \hat{u}(k|k)\\
+    \hat{u}(k+1|k)
+\end{bmatrix}
++
+\begin{bmatrix}
+    b_3 & b_4 & \cdots & 0\\
+\end{bmatrix}
+\begin{bmatrix}
+    u(k-1)\\
+    u(k-2)\\
+    \vdots\\
+    u(k-n+1)\\
+\end{bmatrix}
+\end{split},
+$$
+
+predições até $N$ passos à frente ($N>n$):
+
+$$
+\begin{matrix}
+&\hat{y}(k+1|k) + a_1 y(k) + a_2 y(k-1) + \cdots + a_n y(k-n+1) \\
+&= b_1 \hat{u}(k|k) + b_2 u(k-1) + \cdots + b_n u(k-n+1)\\
+&\hat{y}(k+2|k) + a_1 \hat{y}(k+1|k) + a_2 y(k) + \cdots + a_n y(k-n+2) \\
+&= b_1 \hat{u}(k+1|k) + b_2 \hat{u}(k|k) + \cdots + b_n u(k-n+2)\\
+&\hat{y}(k+3|k) + a_1 \hat{y}(k+2|k) + a_2 \hat{y}(k+1|k) + \cdots + a_n y(k-n+3) \\
+&= b_1 \hat{u}(k+2|k) + b_2 \hat{u}(k+1|k) + \cdots + b_n u(k-n+3)\\
+& \vdots\\
+&\hat{y}(k+n|k) + a_1 \hat{y}(k+n-1|k) + \cdots + a_n y(k) \\
+&= b_1 \hat{u}(k+n-1|k) + \cdots + b_n \hat{u}(k|k)\\
+&\hat{y}(k+n+1|k) + a_1 \hat{y}(k+n|k) + \cdots + a_n \hat{y}(k+1|k) \\
+&= b_1 \hat{u}(k+n|k) + \cdots + b_n \hat{u}(k+1|k)\\
+& \vdots\\
+&\hat{y}(k+N|k) + a_1 \hat{y}(k+N-1|k) + \cdots + a_n \hat{y}(k-n+N|k) \\
+&= b_1 \hat{u}(k+N-1|k) + \cdots + b_n \hat{u}(k-n+N|k),
+\end{matrix}
+$$
+
+ permitindo entender alguns padrões, o que possibilita uma implementação matricial para a equação de predição:
+
+ $$
+ \begin{matrix}
+    \begin{bmatrix}
+        1 & 0 & 0 & \cdots & 0 & 0 & \cdots & 0 & 0\\
+        a_1 & 1 & 1 & \cdots & 0 & 0 & \cdots & 0 & 0\\
+        a_3 & a_1 & 1 & \cdots & 0 & 0 & \cdots & 0 & 0\\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+        a_{n-1} & a_{n-2} & a_{n_3} & \cdots & 1 & 0 & \cdots 0 & 0\\
+        a_n & a_{n-1} & a_{n-2} & \cdots & a_1 & 1 & \cdots & 0 & 0\\
+        0 & a_n & a_{n-1} & \cdots & a_2 & a_1 & \cdots & 0 & 0\\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+        0 & 0 & 0 & \cdots & 0 & 0 & \cdots & 1 & 0\\
+        0 & 0 & 0 & \cdots & 0 & 0 & \cdots & a_1 & 1\\
+    \end{bmatrix}
+    \begin{bmatrix}
+        \hat{y}(k+1|k)\\
+        \hat{y}(k+2|k)\\
+        \hat{y}(k+3|k)\\
+        \vdots\\
+        \hat{y}(k+n|k)\\
+        \hat{y}(k+n+1|k)\\
+        \hat{y}(k+n+2|k)\\
+        \vdots\\
+        \hat{y}(k+N-1|k)\\
+        \hat{y}(k+N|k)\\
+    \end{bmatrix}+
+   \end{matrix}
+    $$
