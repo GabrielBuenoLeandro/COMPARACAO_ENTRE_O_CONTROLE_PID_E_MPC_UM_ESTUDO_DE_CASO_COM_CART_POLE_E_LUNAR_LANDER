@@ -798,3 +798,71 @@ $$
    $$
     y(k) - 3\cdot y(k-1) + 2,99367\cdot y(k-2)  - \color{red}{0,99367y(k-3)}\color{black} = - 0,00583\cdot \Delta u(k-1) ,
    $$
+
+ em vermelho vemos que aumenta um grau o modelo. Agora se torna possível estimar as matrizes $\tau_{a^{'}}^{-1} $, $S_{a^{'}}$, $\tau_b$ e $S_b$. Começando por $\tau_{a^{'}}^{-1}$, considerando $N=4$:
+
+ $$
+ \tau_{a^{'}}^{-1} =
+    \begin{bmatrix}
+        1 & 0 & 0 & 0\\
+       -3 & 1 & 0 & 0\\
+       2,99367 & -3 & 1 & 0\\
+     -0,99367 & 2,99367 & -3 & 1\\
+  \end{bmatrix},
+ $$
+
+ agora será determinado $S_{a^{'}}$:
+
+ $$
+S_{a^{'}} = 
+    \begin{bmatrix}
+        -3 & 2,99367 & -0,99367\\
+        2,99367 & -0,99367 & 0\\
+        -0,99367 & 0 & 0\\
+        0 & 0 & 0\\
+    \end{bmatrix}.
+ $$
+
+ sendo $\tau_b$:
+
+ $$
+\tau_{b} =
+    \begin{bmatrix}
+    -0,00583 & 0 & 0 & 0\\
+       0 &  -0,00583 & 0 & 0\\
+       0 & 0 &  -0,00583 & 0\\
+       0 & 0 & 0 &  -0,00583\\
+    \end{bmatrix},
+ $$
+
+ por fim, tem-se $S_b$, que é uma matriz nula. 
+
+Para estimar a melhor resposta em termos de $\Delta u$, será usado o método product da biblioteca itertools do Python, esse método trabalha com for's alinhados, permitindo estimar todas as possibilidades possíveis. A matriz com as possíveis entradas no formato $N^{H_p} x H_p$, sendo $N$ o número de possibilidades em termos de $\Delta u$, sendo um valor fixo, pois:
+
+$$
+\begin{matrix}
+   u_{k-1} = 1 \text{ e } u_{k} = -1 \Rightarrow \Delta u = -2 \\
+   u_{k-1} = 1 \text{ e } u_{k} = 1 \Rightarrow \Delta u = 0\\
+   u_{k-1} = -1 \text{ e } u_{k} = -1 \Rightarrow \Delta u = 0\\
+   u_{k-1} = -1 \text{ e } u_{k} = 1 \Rightarrow \Delta u = 2 \\
+ \end{matrix},
+$$
+
+logo $\Delta u$ assume três valores possíveis (2, 0, -2), e $H_p$ se refere ao horizonte de previsão máximo, sendo deslizante conforme se tem andamento no processo.
+
+Mas a $Matriz$ adota todas a possibilidades, surgindo assim um empecilho, pois o ambiente CartPole opera com duas respostas possíveis, sendo -1 ou 1, logo se aplicar as possibilidades de acordo com a $Matriz$, pode gerar entrada como 9, 7, 5, 3, 1, -1, -3, -5 e -9, logo foi desenvolvido um método que retorna todas as possibilidades possíveis a depender da resposta anterior ($u_{k-1}$). 
+
+A metodologia utilizada foi aplicar todas as variações de $\Delta u$ possíveis na expressão:
+
+$$
+\hat{y} = G \Delta \hat{u} + f,
+$$
+
+e utilizando a função de custo, foi estimado a matriz $\Delta u$ da forma $H_px1$ que minimiza-se a função de custo, sempre empregando o elemento $1x1$ de $\Delta u$ no instante $k$, na nova iteração o horizonte de desloca em 1 (horizonte deslizante), mas a metodologia segue a mesma. 
+
+O MPC empregado conseguiu controlar o CartPole, conforme o gráfico:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2c6b073c-6ae4-41f8-9e2b-98d33f0cec8c" alt="ctgpcio">
+</p>
+
