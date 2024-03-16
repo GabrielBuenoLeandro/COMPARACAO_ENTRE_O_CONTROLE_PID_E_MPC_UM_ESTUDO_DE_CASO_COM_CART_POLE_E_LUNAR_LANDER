@@ -405,3 +405,47 @@ O PID se mostrou capaz de controlar o CartPole, ou seja, missão concluída por 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/0be0e471-958a-4f2d-8f04-b087f9c8f03e" alt="cartpolepid">
 </p>
+
+# LunarLander - Implementação do MPC
+
+Controle Preditivo Modelado (MPC) é uma estratégia que se baseia na previsão do comportamento futuro por meio de um modelo do sistema. Neste contexto, foi adotado a abordagem do Controle Preditivo Generalizado (GPC), que utiliza modelo paramétricos para prever o comportamento futuro do sistema. A obtenção dos modelos será via técnicas de identificação de sistemas, será usado o pacote SysIdentPy.
+
+A trajetória de referência ($w$) representa o comportamento do sinal desejado para a saída futura, sendo o primeiro passo na aplicação do Controle Preditivo Generalizado ($GPC$). No caso do pêndulo invertido, ela será 0, pois a ideia é manter o pêndulo estável, o que implica em minimizar o $\theta$, de maneira:
+
+$$
+  w = [0, 0, 0, \cdots, n_{ep}],
+$$
+
+considerando que $n_{ep}$ representa o número de episódios.
+
+O próximo passo consiste em estabelecer uma função de custo, considerando as recompensas do ambiente CartPole . Nesse contexto, uma recompensa é atribuída por cada passo dado, abrangendo inclusive a etapa de encerramento, uma vez que o objetivo é manter o poste ereto pelo maior tempo possível. O limite estabelecido para as recompensas é de 500. Logo, o esforço de controle não será penalizado, apenas o erro em relação à predição da saída e à referência:
+
+$$
+J(k) =\sqrt{(\sum_{j=d}^{h_p} [\hat{y}(j+k|k) - w(j+k)])^2},
+$$
+
+ a função de custo utilizada enfatiza a capacidade do parâmetro $\theta$ de mudar de sinal, possibilitando sua proximidade ao limiar de 0 radianos.
+
+No entanto, ainda é necessário identificar um modelo capaz de prever a saída ($\hat{y}$) em função de $\Delta u$, seguindo a metodologia do GPC. Nesse contexto, a saída é representada por 1 para movimento à direita e -1 para movimento à esquerda, a fim de manter consistência com a codificação utilizada na Função de Transferência.  Isso resulta em $\Delta u$ assumindo três valores inteiros, o que se justifica por:
+
+$$
+    \begin{matrix}
+        u_{k-1} = 1 \text{ e } u_{k} = -1 \Rightarrow \Delta u = -2 \\
+        u_{k-1} = 1 \text{ e } u_{k} = 1 \Rightarrow \Delta u = 0\\
+        u_{k-1} = -1 \text{ e } u_{k} = -1 \Rightarrow \Delta u = 0\\
+        u_{k-1} = -1 \text{ e } u_{k} = 1 \Rightarrow \Delta u = 2 \\
+    \end{matrix}.
+$$
+
+A definição do problema de otimização é a seguinte:
+
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/3547bbb5-40fa-4b90-ad5d-dcf804e4fb1c" alt="fcc""width="875">
+</p>
+
+a ferramenta adotada para minimizar essa função custo é o método de pesquisa em grade.
+
+## Algoritmo Hill Climbing (subida da encosta)
+
+O Método de Subida de Encosta é um algoritmo clássico para otimização, mostrando-se altamente eficaz na identificação de máximos ou mínimos locais. No processo desse algoritmo, inicia-se a partir de um ponto aleatório X e realiza-se sua avaliação. Em seguida, ocorre o deslocamento do ponto original X para um novo ponto vizinho, designado como X'. Se o novo ponto X' representar uma solução superior à do ponto anterior, permanece-se nele e o processo é repetido. Contudo, se for inferior, retorna-se ao ponto inicial X e tenta-se explorar outro vizinho. Uma das principais "restrições" do Método de Subida de Encosta é sua incapacidade de aceitar valores negativos; em outras palavras, ele sempre busca pontos vizinhos no espaço de solução que possam aprimorar seu estado atual. Caso não encontre tal aprimoramento, a execução é interrompida.
+
