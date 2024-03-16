@@ -898,3 +898,43 @@ Todos os elementos essenciais foram identificados, exceto pelos valores apropria
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/9e245ce8-c0b4-41e1-bf1f-69b8ca79e0d4" alt="llpid (2)">
 </p>
 
+## Controle Preditivo Generalizado: Formulação para o LunarLander
+
+A trajetória de referência ($w$) do LunarLander é um pouco mais complexa, na qual serão adotadas algumas estratégias. 
+
+Sabe-se que o ambiente no qual a sonda interage é traduzido por meio de um plano cartesiano. Essa abordagem permite conhecer valores como posição e direção, aspectos de suma importância na navegação da sonda.
+
+Com intuito de implementar o controle preditivo baseado em modelo, será empregado uma matriz rotação para rotacionar o plano cartesiano em $45^\circ$ (o motivo será explicado adiante), por ser bidimensional, tem-se:
+
+$$
+	\begin{bmatrix}
+		x'\\
+		y'\\
+	\end{bmatrix}
+    = 
+    \begin{bmatrix}
+        cos \phi & sen\phi\\
+        -sen \phi & cos \phi\\
+    \end{bmatrix}
+    \begin{bmatrix}
+        x\\
+        y\\
+    \end{bmatrix}
+$$
+
+se considerar $\phi = 45^\circ$ e respectivos valores fornecidos pelo ambiente de observação:
+
+$$
+\begin{split}
+    x' = x\cdot cos\:45^\circ +  y\cdot sen\:45^\circ\\
+    y' = -x\cdot sen\:45^\circ +  y\cdot cos\:45^\circ\\
+\end{split},
+$$
+
+a ideia é rotocionar o plano cartesiano, da seguinte maneira:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/4dc8033b-ef76-405a-ab67-50e90319902c" alt="cart">
+</p>
+
+Com o plano cartesiano rotacionado, é possível estimar três trajetórias de referência. A primeira, em ciano, é definida por $x'=y$. Similarmente ao CartPole, o ângulo $\theta$ do LunarLander deve estar próximo de zero, representando a segunda trajetória de referência. O próximo passo envolve determinar a terceira trajetória de referência para a velocidade linear em $y$, expressa por $v_y = 0,85\cdot y' - 0,1$. Esta ideia será ilustrada.
