@@ -449,3 +449,16 @@ a ferramenta adotada para minimizar essa função custo é o método de pesquisa
 
 O Método de Subida de Encosta é um algoritmo clássico para otimização, mostrando-se altamente eficaz na identificação de máximos ou mínimos locais. No processo desse algoritmo, inicia-se a partir de um ponto aleatório X e realiza-se sua avaliação. Em seguida, ocorre o deslocamento do ponto original X para um novo ponto vizinho, designado como X'. Se o novo ponto X' representar uma solução superior à do ponto anterior, permanece-se nele e o processo é repetido. Contudo, se for inferior, retorna-se ao ponto inicial X e tenta-se explorar outro vizinho. Uma das principais "restrições" do Método de Subida de Encosta é sua incapacidade de aceitar valores negativos; em outras palavras, ele sempre busca pontos vizinhos no espaço de solução que possam aprimorar seu estado atual. Caso não encontre tal aprimoramento, a execução é interrompida.
 
+## Estimação do Modelo ARX
+
+Agora será realizado o processo de identificação do modelo ARX do sistema, utilizando um sinal PRBS para excitar o CartPole. O PRBS assume apenas dois valores possíveis, $+V$ e $-V$. Além de ser fácil de implementar, é replicável, o que o torna bastante popular na identificação de sistemas. Como exemplo, considere o sinal $PRBS = [1, 1, 0, 1]$, representado graficamente:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/79111662-b3f3-4eae-bfef-21f4fff83387" alt="PRBS">
+</p>
+
+o menor intervalo no qual o nível do sinal é mantido é denominado $T_b$. Seu período pode ser determinado por $T = NT_b$, sendo $N$ um número ímpar, de modo que $T_b = T_s$ conforme representado na figura acima. Um resultado heurístico para a escolha de $T_b$ é:
+
+$$
+ \text{Lineares} \Leftarrow \frac{\tau_{min}}{10} \leq T_b \leq \frac{\tau_{min}}{3} \Rightarrow \text{Não lineares},
+$$
