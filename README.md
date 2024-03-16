@@ -866,3 +866,26 @@ O MPC empregado conseguiu controlar o CartPole, conforme o gráfico:
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2c6b073c-6ae4-41f8-9e2b-98d33f0cec8c" alt="ctgpcio">
 </p>
 
+# LunarLander - Implementação do PID
+
+O controlador PID foi retirado do repositório LunarLander\_OpenAIGym com melhorias significativas. A ideia de modelar o sistema por meio de um modelo caixa branca não foi bem-sucedida, uma vez que se trata de um sistema MIMO, o que eleva o grau de complexidade. Seria necessário uma função de transferência para cada entrada e saída, tornando complicada a determinação dos parâmetros intrínsecos ao sistema. Assim, este repositório apresenta uma abordagem mais empírica, semelhante ao que ocorre no meio industrial, onde o PID é amplamente utilizado como controlador principal.
+
+A plataforma de aterrissagem permanece fixa nas coordenadas (0,0), sendo permitido a possibilidade de pouso fora da área designada. Além disso, é importante ressaltar que não há restrições quanto ao combustível, sendo considerado infinito para a execução da tarefa.
+
+O primeiro passo é determinar as variáveis de processo a serem controladas, sendo o \textit{boosters} do motor principal e secundário, usados respectivamente para controlar a altitude e o ângulo da nave.
+
+A sonda ajusta-se com base nos sensores para minimizar erros ao longo do tempo, utilizando controle proporcional-derivativo (PD). Altitude, ângulo e velocidades são conhecidos em cada etapa. O erro é calculado como a diferença entre os setpoints e as medições atuais, permitindo controle proporcional. As velocidades são usadas para o controle derivativo. O passo subsequente é definir os setpoints para a implementação do controle PID:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2cd4e0a7-409f-4f42-b271-343fb2e1a1dd" alt="stll">
+</p>
+
+O primeiro setpoint considerado é a altura, com a posição $x$ como setpoint, conforme a figura acima. Se a sonda estiver dentro do cone, deve descer, caso contrário, deve subir. Isso define o termo proporcional. Para o termo derivativo, utiliza-se a velocidade linear em $y$:
+
+$$
+ y_{PD} = k_{p2}\cdot (|x|-y)+k_{d2}\cdot v_y.
+$$
+
+É crucial manter uma inclinação constante da nave em direção ao seu objetivo, pois isso determina a direção do impulso do propulsor principal. Para implementar essa abordagem, utiliza-se o setpoint $x + v_x$, onde $v_x$ é a taxa de variação em $x$, entendendo essa expressão como $x_{t+1}$ para minimizar $\theta$. Quando a sonda está nas bordas extremas do triângulo, ela deve se inclinar $ 45^\circ$ em direção a plataforma, com essa inclinação diminuindo à medida que a sonda se aproxima do alvo (0,0), de acordo com o setpoint $x_{t+1}$. O controle proporcional é aplicado, onde a posição $x$ diminui à medida que a sonda se aproxima do alvo, enquanto o termo derivativo utiliza a velocidade angular:
+
+
