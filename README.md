@@ -621,3 +621,180 @@ $$
 &= b_1 \hat{u}(k+N-1|k) + \cdots + b_n \hat{u}(k-n+N|k),
 \end{matrix}
 $$
+
+permitindo entender alguns padrões, o que possibilita uma implementação matricial para a equação de predição:
+
+$$
+\begin{matrix}
+    \begin{bmatrix}
+        1 & 0 & 0 & \cdots & 0 & 0 & \cdots & 0 & 0\\
+        a_1 & 1 & 1 & \cdots & 0 & 0 & \cdots & 0 & 0\\
+        a_3 & a_1 & 1 & \cdots & 0 & 0 & \cdots & 0 & 0\\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+        a_{n-1} & a_{n-2} & a_{n_3} & \cdots & 1 & 0 & \cdots 0 & 0\\
+        a_n & a_{n-1} & a_{n-2} & \cdots & a_1 & 1 & \cdots & 0 & 0\\
+        0 & a_n & a_{n-1} & \cdots & a_2 & a_1 & \cdots & 0 & 0\\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+        0 & 0 & 0 & \cdots & 0 & 0 & \cdots & 1 & 0\\
+        0 & 0 & 0 & \cdots & 0 & 0 & \cdots & a_1 & 1\\
+    \end{bmatrix}
+    \begin{bmatrix}
+        \hat{y}(k+1|k)\\
+        \hat{y}(k+2|k)\\
+        \hat{y}(k+3|k)\\
+        \vdots\\
+        \hat{y}(k+n|k)\\
+        \hat{y}(k+n+1|k)\\
+        \hat{y}(k+n+2|k)\\
+        \vdots\\
+        \hat{y}(k+N-1|k)\\
+        \hat{y}(k+N|k)\\
+    \end{bmatrix}
+    +\\
+    \begin{bmatrix}
+        a_1 & a_2 & \cdots & a_n\\
+        a_2 & a_3 & \cdots & 0\\
+        a_3 & a_4 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        a_n & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+    \end{bmatrix}
+    \begin{bmatrix}
+        y(k)\\
+        y(k-1)\\
+        \vdots\\
+        y(k-n+1)
+    \end{bmatrix}
+    =\\
+    \begin{bmatrix}
+        b_1 & 0 & \cdots & 0\\
+        b_2 & b_1 & \cdots & 0\\
+        b_3 & b_2 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \cdots & 0\\
+        0 & 0 & \cdots & b_1
+    \end{bmatrix}
+    \begin{bmatrix}
+        \hat{u}(k|k)\\
+        \hat{u}{k+1|k}\\
+        \vdots\\
+        \hat{u}(k+N-1|K) 
+    \end{bmatrix}
+\end{matrix}
+$$
+
+$$
+\begin{matrix}
+        +\begin{bmatrix}
+            b_2 & b_3 & \cdots & b_n\\
+            b_3 & b_4 & \cdots & 0\\
+            b_4 & b_5 & \cdots & 0\\
+            \vdots & \vdots & \ddots & \vdots\\
+            0 & 0 & \vdots & 0\\
+            0 & 0 & \vdots & 0\\
+            0 & 0 & \vdots & 0\\
+            \vdots & \vdots & \ddots & \vdots\\
+            0 & 0 & \vdots & 0\\
+            0 & 0 & \vdots & 0\\
+        \end{bmatrix}
+    \begin{bmatrix}
+        u(k-1)\\
+        u(k-2)\\
+        \vdots\\
+        u(k-n+1)
+    \end{bmatrix}
+\end{matrix},
+$$
+
+ou ainda:
+
+$$
+\tau_a\hat{y} + S_a y_p = \tau_b \hat{u} + S_b u_p,
+$$
+
+na forma usual de representação, tem-se:
+
+$$
+\hat{y} = \tau_a^{-1}(\tau_b \hat{u} + S_b u_p - S_a y_p ),
+$$
+
+fazendo $H=\tau_a^{-1}\tau_b$ e $f_u = \tau^-1(S_bu_p-S_a y_p)$, obtém-se:
+
+$$
+\hat{y} = H\hat{u} + f_u.
+$$
+
+Agora será considerado um raciocínio parecido para predizer a saída em termos de $\Delta U$, para isso a saída no instante $k-1$ será subtraída da saída $y(k)$:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/5dc0cd98-28ae-499e-9feb-f44f7c8d59f6" alt="du">
+</p>
+
+em que:
+
+$$
+    \begin{matrix}
+        a_1^{'} = a_1 - 1\\
+        a_2^{'} = a_2 - a_1\\
+        \vdots\\
+        a_n^{'} = a_n - a_{n-1}\\
+        a_{n+1}^{'} = -a_n,
+    \end{matrix}
+$$
+
+ a ordem do modelo passa a ser $n+1$, devido a inclusão implicíta de um integrador e tempo discreto.
+
+O próximo passo é determinar a equação de predição em termos de $\Delta u$, processo semelhante a equação de predição em termos de $u$, da seguinte maneira:
+
+$$
+ \begin{matrix}
+    y(k) + a_1^{'} y(k-1) + \cdots + a_n^{'} y(k-n) + a_{n+1}^{'} y(k-n-1)\\
+    = b_1 \Delta u(k-1) + \cdots + b_n \Delta u(k-n),
+  \end{matrix}
+ $$
+
+ logo:
+
+ $$
+ \tau_a^{'}\hat{y} + S_{a^{'}} y_p = \tau_b \hat{u} + S_b u_p,
+ $$
+
+ considerando $H=\tau_{a^{'}}^{-1}\tau_b$ e $f = \tau_{a^{'}}^{-1}(S_bu_p-S_{a^{'}} y_p)$, obtém-se:
+
+ $$
+  \hat{y} = G \Delta \hat{u} + f,
+ $$
+
+  se $M < N$, basta usar somente as M primeiras colunas de Tb.  Voltando a expressão para o cálculo de $f$:
+
+  $$
+   f = \tau_{a^{'}}^{-1}(S_bu_p-S_{a^{'}} y_p),
+  $$
+
+  em que:
+
+  $$
+      K_{\Delta u} = \tau_{a^{'}}^{-1} S_b, \:\: K_y = \tau_{a^{'}}^{-1} S_{a^{'}},
+  $$
+
+  ## GPC empregando o modelo ARX
+
+  Considerando modelo ARX estimado pelo SysIdentPy:
+
+  $$
+      y(k) = 2\cdot y(k-1)- 0,99367\cdot y(k-2)  - 0,00583\cdot u(k-1) ,
+  $$
+
+   ao aplicar o modelo ARX em termos de $\Delta u$, tem-se:
+
+   $$
+    y(k) - 3\cdot y(k-1) + 2,99367\cdot y(k-2)  - \color{red}{0,99367y(k-3)}\color{black} = - 0,00583\cdot \Delta u(k-1) ,
+   $$
