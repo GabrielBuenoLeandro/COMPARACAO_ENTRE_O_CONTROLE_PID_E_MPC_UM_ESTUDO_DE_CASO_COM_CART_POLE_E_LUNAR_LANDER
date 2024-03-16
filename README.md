@@ -725,3 +725,27 @@ na forma usual de representação, tem-se:
 $$
 \hat{y} = \tau_a^{-1}(\tau_b \hat{u} + S_b u_p - S_a y_p ),
 $$
+
+fazendo $H=\tau_a^{-1}\tau_b$ e $f_u = \tau^-1(S_bu_p-S_a y_p)$, obtém-se:
+
+$$
+\hat{y} = H\hat{u} + f_u.
+$$
+
+Agora será considerado um raciocínio parecido para predizer a saída em termos de $\Delta U$, para isso a saída no instante $k-1$ será subtraída da saída $y(k)$:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/5dc0cd98-28ae-499e-9feb-f44f7c8d59f6" alt="du">
+</p>
+
+em que:
+
+$$
+    \begin{matrix}
+        a_1^{'} = a_1 - 1\\
+        a_2^{'} = a_2 - a_1\\
+        \vdots\\
+        a_n^{'} = a_n - a_{n-1}\\
+        a_{n+1}^{'} = -a_n,
+    \end{matrix}
+$$
