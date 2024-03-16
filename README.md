@@ -766,3 +766,35 @@ $$
  $$
  \tau_a^{'}\hat{y} + S_{a^{'}} y_p = \tau_b \hat{u} + S_b u_p,
  $$
+
+ considerando $H=\tau_{a^{'}}^{-1}\tau_b$ e $f = \tau_{a^{'}}^{-1}(S_bu_p-S_{a^{'}} y_p)$, obtém-se:
+
+ $$
+  \hat{y} = G \Delta \hat{u} + f,
+ $$
+
+  se $M < N$, basta usar somente as M primeiras colunas de Tb.  Voltando a expressão para o cálculo de $f$:
+
+  $$
+   f = \tau_{a^{'}}^{-1}(S_bu_p-S_{a^{'}} y_p),
+  $$
+
+  em que:
+
+  $$
+      K_{\Delta u} = \tau_{a^{'}}^{-1} S_b, \:\: K_y = \tau_{a^{'}}^{-1} S_{a^{'}},
+  $$
+
+  ## GPC empregando o modelo ARX
+
+  Considerando modelo ARX estimado pelo SysIdentPy:
+
+  $$
+      y(k) = 2\cdot y(k-1)- 0,99367\cdot y(k-2)  - 0,00583\cdot u(k-1) ,
+  $$
+
+   ao aplicar o modelo ARX em termos de $\Delta u$, tem-se:
+
+   $$
+    y(k) - 3\cdot y(k-1) + 2,99367\cdot y(k-2)  - \color{red}{0,99367y(k-3)}\color{black} = - 0,00583\cdot \Delta u(k-1) ,
+   $$
