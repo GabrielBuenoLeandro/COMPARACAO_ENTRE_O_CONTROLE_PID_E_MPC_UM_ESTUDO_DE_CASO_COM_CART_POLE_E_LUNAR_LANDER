@@ -938,3 +938,9 @@ a ideia é rotocionar o plano cartesiano, da seguinte maneira:
 </p>
 
 Com o plano cartesiano rotacionado, é possível estimar três trajetórias de referência. A primeira, em ciano, é definida por $x'=y$. Similarmente ao CartPole, o ângulo $\theta$ do LunarLander deve estar próximo de zero, representando a segunda trajetória de referência. O próximo passo envolve determinar a terceira trajetória de referência para a velocidade linear em $y$, expressa por $v_y = 0,85\cdot y' - 0,1$. Esta ideia será ilustrada.
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/15cd295b-a6ff-4d05-b567-ce75a7f6638b" alt="ssp">
+</p>
+
+
