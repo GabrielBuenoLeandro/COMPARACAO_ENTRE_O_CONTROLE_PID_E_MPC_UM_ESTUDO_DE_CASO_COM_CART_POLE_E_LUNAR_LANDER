@@ -405,3 +405,60 @@ O PID se mostrou capaz de controlar o CartPole, ou seja, missão concluída por 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/0be0e471-958a-4f2d-8f04-b087f9c8f03e" alt="cartpolepid">
 </p>
+
+# LunarLander - Implementação do MPC
+
+Controle Preditivo Modelado (MPC) é uma estratégia que se baseia na previsão do comportamento futuro por meio de um modelo do sistema. Neste contexto, foi adotado a abordagem do Controle Preditivo Generalizado (GPC), que utiliza modelo paramétricos para prever o comportamento futuro do sistema. A obtenção dos modelos será via técnicas de identificação de sistemas, será usado o pacote SysIdentPy.
+
+A trajetória de referência ($w$) representa o comportamento do sinal desejado para a saída futura, sendo o primeiro passo na aplicação do Controle Preditivo Generalizado ($GPC$). No caso do pêndulo invertido, ela será 0, pois a ideia é manter o pêndulo estável, o que implica em minimizar o $\theta$, de maneira:
+
+$$
+  w = [0, 0, 0, \cdots, n_{ep}],
+$$
+
+considerando que $n_{ep}$ representa o número de episódios.
+
+O próximo passo consiste em estabelecer uma função de custo, considerando as recompensas do ambiente CartPole . Nesse contexto, uma recompensa é atribuída por cada passo dado, abrangendo inclusive a etapa de encerramento, uma vez que o objetivo é manter o poste ereto pelo maior tempo possível. O limite estabelecido para as recompensas é de 500. Logo, o esforço de controle não será penalizado, apenas o erro em relação à predição da saída e à referência:
+
+$$
+J(k) =\sqrt{(\sum_{j=d}^{h_p} [\hat{y}(j+k|k) - w(j+k)])^2},
+$$
+
+ a função de custo utilizada enfatiza a capacidade do parâmetro $\theta$ de mudar de sinal, possibilitando sua proximidade ao limiar de 0 radianos.
+
+No entanto, ainda é necessário identificar um modelo capaz de prever a saída ($\hat{y}$) em função de $\Delta u$, seguindo a metodologia do GPC. Nesse contexto, a saída é representada por 1 para movimento à direita e -1 para movimento à esquerda, a fim de manter consistência com a codificação utilizada na Função de Transferência.  Isso resulta em $\Delta u$ assumindo três valores inteiros, o que se justifica por:
+
+$$
+    \begin{matrix}
+        u_{k-1} = 1 \text{ e } u_{k} = -1 \Rightarrow \Delta u = -2 \\
+        u_{k-1} = 1 \text{ e } u_{k} = 1 \Rightarrow \Delta u = 0\\
+        u_{k-1} = -1 \text{ e } u_{k} = -1 \Rightarrow \Delta u = 0\\
+        u_{k-1} = -1 \text{ e } u_{k} = 1 \Rightarrow \Delta u = 2 \\
+    \end{matrix}.
+$$
+
+A definição do problema de otimização é a seguinte:
+
+<p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/3547bbb5-40fa-4b90-ad5d-dcf804e4fb1c" alt="fcc""width="875">
+</p>
+
+a ferramenta adotada para minimizar essa função custo é o método de pesquisa em grade.
+
+## Algoritmo Hill Climbing (subida da encosta)
+
+O Método de Subida de Encosta é um algoritmo clássico para otimização, mostrando-se altamente eficaz na identificação de máximos ou mínimos locais. No processo desse algoritmo, inicia-se a partir de um ponto aleatório X e realiza-se sua avaliação. Em seguida, ocorre o deslocamento do ponto original X para um novo ponto vizinho, designado como X'. Se o novo ponto X' representar uma solução superior à do ponto anterior, permanece-se nele e o processo é repetido. Contudo, se for inferior, retorna-se ao ponto inicial X e tenta-se explorar outro vizinho. Uma das principais "restrições" do Método de Subida de Encosta é sua incapacidade de aceitar valores negativos; em outras palavras, ele sempre busca pontos vizinhos no espaço de solução que possam aprimorar seu estado atual. Caso não encontre tal aprimoramento, a execução é interrompida.
+
+## Estimação do Modelo ARX
+
+Agora será realizado o processo de identificação do modelo ARX do sistema, utilizando um sinal PRBS para excitar o CartPole. O PRBS assume apenas dois valores possíveis, $+V$ e $-V$. Além de ser fácil de implementar, é replicável, o que o torna bastante popular na identificação de sistemas. Como exemplo, considere o sinal $PRBS = [1, 1, 0, 1]$, representado graficamente:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/79111662-b3f3-4eae-bfef-21f4fff83387" alt="PRBS">
+</p>
+
+o menor intervalo no qual o nível do sinal é mantido é denominado $T_b$. Seu período pode ser determinado por $T = NT_b$, sendo $N$ um número ímpar, de modo que $T_b = T_s$ conforme representado na figura acima. Um resultado heurístico para a escolha de $T_b$ é:
+
+$$
+ \text{Lineares} \Leftarrow \frac{\tau_{min}}{10} \leq T_b \leq \frac{\tau_{min}}{3} \Rightarrow \text{Não lineares},
+$$
