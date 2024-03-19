@@ -995,3 +995,16 @@ $$
 $$
 
 Apesar do reduzido número de amostras utilizadas para a construção do modelo, o SysIdentPy obteve sucesso ao capturar um modelo de alta qualidade, que é capaz de representar adequadamente a complexa dinâmica do LunarLander.
+
+## Determinação dos Pesos da Função Custo
+
+Inicialmente, a estimação dos pesos foi feita por tentativa e erro, onde foram identificados alguns pontos importantes posteriormente utilizados. O principal foi a separação do ambiente lunar em dois estágios. O primeiro estágio consiste em verificar se a velocidade da sonda é inferior à trajetória de referência. Nesse caso, o peso $\delta$ da função custo, sendo zero, ajuda o modelo a não tomar decisões equivocadas, como inclinar em um ângulo $\theta$ grande e utilizar os motores auxiliares para acelerar e alcançar a referência. Dessa maneira, a sintonização manual se tornou mais tranquila, onde no primeiro estágio o algoritmo se preocupa apenas com os setpoints de posição e inclinação angular. No segundo estágio, a velocidade linear em $y$ passa a fazer parte dos setpoints.
+
+Apesar de muitas tentativas, o GPC apresentou resultados semelhantes ao PD do repositório LunarLander_OpenAIGym. No entanto, ao adotar um algoritmo de Subida de Encosta para estimar os parâmetros proporcionais e derivativos do PD deste trabalho, houve uma melhoria significativa no desempenho do PD. Assim, um ajuste manual do GPC para se equiparar ao PD tornou-se complicado. A ideia foi utilizar o algoritmo de Subida de Encosta para estimar os pesos do primeiro estágio ($\alpha_1$ e $\beta_1$) e do segundo estágio ($\alpha_2$, $\beta_2$ e $\delta_2$). Os pesos estimados pelo algoritmo de Subida de Encosta foram:
+
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2de6060a-bd39-4d14-ab7e-c6077b2c7012" alt="pLL">
+</p>
+
+Os pesos derivados pelo algoritmo de subida de encosta resultaram em uma notável melhoria no desempenho do Controle Preditivo Generalizado (GPC), em comparação com os ajustes manuais realizados por tentativa e erro. Essa otimização automática permitiu uma sintonia mais precisa e eficiente dos parâmetros do controlador, levando a um funcionamento mais eficaz do sistema de controle.
+
