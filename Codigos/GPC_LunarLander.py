@@ -1,9 +1,6 @@
 import numpy as np
-import imageio
 import gym
-import numpy as np
-import matplotlib.pyplot as plt
-from time import sleep
+import time
 
 a1 = -1.9986
 a2 = 9.9860E-01
@@ -156,7 +153,7 @@ for i in range (0, len(Possibilidades)):
     
 H = np.zeros((256, 3))
 x = np.append(x, H, axis=1)
-
+print(np.shape(x))
 
 def MPC(px, py, k, p1, p2, at, v, params, pe):
     ypx = np.array([px[k], px[k-1]]).reshape(-1,1)
@@ -214,136 +211,9 @@ def MPC(px, py, k, p1, p2, at, v, params, pe):
         action = 0 
     return int(action)
 
+params = np.array([10.44842328, 20.27103112, 20.89498623, 45.92627943, 55.43402588])
 frames = []
-class Data():
-    """tracks elements of the state"""
-    def __init__(self):
-        self.states = []
-    
-    def add(self,state):
-        self.states.append(state)
-        
-    def graph(self):
-        states = np.array(self.states).reshape(len(self.states),-1)
-        plt.plot(states[:,0],label='x')
-        plt.plot(states[:,1],label='y')
-        plt.plot(states[:,2],label='vx')
-        plt.plot(states[:,3],label='vy')
-        plt.plot(states[:,4],label='theta')
-        plt.plot(states[:,5],label='vtheta')
-        plt.legend()
-        plt.grid()
-        plt.ylim(-1.1,1.1)
-        plt.title('Controle PID')
-        plt.ylabel('Valor')
-        plt.xlabel('Amostras')
-        plt.show('pid.png')
-
-
-def run(params, env, verbose=False):
-    """ runs an episode given pid parameters """
-    data = Data() 
-    done = False
-    state, info = env.reset()
-    i = 0
-    pe  = np.zeros(2)
-    px = []
-    py = []
-    p1 = []
-    p2 = []
-    at = []
-    v = []
-    vx= []
-    vt = []
-    if verbose:
-        env.render()
-        sleep(.005)
-    data.add(state)
-    total = 0
-    while not done and len(p2)<env._max_episode_steps:
-        observation = state
-        px.append(observation[0]*(np.cos(np.pi/4))+observation[1]*(np.sin(np.pi/4)))
-        py.append(observation[0]*(-np.sin(np.pi/4))+observation[1]*(np.cos(np.pi/4)))
-        at.append(observation[4])
-        v.append(observation[3])
-        vx.append(observation[2])
-        vt.append(observation[5])
-        pe = np.copy(observation[6:])
-        a = 0
-        if i>=2:
-            a = MPC(px, py, i, p1, p2, at, v, params, pe)
-        if a == 1: 
-            p2.append(1)
-            p1.append(0)
-        if a == 3: 
-            p2.append(-1)
-            p1.append(0)
-        if a == 2:
-            p1.append(1)
-            p2.append(0)
-        state,reward,done,_, cc = env.step(a)
-        i +=1
-        if verbose==True:
-            rgb_array = env.render()
-            #frames.append(rgb_array)
-        total += reward
-        if verbose:
-            env.render()
-            sleep(.005)
-        data.add(state)
-    return total, data
-
-def optimize(params, current_score, env, step):
-    """ runs a step of randomized hill climbing """
-
-    # add gaussian noise (less noise as n_steps increases)
-    test_params = params + np.random.normal(0,20.0/step,size=params.shape)
-    
-    # test params over 5 trial avg
-    scores = []
-    for trial in range(5):
-        score,_ = run(test_params,env)
-        scores.append(score)
-    avg = np.mean(scores)
-    
-    # update params if improved
-    if avg > current_score:
-        return test_params,avg
-    else:
-        return params,current_score
-    
-def main():
-    # Setup environment
-    env = gym.make('LunarLander-v2', render_mode='rgb_array')
-    env._max_episode_steps = 450
-   
-    # Seed RNGs
-    np.random.seed(0)
-    #env.seed(0)
-
-    # Random Hill Climb over params
-    params = np.array([0, 0, 0, 0, 0])
-    score = -300 # bad starting score
-    for steps in range(101):
-        params,score = optimize(params,score,env,steps+1)
-        if steps%10 == 0:
-            print("Step:",steps,"Score:",score,"Params:",params)
-
-    # Get data for final run
-    scores = []
-    for trial in range(10):
-        score, data = run(params, env, True)
-        scores.append(score)
-    env.close()
-    print("Average Score:",np.mean(scores))
-    data.graph()
-
-if __name__ == '__main__':
-    main()
-
-params = np.array([24.76809389, 23.43504149, 20.08773842, 48.05462707, 42.97594957])
-frames = []
-samples = 2000
+samples = 200000
 px = np.zeros(samples)
 py = np.zeros(samples)
 p1 = np.zeros(samples)
@@ -360,8 +230,9 @@ observation, info = env.reset()
 r = observation[3]/observation[1]
 action = 0
 cont = 0
+point = 0
 g = []
-pe = np.zeros(2)
+inicio = time.time()
 for i in range(samples):
     px[i] = observation[0]*(np.cos(np.pi/4))+observation[1]*(np.sin(np.pi/4))
     py[i] = observation[0]*(-np.sin(np.pi/4))+observation[1]*(np.cos(np.pi/4))
@@ -386,18 +257,12 @@ for i in range(samples):
         observation, info = env.reset()
         j.append(reward)
         g.append(i)
+        if len(g)>19:
+            break
+fim = time.time()
+# Calcula o tempo decorrido
+tempo_decorrido = fim - inicio
+
+print(f"Tempo decorrido: {tempo_decorrido} segundos")
 env.close()
-
-
-plt.plot(px,label='$x$')
-plt.plot(py,label='$y$')
-plt.plot(vx,label='$v_x$')
-plt.plot(v,label='$v_y$')
-plt.plot(at,label='$\\theta$')
-plt.plot(vt,label='$v_\\theta$')
-plt.legend()
-plt.grid()
-plt.ylim(-1.1,1.1)
-plt.title('Controle PID')
-plt.ylabel('Valor')
-plt.xlabel('Amostras')
+print(cont)

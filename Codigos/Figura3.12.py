@@ -23,6 +23,7 @@ b = ((m**2*l**2-(M+m)*(I+m*l**2)))
 # cte
 print((M+m)*m*g*l)
 c = ((M+m)*m*g*l)
+print('R =', np.roots([b,0,c]))
 
 env = gym.make("CartPole-v1", render_mode="rgb_array")
 observation, info = env.reset()
