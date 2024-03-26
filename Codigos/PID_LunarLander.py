@@ -1,33 +1,16 @@
-import imageio
 import gym
+import tempfile
 import numpy as np
-import matplotlib.pyplot as plt
-from time import sleep
-frames = []
-class Data():
-    """tracks elements of the state"""
-    def __init__(self):
-        self.states = []
-    
-    def add(self,state):
-        self.states.append(state)
-        
-    def graph(self):
-        states = np.array(self.states).reshape(len(self.states),-1)
-        plt.plot(states[:,0],label='x')
-        plt.plot(states[:,1],label='y')
-        plt.plot(states[:,2],label='vx')
-        plt.plot(states[:,3],label='vy')
-        plt.plot(states[:,4],label='theta')
-        plt.plot(states[:,5],label='vtheta')
-        plt.legend()
-        plt.grid()
-        plt.ylim(-1.1,1.1)
-        plt.title('Controle PID')
-        plt.ylabel('Valor')
-        plt.xlabel('Amostras')
-        plt.show('pid.png')
-    
+import time
+states=[]
+
+from gym import wrappers
+
+tdir = tempfile.mkdtemp()
+env = gym.make('LunarLander-v2', render_mode='rgb_array')
+print (env.action_space)
+p = []
+
 def pid(state, params):
     """ calculates settings based on pid control """
     # PID parameters
@@ -54,79 +37,52 @@ def pid(state, params):
         ang_adj = -(state[3])*0.5
         
     action = 0
-    if alt_adj > np.abs(ang_adj) and alt_adj > 0.05: action = 2
+    if alt_adj > np.abs(ang_adj) and alt_adj > 1.45: action = 2
     elif ang_adj < -0.05: action = 3
     elif ang_adj > +0.05: action = 1
     return action
 
-def run(params, env, verbose=False):
-    """ runs an episode given pid parameters """
-    data = Data() 
-    done = False
-    state, info = env.reset()
-    if verbose:
+r = []
+x = []
+y = []
+vx = []
+vy = []
+th = []
+vt = []
+g = []
+cont = 0
+ooo = 0
+params = np.array([9.0565, -9.9488, 11.9271, -5.0963])
+inicio = time.time()
+# 100 trials for landing
+for t in range(1000):
+    observation = env.reset()
+    observation = observation[0]
+    while 1:
         env.render()
-        sleep(.005)
-    data.add(state)
-    total = 0
-    while not done:
-        a = pid(state,params)
-        state,reward,done,_, cc = env.step(a)
-        if verbose==True:
-            rgb_array = env.render()
-            frames.append(rgb_array)
-        total += reward
-        if verbose:
-            env.render()
-            sleep(.005)
-        data.add(state)
-    return total, data
+        cont+=1
+        #print(observation)
+        # select action using pid method
+        action = pid(observation, params)
+        observation, reward, done, info, a = env.step(action)
+        r.append(reward)
+        if reward==100:
+            ooo+=1
+        x.append(observation[0])
+        y.append(observation[1])
+        vx.append(observation[2])
+        vy.append(observation[3])
+        th.append(observation[4])
+        vt.append(observation[5])
+        if done:
+            print("Episode finished after {} timesteps".format(t))
+            g.append(cont)
+            print(cont)
+            break
 
-def optimize(params, current_score, env, step):
-    """ runs a step of randomized hill climbing """
+env.close()
+fim = time.time()
+# Calcula o tempo decorrido
+tempo_decorrido = fim - inicio
 
-    # add gaussian noise (less noise as n_steps increases)
-    test_params = params + np.random.normal(0,20.0/step,size=params.shape)
-    
-    # test params over 5 trial avg
-    scores = []
-    for trial in range(5):
-        score,_ = run(test_params,env)
-        scores.append(score)
-    avg = np.mean(scores)
-    
-    # update params if improved
-    if avg > current_score:
-        return test_params,avg
-    else:
-        return params,current_score
-    
-def main():
-    # Setup environment
-    env = gym.make('LunarLander-v2', render_mode='rgb_array')
-    env._max_episode_steps = 300
-   
-    # Seed RNGs
-    np.random.seed(0)
-    #env.seed(0)
-
-    # Random Hill Climb over params
-    params = np.array([0.5,0.5,1,1])
-    score = -300 # bad starting score
-    for steps in range(101):
-        params,score = optimize(params,score,env,steps+1)
-        if steps%10 == 0:
-            print("Step:",steps,"Score:",score,"Params:",params)
-
-    # Get data for final run
-    scores = []
-    for trial in range(10):
-        score, data = run(params, env, True)
-        scores.append(score)
-    env.close()
-    print("Average Score:",np.mean(scores))
-    data.graph()
-
-if __name__ == '__main__':
-    main()
-#imageio.mimsave('llpid.gif', frames, duration=0.1)
+print(f"Tempo decorrido: {tempo_decorrido} segundos")
