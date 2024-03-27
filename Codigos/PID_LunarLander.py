@@ -38,8 +38,8 @@ def pid(state, params):
         
     action = 0
     if alt_adj > np.abs(ang_adj) and alt_adj > 1.45: action = 2
-    elif ang_adj < -0.05: action = 3
-    elif ang_adj > +0.05: action = 1
+    elif ang_adj < -0.5: action = 3
+    elif ang_adj > +0.5: action = 1
     return action
 
 r = []
@@ -55,7 +55,7 @@ ooo = 0
 params = np.array([9.0565, -9.9488, 11.9271, -5.0963])
 inicio = time.time()
 # 100 trials for landing
-for t in range(1000):
+for t in range(100):
     observation = env.reset()
     observation = observation[0]
     while 1:
