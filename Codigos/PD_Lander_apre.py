@@ -9,7 +9,8 @@ import time
 import matplotlib.pyplot as plt
 # Definindo o ambiente
 tdir = tempfile.mkdtemp()
-env = gym.make('LunarLander-v2', render_mode='human')
+env = gym.make("LunarLander-v2", render_mode="human")
+#env = gym.make("LunarLander-v2", render_mode="human", enable_wind=True, wind_power=2.0, gravity=-11, turbulence_power=1)
 print (env.action_space)
 p = []
 
@@ -24,8 +25,8 @@ def pid(state):
     # Calculate setpoints (target values)
     alt_tgt = np.abs(state[0])
     ang_tgt = (.25*np.pi)*(state[0]+state[2])
-    if ang_tgt >  0.785: ang_tgt =  0.785
-    if ang_tgt < -0.785: ang_tgt = -0.785
+    if ang_tgt >  0.5: ang_tgt =  0.5
+    if ang_tgt < -0.5: ang_tgt = -0.5
 
     # Calculate error values
     alt_error = (alt_tgt - state[1])
@@ -38,9 +39,13 @@ def pid(state):
         ang_adj  = 0
         ang_adj = (state[3])*kd_alt
     action = 0
-    if alt_adj > 0.5*np.abs(ang_adj) and alt_adj > 0.2: action = 2 #0.175
-    elif ang_adj < -.1: action = 3#.25
-    elif ang_adj > +.1: action = 1
+    g = 0.2#(state[1]-state[3])
+    if state[1]<0.65: g = (state[1]-state[3]+.975)#0.95
+    if state[1]<0.05: g = (state[1]-state[3]+0.05)
+    if alt_adj*g > np.abs(ang_adj) and alt_adj > 0.05: action = 2 #0.175
+    elif ang_adj < -.05: action = 3#.25
+    elif ang_adj > +.05: action = 1
+    if sum(state[6:])==2: action = 0 #0.175
     return action
 
 r = []
@@ -55,8 +60,8 @@ cont = 0
 ooo = 0
 inicio = time.time()
 # 100 trials for landing
-for t in range(10):
-    observation = env.reset()
+for t in range(3):
+    observation = env.reset(seed=47+t)
     observation = observation[0]
     while 1:
         env.render()
@@ -75,9 +80,8 @@ for t in range(10):
         th.append(observation[4])
         vt.append(observation[5])
         if done:
-            print("Episode finished after {} timesteps".format(t))
+            print("Episódio número: ", t+1) 
             g.append(cont)
-            print(cont)
             break
 
 env.close()
@@ -87,14 +91,23 @@ tempo_decorrido = fim - inicio
 
 print(f"Tempo decorrido: {tempo_decorrido} segundos")
 
-print(ooo)
+print("Número de pousos: ", ooo)
 d = 0
-soma = np.zeros(10)
+soma = np.zeros(3)
 soma[0] = sum(r[:g[0]])
-plt.plot(0, sum(r[:g[0]]), 'or--')
-for i in range(0, 9):
-    plt.plot(i+1, sum(r[g[i]:g[i+1]]), 'o--')
+if soma[0]>=200:
+    d = 1
+for i in range(0, 2):
     soma[i+1] = sum(r[g[i]:g[i+1]])
     if sum(r[g[i]:g[i+1]])>200:
         d+=1
-print(d)
+
+plt.plot(soma, 'ko',  label='Episódio')
+print("Número de pousos com +200 pontos: ", d)
+print("Média de pontuação: ", np.mean(soma))
+plt.plot(np.ones(3)*200, 'r',  linewidth=2.5, label='+200 pontos')
+plt.ylabel('Pontuação')
+plt.xlabel('Episódios')
+plt.title('Validação - PD')
+plt.legend()
+plt.show()

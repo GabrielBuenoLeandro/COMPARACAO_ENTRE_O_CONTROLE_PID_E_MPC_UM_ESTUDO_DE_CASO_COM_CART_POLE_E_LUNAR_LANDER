@@ -103,9 +103,9 @@ def predict(y, k, Matriz, action):
         soma.append(float(abs(sum(yo))))
     return Matriz[soma.index(min(soma)),:]
 
-env = gym.make("CartPole-v1", render_mode="rgb_array")
+env = gym.make("CartPole-v1", render_mode="human")
 observation, info = env.reset()
-samples = 5000
+samples = 500
 y = np.zeros(samples)
 u = np.zeros(samples)
 us = np.ones(samples)

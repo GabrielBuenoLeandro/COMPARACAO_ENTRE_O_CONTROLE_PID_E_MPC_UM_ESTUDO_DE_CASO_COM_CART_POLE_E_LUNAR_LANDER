@@ -3,9 +3,10 @@ from matplotlib import pyplot as plt
 import numpy as np
 from time import sleep
 import time
-env = gym.make("CartPole-v1", render_mode='human')
+env = gym.make("CartPole-v1",
+                render_mode='human')
 observation = env.reset()
-samples = 5000
+samples = 500
 Kp = 0.5
 Ki = 0.25
 Kd = 0.125
@@ -38,7 +39,7 @@ for _ in range(samples):
 env.close()
 fime = time.time()
 # Calcula o tempo decorrido
-tempo_decorrido = fime - inic
+tempo_decorrido = fime - inicio
 print('tempo:', tempo_decorrido)
 plt.figure(1)
 plt.plot(y, 'g', label=r'$\theta$')
