@@ -151,13 +151,13 @@ def MPC(px, py, k, at, v, params, pe):
         if abs(y_y[0])>abs(y_x[0]): # A ideia é acelerar a sonda, já que p_y \approx p_x, pega-se o que possui o maior termo inicial
             c = y_y
         ref = -p(np.abs(c)) # O polinômio referente o setpoint da velocidade recebe valores numéricos
-        if y_v[0]<-ref[0]*.443:  # Esse if permite intercalar os dois estágios, se True, o estágio 1 atua 
+        if y_v[0]<-ref[0]*.543:  # Esse if permite intercalar os dois estágios, se True, o estágio 1 atua 
             w = np.array([params[2], params[0], params[1]]) # Pesos calculados pelo algoritmo Subida de Encosta - Estágio 2
         if np.sum(pe)==2: # Verifica se ambos os pés estão em solo lunar
             w[2] = 0 # Caso afirmativo, o peso do setpoint angular é zero
         s[i] = sum(abs(w[0]*(y_x[:]-y_y[:])+w[1]*(y_v[:]+ref[:])-w[2]*(y_t[:]))) # Função Custo a ser minimizada
     action = x[np.argmin(s), 0] # Retorna com a primeira entrada do vetor de entra da que minimiza a Função Custo
-    if sum(pe)==2 and py[k]<.175 and px[k]<.175: # Verifica se a sonda está dentro da plataforma com os pés fixados
+    if sum(pe)==2 and py[k]<.1 and px[k]<.1: # Verifica se a sonda está dentro da plataforma com os pés fixados
         action = 0 # Caso True, não necessidade de mais ajuste, pois o obejetivo já foi alcançado
     return int(action) # Retorna a ação para aplicar no ambiente Lunar Lander
 
@@ -173,9 +173,10 @@ v = np.zeros(samples) # Array para salvar a velocidade linear em y (v_y)
 vx= np.zeros(samples) # Array para salvar a velocidade linear em x (v_x)
 vt = np.zeros(samples) # Array para salvar a velocidade angular (v_{\theta})
 r = [] # Lista para salvar a pontuação
-env = gym.make("LunarLander-v2", render_mode="human") # Criando o ambiente LunarLander e renderização, onde você pode alterar 'human' para 'rgb_array' ou 'ansi' dependendo do modo que deseja usar
-#env = gym.make("LunarLander-v2", render_mode="human", enable_wind=True, wind_power=2.0, gravity=-11, turbulence_power=1)
-env.action_space.seed() # Define a semente (seed) para a geração de números aleatórios no espaço de ações do ambiente
+#env = gym.make("LunarLander-v2", render_mode="human") # Criando o ambiente LunarLander e renderização, onde você pode alterar 'human' para 'rgb_array' ou 'ansi' dependendo do modo que deseja usar
+env = gym.make("LunarLander-v2", render_mode="human", enable_wind=True, wind_power=3, gravity=-11, turbulence_power=1.15)
+#env = gym.make("LunarLander-v2", render_mode="human", gravity=-1.63)
+#env.action_space.seed() # Define a semente (seed) para a geração de números aleatórios no espaço de ações do ambiente
 observation, info = env.reset(seed=47) # Reinicia o ambiente de simulação (LunarLander)
 action = 0 # Seta a primeira ação
 cont = 0 # Contador
@@ -217,10 +218,11 @@ for i in range(0, 2):
     soma[i+1] = sum(r[g[i]:g[i+1]])
     if sum(r[g[i]:g[i+1]])>=200: # Verifica quais episódios possuem +200 pontos
         d+=1
-plt.plot(soma, 'ko',  label='Episódio')
+plt.plot(np.arange(1, 4), soma, 'ko',  label='Episódio')
 print("Número de pousos com +200 pontos: ", d)
 print("Média de pontuação: ", np.mean(soma))
-plt.plot(np.ones(3)*200, 'r',  linewidth=2.5, label='+200 pontos')
+print("Número de etapas: ", len(r))
+plt.plot(np.arange(1, 4), np.ones(3)*200, 'r',  linewidth=2.5, label='+200 pontos')
 plt.ylabel('Pontuação')
 plt.xlabel('Episódios')
 plt.title('Validação - GPC')
