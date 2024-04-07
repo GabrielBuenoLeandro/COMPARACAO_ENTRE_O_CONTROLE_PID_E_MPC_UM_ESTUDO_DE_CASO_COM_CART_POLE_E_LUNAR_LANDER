@@ -21,7 +21,7 @@ u = np.zeros(samples) # Array para salvar a ação/entrada do pêndulo
 va = np.zeros(samples) # Array para salvar a velocidade angular do pêndulo
 inicio = time.time() # Início da contagem do tempo 
 for _ in range(samples): # Percorre todos os episódios
-    env.render() # Renderiza o ambiente
+    #env.render() # Renderiza o ambiente
     observation, reward, done, info, aux = env.step(force) # Aplica a entrada ao sistema
     u[_] = force # Salva a entrada no vetor u
     y[_] = observation[2] # Salva o ângulo no vetor y
