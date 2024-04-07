@@ -1,25 +1,27 @@
+# Autor: Gabriel Bueno Leandro
+# Título: Aplicação do PD
+
+# Importando as bibliotecas
 import gym
 from matplotlib import pyplot as plt
 import numpy as np
 from time import sleep
 import time
-env = gym.make("CartPole-v1",
-                render_mode='human')
-observation = env.reset()
-samples = 500
-Kp = 0.5
-Ki = 0.25
-Kd = 0.125
 
-force = 0
-integral = 0
-y = np.zeros(samples)
-u = np.zeros(samples)
-va = np.zeros(samples)
-inicio = time.time()
-for _ in range(samples):
-    env.render()
-
+env = gym.make("CartPole-v1", render_mode='human') # Importando o ambiente CartPole
+observation = env.reset() # Reinicia o ambiente de simulação 
+samples = 500 # Selecione o número de amostras
+Kp = 0.5 # Termo Proporcional
+Ki = 0.25 # Termo Integral
+Kd = 0.125 # Termo Derivativo
+force = 0 # Entrada do sistema, aqui definida como força
+integral = 0 # O termo que receberá o somatório do termo integral
+y = np.zeros(samples) # Array para salvar o ângulo do pêndulo
+u = np.zeros(samples) # Array para salvar a ação/entrada do pêndulo
+va = np.zeros(samples) # Array para salvar a velocidade angular do pêndulo
+inicio = time.time() # Início da contagem do tempo 
+for _ in range(samples): # Percorre todos os episódios
+    env.render() 
     observation, reward, done, info, aux = env.step(force)
     u[_] = force
     y[_] = observation[2]
