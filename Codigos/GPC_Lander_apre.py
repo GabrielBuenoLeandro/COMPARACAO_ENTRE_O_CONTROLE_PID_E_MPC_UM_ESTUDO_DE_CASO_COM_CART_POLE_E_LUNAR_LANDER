@@ -27,9 +27,9 @@ def matriz(a1, a2, b1, hp):
         hp (int): Horizonte de predição, pode ir até 7 passos a frente
 
     Returns:
-       ta (ndarray of floats): matriz tau_a
-       sa (ndarray of floats): matriz s_a
-       tb (ndarray of floats): matriz tau_b
+       ndarray of floats: matriz tau_a
+       ndarray of floats: matriz s_a
+       ndarray of floats: matriz tau_b
     """
     if hp>7:
         hp = 7
@@ -105,7 +105,7 @@ def MPC(px, py, k, at, v, params, pe):
         pe (ndarray): Vetor que checa se os pés da sonda está em contato com o solo lunar
 
     Returns:
-        action (int): Ação que a sonda deve tomar (saída do controlador)
+        int: Ação que a sonda deve tomar (saída do controlador)
     """
     ypx = np.array([px[k], px[k-1]]).reshape(-1,1) # Coleta de p_x(k) e p_x(k-1)
     ypy = np.array([py[k], py[k-1]]).reshape(-1,1) # Coleta de p_y(k) e p_y(k-1)
@@ -173,8 +173,8 @@ v = np.zeros(samples) # Array para salvar a velocidade linear em y (v_y)
 vx= np.zeros(samples) # Array para salvar a velocidade linear em x (v_x)
 vt = np.zeros(samples) # Array para salvar a velocidade angular (v_{\theta})
 r = [] # Lista para salvar a pontuação
-#env = gym.make("LunarLander-v2", render_mode="human") # Criando o ambiente LunarLander e renderização, onde você pode alterar 'human' para 'rgb_array' ou 'ansi' dependendo do modo que deseja usar
-env = gym.make("LunarLander-v2", render_mode="human", enable_wind=True, wind_power=3.5, gravity=-11.5, turbulence_power=1)
+env = gym.make("LunarLander-v2", render_mode="human") # Criando o ambiente LunarLander e renderização, onde você pode alterar 'human' para 'rgb_array' ou 'ansi' dependendo do modo que deseja usar
+#env = gym.make("LunarLander-v2", render_mode="human", enable_wind=True, wind_power=3.5, gravity=-11.5, turbulence_power=1)
 #env = gym.make("LunarLander-v2", render_mode="human", gravity=-1.63)
 #env.action_space.seed() # Define a semente (seed) para a geração de números aleatórios no espaço de ações do ambiente
 observation, info = env.reset(seed=47) # Reinicia o ambiente de simulação (LunarLander)

@@ -9,8 +9,8 @@ import time
 import matplotlib.pyplot as plt
 # Definindo o ambiente
 tdir = tempfile.mkdtemp()
-#env = gym.make("LunarLander-v2", render_mode="human")
-env = gym.make("LunarLander-v2", render_mode="human", enable_wind=True, wind_power=3.5, gravity=-11.5, turbulence_power=1)
+env = gym.make("LunarLander-v2", render_mode="human")
+#env = gym.make("LunarLander-v2", render_mode="human", enable_wind=True, wind_power=3.5, gravity=-11.5, turbulence_power=1)
 #env = gym.make("LunarLander-v2", render_mode="human", gravity=-1.63)
 p = []
 
@@ -21,7 +21,7 @@ def pid(state):
         state (ndarray): Estado da sonda lunar adivindo do espaço de observação do Lunar Lander
 
     Returns:
-        action(int): Saída do controlador PID
+        int: Saída do controlador PID
     """
     # Parâmetros do PID
     kp_alt = 9.0565  # Proporcional da altitude
