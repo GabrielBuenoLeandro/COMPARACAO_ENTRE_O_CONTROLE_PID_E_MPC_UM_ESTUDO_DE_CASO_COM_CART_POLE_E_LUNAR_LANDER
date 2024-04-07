@@ -4,16 +4,16 @@
 
  # CartPole - Implementação do PID
  
-
+<p align="justify">
   O primeiro passo é modelar o sistema de pêndulo invertido (CartPole), a ideia é encontrar como a entrada é dinamicamente transferida para a saída através da função de transferência do sistema, que para o sistema pêndulo invertido é a força aplicada na lateral ($u$) e a saída o ângulo do pêndulo ($\theta$):
-
+</p>
 
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/5b909e59-ac82-4594-8147-c86c43f08cd0" alt="Figura1">
 </p>
-
+<p align="justify">
  Para deduzir as equações de movimento do sistema, será considerado o diagrama de corpo livre do sistema de pêndulo invertido:
-
+</p>
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/b090f698-71ce-40e3-9e8a-f6f44d95741d" alt="Figura2">
 </p>
@@ -24,25 +24,33 @@ $$
  M\frac{d^2x}{dt} = u - H.
 $$
 
+
  A representação do deslocamento do centro de massa do pêndulo ($x_c$) é ilustrado na Figura abaixo:
+
 
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/afe4a17a-8c2e-4b06-9a35-263bd3fc4660" alt="Figura3">
 </p>
 
+<p align="justify">
  Na Figura acima, observa-se que a coordenada $x_c$ do carrinho é obtida pela soma do deslocamento horizontal do centro de massa da coordenada que se encontra, representado como $x_c=x + \ell sin\theta$, e tomando a segunda derivada de $x_c$ e efetuando o balanço das forças horizontais, conforme a equação abaixo:
+</p>
 
 $$
 m\frac{d^2}{dt}(x+\ell sen\theta) = H,
 $$
 
+
 o $y_c$ pode ser encontrado subtraindo $\ell sen\theta$ de $\ell$, agora basta tomar a sua segunda derivada e igual a resultante de forças verticais ($mg-V$):
+
 
 $$
 m\frac{d^2}{dt}(\ell-\ell cos\theta) = mg - V,
 $$
 
+
 no entanto, como $\ell$ é uma constante e sua segunda derivada é zero, a equação acima pode ser reformulada da seguinte maneira:
+
 
 $$
 m\frac{d^2}{dt}(-\ell cos\theta) = mg - V \Longrightarrow  m\frac{d^2}{dt}(\ell cos\theta) = V-mg.
@@ -50,19 +58,26 @@ $$
 
 Próximo passo é encontrar o deslocamento rotacional:
 
+
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/97aab695-b4b8-4642-b335-dacb25efa05d" alt="Figura4">
 </p>
 
+<p align="justify">
 o  movimento rotacional da haste do pêndulo ao redor de seu centro de gravidade é descrito pela equação:
+</p>
 
 $$
 I\frac{d^2\theta}{dt} = V\ell sen\theta - H\ell cos\theta,
 $$
 
+<p align="justify">
  onde I é o momento de inércia de inércia da haste em relação ao centro de gravidade.
+<\p>
 
+<p align="justify">
 As Equações do  movimento horizontal , balanço das forças horizontais e forças verticais  descrevem o comportamento dinâmico do pêndulo invertido, mas tais equações possuem funções trigonométricas, como seno e cosseno, logo para poder linearizá-las, será adotado um valor muito pequeno de $\theta$, pois a ideia é manter o sistema estável, o que permite dizer que: $cos\theta \approx 1$ e $sen\theta \approx \theta$, logo:
+</p>
 
 $$
 I\frac{d^2\theta}{dt} = V\ell\theta - H\ell,
@@ -80,7 +95,9 @@ $$
  m\frac{d^2}{dt}(\ell) = V - mg\Longrightarrow  0 = V-mg.
 $$
 
+<p align="justify">
 note que $H$ e $V$ são desconhecidos, mas a priori não se trata de um problema, pois pela equação penúltima é possível expressar $H$ e na última equação tem-se que $V=mg$, levando ao próximo passo, substituir esses valores na primeira equação, obtem:
+</p>
 
 $$
 I\frac{d^2\theta}{dt} = mg\theta\ell-\frac{d^2}{dt} (x+\ell\theta)\ell,
@@ -104,7 +121,9 @@ $$
   M\frac{d^2x}{dt^2} + m\frac{d^2}{dt^2} (x + \ell\theta) = u,
  $$
 
+<p align="justify">
  agora será necessário obter a função de transferência do sistema, logo naturalmente, é necessário passar a Equação $(I + m\ell^2)\frac{d^2\theta}{dt^2} + m\ell\frac{d^2x}{dt^2} - mg\ell\theta = 0$ e $M\frac{d^2x}{dt^2} + m\frac{d^2}{dt^2} (x + \ell\theta) = u$ para o domínio de Laplace com condições iniciais nulas, sendo como segue:
+</p>
 
  $$
  (I + m\ell^2)s^2\Theta(s) + m\ell s^2 X(s) - mg\ell\Theta(s) = 0,
@@ -139,7 +158,9 @@ $$
 \frac{\Theta (s)}{U(s)} = \frac{m\ell}{(m^2\ell^2-(M+m)(I+m\ell^2))s^2+(M+m)mg\ell}.
 $$
 
+<p align="justify">
 Para o projeto do controle PID será adotado um ambiente Cartpole do Gymnasium, que se trata de um pêndulo invertido, como equacionado acima, onde as entradas possíveis são:
+</p>
 
 | Número | Ação                              |
 |:------:|:---------------------------------:|
@@ -155,15 +176,21 @@ Sendo a saída:
 |   2    | Ângulo do polo          | ~ -0,418 rad (-24°)    | ~ 0,418 rad (24°)      |
 |   3    | Velocidade angular do polo | -Inf                | Inf                     |
 
+<p align="justify">
 O equacionamento já está pronto, sendo necessário agora saber quais são os valores de massa, comprimento e momento de inércia, bem, na verdade, não precisa saber o valor exato de cada uma dessas grandezas, pode-se aproximá-las com simulação e um pouco de física. Então será aplicado uma força à direita e traçar como o sistema se comporta.  Como o ambiente fornece os valores de velocidade e velocidade angular, é possível plotá-los para encontrar alguns valores para as variáveis supracitadas:
+</p>
 
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/7ff82374-44fe-4b29-8b5b-c13c78005d68" alt="Grafico1">
 </p>
 
+<p align="justify">
 Não se pode realmente obter muitas informações úteis da posição ou ângulo, mas o fato de que a velocidade e a velocidade angular são retas são muito importantes. Isso sugere que a simulação da carreta é fisicamente precisa, pois uma força constante está produzindo uma aceleração constante tanto linearmente quanto angularmente.
+</p>
 
+<p align="justify">
 Agora será trabalhado as acelerações lineares e angulares apenas encontrando a inclinação dos seus respectivos gráficos. Para tal, será empregado linregress do pacote Scipy, os resultados encontrados são:
+</p>
 
 $$
 \ddot{x} = 0,19524\frac{m}{s^2},
@@ -173,7 +200,9 @@ $$
  \ddot{\theta} =-0,29775\frac{rad}{s^2},
 $$
 
+<p align="justify">
 um fato interessante, é que esses valores permanecem constantes independentemente do número de simulações, o que leva a crer que o ambiente CartPole possui um embasamento físico por trás.
+</p>
 
 Para continuar, considere a figura abaixo:
 
@@ -193,7 +222,9 @@ $$
 (I + m\ell^2)\frac{d^2\theta}{dt^2}   = - m\ell\frac{d^2x}{dt^2},
 $$
 
+<p align="justify">
 onde $\frac{d^2\theta}{dt^2} = -0,29775 \frac{rad}{s^2}$ e $\frac{d^2x}{dt^2}  = 0,19524 \frac{m}{s^2}$, o valor de $m$ adotado será  $0,5 kg$, logo:
+</p>
 
 $$
 I = \frac{0,0976\ell - 0,1488\ell^2}{0,29775},
@@ -232,21 +263,29 @@ $$
 \frac{\Theta (s)}{U(s)} = \frac{0,325}{-1,0914s^2 + 17,9101}.
 $$
 
+<p align="justify">
 A função de transferência faz sentido a priori, pois uma força para a direita deve resultar em um ângulo $\theta$ negativo. No entanto, é necessário validar a função de transferência com o ambiente CartPole do Gymnasium. Portanto, será aplicada a mesma entrada tanto no ambiente CartPole quanto na função de transferência, considerando apenas um episódio (até o sistema perder a estabilidade). A cada episódio, o ambiente é reiniciado. Para adequar a entrada, será empregada a seguinte formulação: no CartPole, a entrada $1$ significa ir para a direita, enquanto $0$ é o comando para ir à esquerda. Para a função de transferência, o movimento para a direita também será representado por $1$, porém, para a esquerda, será representado por $-1$. Assim, tem-se:
+</p>
 
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/6560787a-0ec9-426c-848e-dc34d0665c73" alt="entval">
 </p>
 
+<p align="justify">
 A partir da figura acima, nota-se que a FT não conseguiu representar o sistema adequadamente. A FT responde de forma muito lenta aos estímulos de entrada. Portanto, é necessário ajustá-la para obter respostas mais abruptas. Ao observar os passos anteriores, a aceleração considerada levou em conta $8$ amostras, com um intervalo de $1s$ entre amostras, para realmente encontrar a inclinação. No entanto, devido à natureza computacional, o tempo é significativamente menor. Assim, as acelerações em $x$ e angular serão multiplicadas por um fator ($k$) até que a F.T. alcance um desempenho satisfatório. Dessa forma, será retornado a equação da inércia:
+</p>
 
 $$
 (I + m\ell^2)\frac{d^2\theta}{dt^2}\cancel{k}   = - m\ell\frac{d^2x}{dt^2} \cancel{k},
 $$
 
+<p align="justify">
 logo, o momento de inércia é independente do valor de $(k)$. Portanto, os valores de $(I)$ e $(\ell)$ permanecem inalterados, sendo $(1,8537\times 10^{-3} N\cdot m)$ e $(0,65 m)$, respectivamente.
+</p>
 
+<p align="justify">
 Em teoria, à medida que a aceleração aumenta e a força permanece constante, a massa total deveria diminuir. Em termos matemáticos, isso é evidenciado pela Segunda Lei de Newton, onde $m$ é mantido constante em $0,5 m$, resultando em uma diminuição de $M$ (massa total), conforme descrito a seguir:
+</p>
 
 $$
  M = \frac{u - k m\ell\ddot{\theta}-k m\ddot{x}}{k\ddot{x}},
@@ -258,26 +297,33 @@ $$
    0 < \frac{u - k m\ell\ddot{\theta}-k m\ddot{x}}{k\ddot{x}} \Rightarrow 0 < 1 + k\cdot 0,5\cdot 0,65\cdot 0,29775-k\cdot 0,5\cdot 0,19524,
 $$
 
+<p align="justify">
 ao resolver a inequação acima, chega-se a $k<1174,74$, logo, para determinar o valor de ($k$), ele será variado de 1 a 1174, considerando 1000 etapas (amostras). Um conjunto de etapas compõe os episódios, sendo que cada episódio é concluído quando o ângulo do polo não está mais na faixa de $( \pm 12^\circ) (-0,2095 a 0,2095)$. Sendo como segue:
+</p>
 
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/61e0f5b0-afe8-43e4-8a04-7ea39f6c2444" alt="episodio">
 </p>
 
+<p align="justify">
  totalizando, são realizados 47 episódios completos. Portanto, para cada valor de $(k)$, a simulação é repetida 47 vezes, e o somatório do Erro Quadrático Médio $(RMSE)$ é calculado. Em seguida, é determinada a média para obter o $(RMSE)$ médio associado a $(k)$, da seguinte forma:
-
+</p>
 
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/c36d1c00-9272-4884-ad29-78a15c37927f" alt="eq">
 </p>
 
+<p align="justify">
 onde $\hat{y}_k(i)$ representa a simulação livre para cada episódio (Função de Transferência) e ${y}_k$ é o sinal medido para cada episódio, com a média ($\bar{y}_k$) sendo calculada na janela de identificação. Graficamente:
+</p>
 
 <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2a6e6aff-3a28-43ba-811b-f448cb144b8e" alt="RMSE1">
 </p>
 
+<p align="justify">
  ao utilizar o comando min do Python, obtém-se um valor de $\overline{RMSE}$ igual a $0,66019$ para $k=165$. Ao tomar $k=165$, obtém-se uma FT que responde melhor aos estímulos da entrada. A nova massa a ser:
+</p>
 
 $$
     M = \frac{1 + 165\cdot0,5\cdot0,65\cdot0,29775-165\cdot0,5\cdot0,19524}{165\cdot0,19524} = 0,02668kg,
@@ -295,7 +341,9 @@ $$
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/9545890c-e1b7-403a-afad-e169c004f0a3" alt="step2">
 </p>
 
+<p align="justify">
 Uma abordagem adicional envolve a identificação das raízes do polinômio no denominador da Função de Transferência, que são 16,3391 e -16,3391. É crucial notar que uma destas raízes está localizada no semiplano direito do eixo real, indicando a presença de um sistema instável.
+</p>
 
 Como exemplo do desempenho da FT, uma entrada será aplicada ao sistema para analisar como ele se comporta:
 
@@ -309,17 +357,23 @@ Logo, pode-se representar o diagrama de blocos em malha aberta do sistema:
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/a55dcd4c-8a33-4ef4-b077-599bda8f5321" alt="DBFT">
 </p>
 
+<p align="justify">
 Onde $U(s)$ representa a direção da força aplicada (com 1 indicando para a direita e -1 para a esquerda), enquanto $\Theta$ refere-se ao ângulo do pêndulo.
+</p>
 
 ## Sintonia do PID
 
+<p align="justify">
 Para estabilizar o sistema, será introduzido um controlador PID (Proporcional, Integral e Derivativo). Um controlador PID  é composto por três elementos ajustáveis, os quais são adaptados com base na discrepância entre um ponto de ajuste definido $(r(t))$ e uma variável de processo medida $(y_m(t))$:
+</p>
 
 $$
  e(t) = r(t) - y_m(t).
 $$
 
+<p align="justify">
 A saída de um controlador PID $(u(t))$ é determinada pela soma dos termos Proporcional, Integral e Derivativo, onde $K_P$, $K_I$ e $K_D$ são constantes ajustáveis que podem ser modificadas para otimizar o desempenho do controlador:
+</p>
 
 $$
  g_c(t) = K_P \cdot e(t) + K_I\cdot \int_0^t e(t) dt + K_D \cdot \frac{de(t)}{dt},
@@ -337,26 +391,34 @@ $$
  g(t) = K_C \cdot e(t) + \frac{K_C}{\tau_I}\cdot \int_0^t e(t) dt + K_C\cdot \tau_I \cdot \frac{de(t)}{dt},
 $$
 
+<p align="justify">
 observe que $(K_P = K_C)$, $(K_I = \frac{K_C}{\tau_I})$ e $(K_D = K_C \cdot \tau_D)$. Portanto, no domínio de Laplace, a expressão para um controlador PID pode ser representada da seguinte maneira:
+</p>
 
 $$
  G_c(s)  = \frac{K_C \cdot \tau_D\cdot s^2 + K_C \cdot s + \frac{K_C}{\tau_I}}{s}.
 $$
 
+<p align="justify">
 Será implementada uma realimentação negativa no sistema representado na figura abaixo, uma vez que um sistema de malha fechada com PID é uma abordagem comum em controle de sistemas. Neste arranjo, o controlador ajusta dinamicamente a saída, respondendo à diferença entre a saída desejada e a saída real:
+</p>
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/c6d4666b-d6d4-47aa-8e88-3ce846358f55" alt="PIDneg">
 </p>
 
-
+<p align="justify">
 Na determinação dos valores de $K_P$, $K_I$ e $K_D$, o pacote GEKKO será empregado. Este pacote, uma ferramenta em Python dedicada ao aprendizado de máquina e otimização de inteiros mistos, bem como a equações algébricas diferenciais, utilizará a equação do PID. Nessa equação, $\tau_i$ é igual a 2 e $\tau_d$ é igual a 0,25. Posteriormente, o pacote fornecerá o valor de $K_C$. A partir desse ponto, os parâmetros podem ser facilmente determinados. O ponto em questão será considerado como $\theta=0$ $(r(t))$. Dado que o processo envolve minimização, a metodologia a ser adotada é a seguinte:
+</p>
 
 $$
  e(t) = r(t) - y_m(t),
 $$
 
+<p align="justify">
 o GEKKO, ao buscar a minimização do erro, simplifica o processo, necessitando apenas da introdução da Função de Transferência e da aplicação do impulso à entrada. Os valores estimados estão vinculados ao $K_C$ determinado, o qual é 0,5, os valores de $\tau_i$ e $\tau_d$ foram previamente estabelecidos como 2 e 0,25, respectivamente:
+</p>
+
 
 | Termos       | Relação com $K_C$ | Valor |
 |--------------|-------------------|-------|
@@ -370,9 +432,13 @@ o GEKKO, ao buscar a minimização do erro, simplifica o processo, necessitando 
  g(t) = 0,5 \cdot e(t) + 0,25\cdot \int_0^t e(t) dt + 0,125 \cdot \frac{de(t)}{dt}.
  $$
 
+<p align="justify">
  Ainda é necessário determinar o valor do erro, sua integral e derivada no contexto do controle de um pêndulo invertido (cartpole). Dado que o setpoint almejado (representado por $( r(t) )$ ) é manter o pêndulo em pé, idealmente, esse setpoint é zero. Assim, o erro torna-se o próprio ângulo do cartpole, enquanto a derivada é a velocidade angular, ambas informações fornecidas pela biblioteca Gymnasium.
+</p>
 
+<p align="justify">
  Além disso, é crucial estimar a integral do erro. Fisicamente, a integral pode ser interpretada como a soma acumulativa da posição ao longo do tempo. Este componente integral no controle é valioso para corrigir o erro acumulado ao longo do tempo, contribuindo para a estabilidade do sistema e a redução de desvios significativos. Matematicamente a integral é dada por:
+</p>
 
  $$
  \int_0^t e(t) dt = \sum_{i=0}^n \theta_i,
@@ -380,21 +446,29 @@ o GEKKO, ao buscar a minimização do erro, simplifica o processo, necessitando 
 
 aqui, $\theta_i$ representa o ângulo do pêndulo invertido, e $n$ é o número atual de episódio.
 
+<p align="justify">
 Portanto, ao considerar o ângulo, a velocidade angular e a integral do erro, é possível formar um conjunto abrangente de informações para implementa o PID no ambiente do pêndulo invertido, da seguinte maneira:
+</p>
 
 $$
  u_n = 0,5 \cdot \theta_n + 0,25\cdot \sum_{i=0}^n \theta_i + 0,125 \cdot \omega_n.
 $$
 
+<p align="justify">
 antes de avançar com as tarefas, é pertinente realizar uma análise gráfica da saída do GEKKO, uma vez que essa visualização servirá como alicerce para as etapas subsequentes deste trabalho:
+</p>
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/d8752281-a41c-414c-af0d-0945d3ddab08" alt="pid">
 </p>
 
+<p align="justify">
 observe que a saída $(u)$ assume valores contínuos, mas o ambiente cartpole utilizado é discreto (1 para força à direita e 0 para força à esquerda). Para resolver esse problema, será implementada a seguinte estratégia: se $(u > 0)$, será aplicada uma força à direita; caso contrário, será aplicada uma força à esquerda.
+</p>
 
+<p align="justify">
 A etapa final consiste em executar a rotina e avaliar o desempenho do sistema do pêndulo invertido. Em resumo, isso proporcionará uma visão direta da sua estabilidade:
+</p>
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/d2f5f1ba-7bbc-4c34-86e6-9aebcadd50c5" alt="ctpidio">
@@ -408,9 +482,13 @@ O PID se mostrou capaz de controlar o CartPole, ou seja, missão concluída por 
 
 # CartPole - Implementação do GPC
 
+<p align="justify">
 Controle Preditivo Modelado (MPC) é uma estratégia que se baseia na previsão do comportamento futuro por meio de um modelo do sistema. Neste contexto, foi adotado a abordagem do Controle Preditivo Generalizado (GPC), que utiliza modelo paramétricos para prever o comportamento futuro do sistema. A obtenção dos modelos será via técnicas de identificação de sistemas, será usado o pacote SysIdentPy.
+</p>
 
+<p align="justify">
 A trajetória de referência ($w$) representa o comportamento do sinal desejado para a saída futura, sendo o primeiro passo na aplicação do Controle Preditivo Generalizado ($GPC$). No caso do pêndulo invertido, ela será 0, pois a ideia é manter o pêndulo estável, o que implica em minimizar o $\theta$, de maneira:
+</p>
 
 $$
   w = [0, 0, 0, \cdots, n_{ep}],
@@ -418,7 +496,9 @@ $$
 
 considerando que $n_{ep}$ representa o número de episódios.
 
+<p align="justify">
 O próximo passo consiste em estabelecer uma função de custo, considerando as recompensas do ambiente CartPole . Nesse contexto, uma recompensa é atribuída por cada passo dado, abrangendo inclusive a etapa de encerramento, uma vez que o objetivo é manter o poste ereto pelo maior tempo possível. O limite estabelecido para as recompensas é de 500. Logo, o esforço de controle não será penalizado, apenas o erro em relação à predição da saída e à referência:
+</p>
 
 $$
 J(k) =\sqrt{(\sum_{j=d}^{h_p} [\hat{y}(j+k|k) - w(j+k)])^2},
@@ -426,7 +506,9 @@ $$
 
  a função de custo utilizada enfatiza a capacidade do parâmetro $\theta$ de mudar de sinal, possibilitando sua proximidade ao limiar de 0 radianos.
 
+<p align="justify">
 No entanto, ainda é necessário identificar um modelo capaz de prever a saída ($\hat{y}$) em função de $\Delta u$, seguindo a metodologia do GPC. Nesse contexto, a saída é representada por 1 para movimento à direita e -1 para movimento à esquerda, a fim de manter consistência com a codificação utilizada na Função de Transferência.  Isso resulta em $\Delta u$ assumindo três valores inteiros, o que se justifica por:
+</p>
 
 $$
     \begin{matrix}
@@ -447,23 +529,31 @@ a ferramenta adotada para minimizar essa função custo é o método de pesquisa
 
 ## Algoritmo Hill Climbing (subida da encosta)
 
+<p align="justify">
 O Método de Subida de Encosta é um algoritmo clássico para otimização, mostrando-se altamente eficaz na identificação de máximos ou mínimos locais. No processo desse algoritmo, inicia-se a partir de um ponto aleatório X e realiza-se sua avaliação. Em seguida, ocorre o deslocamento do ponto original X para um novo ponto vizinho, designado como X'. Se o novo ponto X' representar uma solução superior à do ponto anterior, permanece-se nele e o processo é repetido. Contudo, se for inferior, retorna-se ao ponto inicial X e tenta-se explorar outro vizinho. Uma das principais "restrições" do Método de Subida de Encosta é sua incapacidade de aceitar valores negativos; em outras palavras, ele sempre busca pontos vizinhos no espaço de solução que possam aprimorar seu estado atual. Caso não encontre tal aprimoramento, a execução é interrompida.
+</p>
 
 ## Estimação do Modelo ARX
 
+<p align="justify">
 Agora será realizado o processo de identificação do modelo ARX do sistema, utilizando um sinal PRBS para excitar o CartPole. O PRBS assume apenas dois valores possíveis, $+V$ e $-V$. Além de ser fácil de implementar, é replicável, o que o torna bastante popular na identificação de sistemas. Como exemplo, considere o sinal $PRBS = [1, 1, 0, 1]$, representado graficamente:
+</p>
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/79111662-b3f3-4eae-bfef-21f4fff83387" alt="PRBS">
 </p>
 
+<p align="justify">
 o menor intervalo no qual o nível do sinal é mantido é denominado $T_b$. Seu período pode ser determinado por $T = NT_b$, sendo $N$ um número ímpar, de modo que $T_b = T_s$ conforme representado na figura acima. Um resultado heurístico para a escolha de $T_b$ é:
+</p>
 
 $$
  \text{Lineares} \Leftarrow \frac{\tau_{min}}{10} \leq T_b \leq \frac{\tau_{min}}{3} \Rightarrow \text{Não lineares},
 $$
 
+<p align="justify">
  no trecho, onde $\tau_{min}$ representa a menor constante de tempo de interesse, sugere-se, de acordo com Nelles (2001), que, para sistemas lineares, $T_b$ seja escolhido próximo ao valor do intervalo de amostragem. Para sistemas não lineares, por outro lado, recomenda-se que $T_b$ seja aproximadamente igual a $\tau_{max}$, onde $\tau_{max}$ é a constante de tempo do sistema.
+</p>
 
  Trabalhando com um modelo ARX, será considerado o tempo de amostragem $T_b$. Logo, são obtidos:
 
@@ -471,11 +561,17 @@ $$
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/ca69ce64-4467-4c47-84c1-ba96d0070ab3" alt="teste">
 </p>
 
+<p align="justify">
 é importante observar que o ambiente CartPole reinicia automaticamente sempre que atinge um desvio de aproximadamente $\pm 12^\circ$ (equivalente a $\pm 0,209$ radianos). Essa característica representa um desafio, pois resulta em episódios muito curtos, dificultando a estimativa do modelo ARX. Inicialmente, uma abordagem para solucionar esse problema poderia envolver a redução do intervalo de tempo $T_b$. Isso implicaria em uma diminuição no tempo de amostragem do sistema, permitindo que as ações sejam executadas em períodos mais curtos e, assim, estendendo a duração dos episódios.
+</p>
 
+<p align="justify">
 No entanto, é crucial observar que essa abordagem não é viável no contexto do ambiente CartPole no Gymnasium. Isso se deve ao fato de que a taxa de amostragem no ambiente CartPole não é diretamente ajustável. O ambiente CartPole foi projetado para simular a física real associada ao problema de um pêndulo invertido sobre um carro, e a taxa de amostragem é intrínseca a essa simulação. Portanto, modificar diretamente a taxa de amostragem do ambiente não é uma opção disponível. Esse aspecto limita a capacidade de ajuste do tempo de amostragem para atender às necessidades específicas do modelo ARX no contexto do problema CartPole.
+</p>
 
+<p align="justify">
 Para transpor esse desafio, o ambiente passará por dois milhões de iterações, e o episódio mais extenso (com o maior número de passos/amostras) será selecionado para a estimativa do modelo ARX. O episódio mais longo identificado consiste em 183 amostras:
+</p>
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/74ee5a2d-90d5-4d53-92ef-c3fe286ce211" alt="mep">
@@ -732,7 +828,9 @@ $$
 \hat{y} = H\hat{u} + f_u.
 $$
 
+<p align="justify">
 Agora será considerado um raciocínio parecido para predizer a saída em termos de $\Delta U$, para isso a saída no instante $k-1$ será subtraída da saída $y(k)$:
+</p>
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/5dc0cd98-28ae-499e-9feb-f44f7c8d59f6" alt="du">
@@ -752,7 +850,9 @@ $$
 
  a ordem do modelo passa a ser $n+1$, devido a inclusão implicíta de um integrador e tempo discreto.
 
+<p align="justify">
 O próximo passo é determinar a equação de predição em termos de $\Delta u$, processo semelhante a equação de predição em termos de $u$, da seguinte maneira:
+</p>
 
 $$
  \begin{matrix}
@@ -799,7 +899,9 @@ $$
     y(k) - 3\cdot y(k-1) + 2,99367\cdot y(k-2)  - \color{red}{0,99367y(k-3)}\color{black} = - 0,00583\cdot \Delta u(k-1) ,
    $$
 
+<p align="justify">
  em vermelho vemos que aumenta um grau o modelo. Agora se torna possível estimar as matrizes $\tau_{a^{'}}^{-1} $, $S_{a^{'}}$, $\tau_b$ e $S_b$. Começando por $\tau_{a^{'}}^{-1}$, considerando $N=4$:
+</p>
 
  $$
  \tau_{a^{'}}^{-1} =
@@ -837,7 +939,9 @@ S_{a^{'}} =
 
  por fim, tem-se $S_b$, que é uma matriz nula. 
 
+<p align="justify">
 Para estimar a melhor resposta em termos de $\Delta u$, será usado o método product da biblioteca itertools do Python, esse método trabalha com for's alinhados, permitindo estimar todas as possibilidades possíveis. A matriz com as possíveis entradas no formato $N^{H_p} x H_p$, sendo $N$ o número de possibilidades em termos de $\Delta u$, sendo um valor fixo, pois:
+</p>
 
 $$
 \begin{matrix}
@@ -850,7 +954,9 @@ $$
 
 logo $\Delta u$ assume três valores possíveis (2, 0, -2), e $H_p$ se refere ao horizonte de previsão máximo, sendo deslizante conforme se tem andamento no processo.
 
+<p align="justify">
 Mas a $Matriz$ adota todas a possibilidades, surgindo assim um empecilho, pois o ambiente CartPole opera com duas respostas possíveis, sendo -1 ou 1, logo se aplicar as possibilidades de acordo com a $Matriz$, pode gerar entrada como 9, 7, 5, 3, 1, -1, -3, -5 e -9, logo foi desenvolvido um método que retorna todas as possibilidades possíveis a depender da resposta anterior ($u_{k-1}$). 
+</p>
 
 A metodologia utilizada foi aplicar todas as variações de $\Delta u$ possíveis na expressão:
 
@@ -858,7 +964,9 @@ $$
 \hat{y} = G \Delta \hat{u} + f,
 $$
 
+<p align="justify">
 e utilizando a função de custo, foi estimado a matriz $\Delta u$ da forma $H_px1$ que minimiza-se a função de custo, sempre empregando o elemento $1x1$ de $\Delta u$ no instante $k$, na nova iteração o horizonte de desloca em 1 (horizonte deslizante), mas a metodologia segue a mesma. 
+</p>
 
 O MPC empregado conseguiu controlar o CartPole, conforme o gráfico:
 
@@ -868,31 +976,45 @@ O MPC empregado conseguiu controlar o CartPole, conforme o gráfico:
 
 # LunarLander - Implementação do PID
 
+<p align="justify">
 O controlador PID foi retirado do repositório LunarLander\_OpenAIGym com melhorias significativas. A ideia de modelar o sistema por meio de um modelo caixa branca não foi bem-sucedida, uma vez que se trata de um sistema MIMO, o que eleva o grau de complexidade. Seria necessário uma função de transferência para cada entrada e saída, tornando complicada a determinação dos parâmetros intrínsecos ao sistema. Assim, este repositório apresenta uma abordagem mais empírica, semelhante ao que ocorre no meio industrial, onde o PID é amplamente utilizado como controlador principal.
+</p>
 
+<p align="justify">
 A plataforma de aterrissagem permanece fixa nas coordenadas (0,0), sendo permitido a possibilidade de pouso fora da área designada. Além disso, é importante ressaltar que não há restrições quanto ao combustível, sendo considerado infinito para a execução da tarefa.
+</p>
 
+<p align="justify">
 O primeiro passo é determinar as variáveis de processo a serem controladas, sendo o \textit{boosters} do motor principal e secundário, usados respectivamente para controlar a altitude e o ângulo da nave.
+</p>
 
+<p align="justify">
 A sonda ajusta-se com base nos sensores para minimizar erros ao longo do tempo, utilizando controle proporcional-derivativo (PD). Altitude, ângulo e velocidades são conhecidos em cada etapa. O erro é calculado como a diferença entre os setpoints e as medições atuais, permitindo controle proporcional. As velocidades são usadas para o controle derivativo. O passo subsequente é definir os setpoints para a implementação do controle PID:
+</p>
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2cd4e0a7-409f-4f42-b271-343fb2e1a1dd" alt="stll">
 </p>
 
+<p align="justify">
 O primeiro setpoint considerado é a altura, com a posição $x$ como setpoint, conforme a figura acima. Se a sonda estiver dentro do cone, deve descer, caso contrário, deve subir. Isso define o termo proporcional. Para o termo derivativo, utiliza-se a velocidade linear em $y$:
+</p>
 
 $$
  y_{PD} = k_{p2}\cdot (|x|-y)+k_{d2}\cdot v_y.
 $$
 
+<p align="justify">
 É crucial manter uma inclinação constante da nave em direção ao seu objetivo, pois isso determina a direção do impulso do propulsor principal. Para implementar essa abordagem, utiliza-se o setpoint $x + v_x$, onde $v_x$ é a taxa de variação em $x$, entendendo essa expressão como $x_{t+1}$ para minimizar $\theta$. Quando a sonda está nas bordas extremas do triângulo, ela deve se inclinar $45^\circ$ em direção a plataforma, com essa inclinação diminuindo à medida que a sonda se aproxima do alvo (0,0), de acordo com o setpoint $x_{t+1}$. O controle proporcional é aplicado, onde a posição $x$ diminui à medida que a sonda se aproxima do alvo, enquanto o termo derivativo utiliza a velocidade angular:
+</p>
 
 $$
  \theta_{PD} = k_{p2}\cdot \bigg{[} \frac{\pi}{4}\cdot (x+v_x)-\theta\bigg{]}+k_{d2}\cdot v_{\theta}.
 $$
 
+<p align="justify">
 Todos os elementos essenciais foram identificados, exceto pelos valores apropriados dos quatro parâmetros $k_{p1}$, $k_{d1}$, $k_{p2}$ e $k_{d2}$. Para determiná-los, será adotada a técnica de Otimização por Escalada de Montanha. Essa metodologia inicia com a premissa de que todos os parâmetros são inicialmente nulos (sem controle). Após cada tentativa de aterrissagem da sonda e avaliação da pontuação, os parâmetros são ajustados com pequenas variações aleatórias. Se a pontuação da sonda melhorar, os novos valores são mantidos e o processo é repetido. Caso contrário, os novos valores são descartados e tenta-se adicionar ruído aleatório novamente. Os valores encontrados foram: $k_{p1} = 9,0565$, $k_{d1} = -9,9488$, $k_{p2} = 11,9271$ e $k_{d2} = -5,0963$. Após convergir, obtém sucesso no controle da LunarLander:
+</p>
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/9e245ce8-c0b4-41e1-bf1f-69b8ca79e0d4" alt="llpid (2)">
@@ -902,9 +1024,13 @@ Todos os elementos essenciais foram identificados, exceto pelos valores apropria
 
 A trajetória de referência ($w$) do LunarLander é um pouco mais complexa, na qual serão adotadas algumas estratégias. 
 
+<p align="justify">
 Sabe-se que o ambiente no qual a sonda interage é traduzido por meio de um plano cartesiano. Essa abordagem permite conhecer valores como posição e direção, aspectos de suma importância na navegação da sonda.
+</p>
 
+<p align="justify">
 Com intuito de implementar o controle preditivo baseado em modelo, será empregado uma matriz rotação para rotacionar o plano cartesiano em $45^\circ$ (o motivo será explicado adiante), por ser bidimensional, tem-se:
+</p>
 
 $$
 	\begin{bmatrix}
@@ -937,16 +1063,21 @@ a ideia é rotocionar o plano cartesiano, da seguinte maneira:
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/4dc8033b-ef76-405a-ab67-50e90319902c" alt="cart">
 </p>
 
+<p align="justify">
 Com o plano cartesiano rotacionado, é possível estimar três trajetórias de referência. A primeira, em ciano, é definida por $x'=y$. Similarmente ao CartPole, o ângulo $\theta$ do LunarLander deve estar próximo de zero, representando a segunda trajetória de referência. O próximo passo envolve determinar a terceira trajetória de referência para a velocidade linear em $y$, expressa por $v_y = -0,725\cdot y' - 0,1$. Esta ideia será ilustrada.
+</p>
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/15cd295b-a6ff-4d05-b567-ce75a7f6638b" alt="ssp">
 </p>
 
-
+<p align="justify">
 Para estimar o modelo ARX e facilitar a compreensão, os motores auxiliares de orientação direita e esquerda serão considerados como um só ($u_2$), assumindo 1 para direita e -1 para esquerda, com 0 representando a condição desligada.
+</p>
 
+<p align="justify">
 Em relação ao incremento de controle ($\Delta u$), uma metodologia alternativa está sendo considerada para o ambiente LunarLander. Enquanto o MPC tradicionalmente penaliza o $\Delta u$ com base em sua magnitude, neste contexto lunar específico, a penalização varia com os propulsores: auxiliares têm penalização de 0,03, o principal de 0,3 e nenhum acionamento não é penalizado. Dessa forma, a proposta é focar no controle absoluto $u$ em vez do incremento $\Delta u$. Quando o horizonte de controle ($H_c$) é menor que o de previsão ($H_p$), $u$ é mantido em 0, permitindo respostas que maximizam a recompensa do ambiente.
+</p>
 
 Conforme mencionado anteriormente, a metodologia de aplicação do modelo define a função de custo conforme a equação abaixo:
 
@@ -956,13 +1087,17 @@ Conforme mencionado anteriormente, a metodologia de aplicação do modelo define
 
 ## Estimação do Modelo ARX
 
+<p align="justify">
 Nesse processo, optou-se por empregar uma entrada aleatória, com o objetivo de obter um modelo para as coordenadas x e y, $\theta$ e $v_y$ (velocidade linear em y). Durante a obtenção do modelo, observou-se uma correlação de cada uma das saídas com uma entrada específica, conforme segue:
+</p>
 
 | Saída  | $p_x$ | $\theta$ | $p_y$ | $v_y$ |
 |--------|-------|----------|-------|-------|
 | Entrada| $u_2$ |  $u_2$   | $u_1$ | $u_1$ |
 
+<p align="justify">
 Dessa forma, a metodologia começou a investigar várias alternativas para cada entrada. A cada iteração, um valor era selecionado aleatoriamente dentre as opções disponíveis. Para $u_1$, o intervalo considerado foi [0, 2] do ambiente e [0, 1] para a identificação, enquanto $u_2$ apresentava três possíveis respostas [0, 1, 3] e [0, 1, -1] para a identificação.
+</p>
 
  Novamente, será usado o SysIdentPy para estimar os modelos ARX para os itens já mencionados:
 
@@ -994,12 +1129,15 @@ $$
 \end{matrix} 
 $$
 
+<p align="justify">
 Apesar do reduzido número de amostras utilizadas para a construção do modelo, o SysIdentPy obteve sucesso ao capturar um modelo de alta qualidade, que é capaz de representar adequadamente a complexa dinâmica do LunarLander.
+</p>
 
 ## Determinação dos Pesos da Função Custo
 <p align="justify">
 Inicialmente, a estimação dos pesos foi feita por tentativa e erro, onde foram identificados alguns pontos importantes posteriormente utilizados. O principal foi a separação do ambiente lunar em dois estágios. O primeiro estágio consiste em verificar se a velocidade da sonda é inferior à trajetória de referência. Nesse caso, o peso $\delta$ da função custo, sendo zero, ajuda o modelo a não tomar decisões equivocadas, como inclinar em um ângulo $\theta$ grande e utilizar os motores auxiliares para acelerar e alcançar a referência. Dessa maneira, a sintonização manual se tornou mais tranquila, onde no primeiro estágio o algoritmo se preocupa apenas com os setpoints de posição e inclinação angular. No segundo estágio, a velocidade linear em $y$ passa a fazer parte dos setpoints.
 </p>
+
 <p align="justify">
 Apesar de muitas tentativas, o GPC apresentou resultados semelhantes ao PD do repositório LunarLander\_OpenAIGym. No entanto, ao adotar um algoritmo de Subida de Encosta para estimar os parâmetros proporcionais e derivativos do PD deste trabalho, houve uma melhoria significativa no desempenho do PD. Assim, um ajuste manual do GPC para se equiparar ao PD tornou-se complicado. A proposta consistiu em aplicar o algoritmo de Subida de Encosta para estimar os pesos do segundo estágio ($\alpha_2$, $\beta_2$, e $\delta_2$), enquanto os pesos do primeiro estágio foram previamente definidos manualmente como $\alpha=\beta=1$ e $\delta=0$, mantidos devido ao seu desempenho satisfatório. Os pesos empregados foram:
 </p>
