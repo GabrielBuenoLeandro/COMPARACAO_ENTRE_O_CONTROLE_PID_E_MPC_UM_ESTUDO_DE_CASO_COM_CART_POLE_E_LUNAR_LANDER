@@ -139,7 +139,7 @@ $$
 \frac{\Theta (s)}{U(s)} = \frac{m\ell}{(m^2\ell^2-(M+m)(I+m\ell^2))s^2+(M+m)mg\ell}.
 $$
 
-Para o projeto do controle PID será adotado um ambiente Cartpole do Gym, que se trata de um pêndulo invertido, como equacionado acima, onde as entradas possíveis são:
+Para o projeto do controle PID será adotado um ambiente Cartpole do Gymnasium, que se trata de um pêndulo invertido, como equacionado acima, onde as entradas possíveis são:
 
 | Número | Ação                              |
 |:------:|:---------------------------------:|
@@ -166,11 +166,11 @@ Não se pode realmente obter muitas informações úteis da posição ou ângulo
 Agora será trabalhado as acelerações lineares e angulares apenas encontrando a inclinação dos seus respectivos gráficos. Para tal, será empregado linregress do pacote Scipy, os resultados encontrados são:
 
 $$
-\ddot{x} = 0,19524\frac{m^2}{s},
+\ddot{x} = 0,19524\frac{m}{s^2},
 $$
 
 $$
- \ddot{\theta} =-0,29775\frac{rad^2}{s},
+ \ddot{\theta} =-0,29775\frac{rad}{s^2},
 $$
 
 um fato interessante, é que esses valores permanecem constantes independentemente do número de simulações, o que leva a crer que o ambiente CartPole possui um embasamento físico por trás.
@@ -181,7 +181,7 @@ Para continuar, considere a figura abaixo:
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/22110556-bcef-44f4-a10b-4475bd02d127" alt="Figura5">
 </p>
 
-a força à direita deve resultar um torque no sentido anti-horário conforme a figura acima, que pela convenção é positivo, se considerar a entrada uma força de $1$ à direita, deve se observar a região que o torque é positivo, pois para massa e comprimento muito grande, o torque será negativo, pois a força não conseguirá restabelecer o sistema, para a tal análise será tomada a equação abaixo:
+O momento de inércia deve ser sempre positivo, conforme a Figura \ref{fig:cartPole}. Para tal análise, será utilizada a Equação \ref{eq:an1}:
 
 $$
  (I + m\ell^2)\frac{d^2\theta}{dt^2} + m\ell\frac{d^2x}{dt^2} - mg\ell\theta = 0,
@@ -193,7 +193,7 @@ $$
 (I + m\ell^2)\frac{d^2\theta}{dt^2}   = - m\ell\frac{d^2x}{dt^2},
 $$
 
-onde $\frac{d^2\theta}{dt^2} = -0,29775 \frac{rad^2}{s}$ e $\frac{d^2x}{dt^2}  = 0,19524 \frac{m^2}{s}$, o valor de $m$ adotado será  $0,5 kg$, logo:
+onde $\frac{d^2\theta}{dt^2} = -0,29775 \frac{rad}{s^2}$ e $\frac{d^2x}{dt^2}  = 0,19524 \frac{m}{s^2}$, o valor de $m$ adotado será  $0,5 kg$, logo:
 
 $$
 I = \frac{0,0976\ell - 0,1488\ell^2}{0,29775},
@@ -203,7 +203,7 @@ $$
 
 
 <p align="center">
-  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/9a838f8a-87b5-47fb-a2d2-4ed8fae0986e" alt="Grafico2">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/7a8e2d20-8094-40df-be59-507f50ef1c86" alt="Grafico2">
 </p>
 
 note que o valor escolhido de $\ell$ apresenta $I$ positivo.
@@ -222,7 +222,7 @@ $$
 
 Os resultados encontrados/fixados foram:
 
-| $M [kg]$ | $m [kg]$ | $\ell [m]$ | $I[N\cdot m]$        |
+| $M [kg]$ | $m [kg]$ | $\ell [m]$ | $I[kg\cdot m^2]$        |
 |----------|----------|------------|----------------------|
 | 5,11754  | 0,5      | 0,65       | $1,8537\times 10^{-3}$|
 
@@ -238,7 +238,7 @@ A função de transferência faz sentido a priori, pois uma força para a direit
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/6560787a-0ec9-426c-848e-dc34d0665c73" alt="entval">
 </p>
 
-A partir da figura acima, nota-se que a F.T não conseguiu representar o sistema adequadamente. A F.T. responde de forma muito lenta aos estímulos de entrada. Portanto, é necessário ajustá-la para obter respostas mais abruptas. Ao observar os passos anteriores, a aceleração considerada levou em conta $8$ amostras, com um intervalo de $1s$ entre amostras, para realmente encontrar a inclinação. No entanto, devido à natureza computacional, o tempo é significativamente menor. Assim, as acelerações em $x$ e angular serão multiplicadas por um fator ($k$) até que a F.T. alcance um desempenho satisfatório. Dessa forma, será retornado a equação da inércia:
+A partir da figura acima, nota-se que a FT não conseguiu representar o sistema adequadamente. A FT responde de forma muito lenta aos estímulos de entrada. Portanto, é necessário ajustá-la para obter respostas mais abruptas. Ao observar os passos anteriores, a aceleração considerada levou em conta $8$ amostras, com um intervalo de $1s$ entre amostras, para realmente encontrar a inclinação. No entanto, devido à natureza computacional, o tempo é significativamente menor. Assim, as acelerações em $x$ e angular serão multiplicadas por um fator ($k$) até que a F.T. alcance um desempenho satisfatório. Dessa forma, será retornado a equação da inércia:
 
 $$
 (I + m\ell^2)\frac{d^2\theta}{dt^2}\cancel{k}   = - m\ell\frac{d^2x}{dt^2} \cancel{k},
@@ -274,10 +274,10 @@ ao resolver a inequação acima, chega-se a $k<1174,74$, logo, para determinar o
 onde $\hat{y}_k(i)$ representa a simulação livre para cada episódio (Função de Transferência) e ${y}_k$ é o sinal medido para cada episódio, com a média ($\bar{y}_k$) sendo calculada na janela de identificação. Graficamente:
 
 <p align="center">
-  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/f1ed2ce7-21e3-4d0c-b34c-16de21b06cee" alt="RMSE1">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2a6e6aff-3a28-43ba-811b-f448cb144b8e" alt="RMSE1">
 </p>
 
- ao utilizar o comando min do Python, obtém-se um valor de $\overline{RMSE}$ igual a $0,66019$ para $k=165$. Ao tomar $k=165$, obtém-se uma F.T. que responde melhor aos estímulos da entrada. A nova massa a ser:
+ ao utilizar o comando min do Python, obtém-se um valor de $\overline{RMSE}$ igual a $0,66019$ para $k=165$. Ao tomar $k=165$, obtém-se uma FT que responde melhor aos estímulos da entrada. A nova massa a ser:
 
 $$
     M = \frac{1 + 165\cdot0,5\cdot0,65\cdot0,29775-165\cdot0,5\cdot0,19524}{165\cdot0,19524} = 0,02668kg,
@@ -406,7 +406,7 @@ O PID se mostrou capaz de controlar o CartPole, ou seja, missão concluída por 
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/0be0e471-958a-4f2d-8f04-b087f9c8f03e" alt="cartpolepid">
 </p>
 
-# LunarLander - Implementação do MPC
+# CartPole - Implementação do GPC
 
 Controle Preditivo Modelado (MPC) é uma estratégia que se baseia na previsão do comportamento futuro por meio de um modelo do sistema. Neste contexto, foi adotado a abordagem do Controle Preditivo Generalizado (GPC), que utiliza modelo paramétricos para prever o comportamento futuro do sistema. A obtenção dos modelos será via técnicas de identificação de sistemas, será usado o pacote SysIdentPy.
 
@@ -937,7 +937,7 @@ a ideia é rotocionar o plano cartesiano, da seguinte maneira:
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/4dc8033b-ef76-405a-ab67-50e90319902c" alt="cart">
 </p>
 
-Com o plano cartesiano rotacionado, é possível estimar três trajetórias de referência. A primeira, em ciano, é definida por $x'=y$. Similarmente ao CartPole, o ângulo $\theta$ do LunarLander deve estar próximo de zero, representando a segunda trajetória de referência. O próximo passo envolve determinar a terceira trajetória de referência para a velocidade linear em $y$, expressa por $v_y = 0,85\cdot y' - 0,1$. Esta ideia será ilustrada.
+Com o plano cartesiano rotacionado, é possível estimar três trajetórias de referência. A primeira, em ciano, é definida por $x'=y$. Similarmente ao CartPole, o ângulo $\theta$ do LunarLander deve estar próximo de zero, representando a segunda trajetória de referência. O próximo passo envolve determinar a terceira trajetória de referência para a velocidade linear em $y$, expressa por $v_y = -0,725\cdot y' - 0,1$. Esta ideia será ilustrada.
 
  <p align="center">
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/15cd295b-a6ff-4d05-b567-ce75a7f6638b" alt="ssp">
@@ -951,7 +951,7 @@ Em relação ao incremento de controle ($\Delta u$), uma metodologia alternativa
 Conforme mencionado anteriormente, a metodologia de aplicação do modelo define a função de custo conforme a equação abaixo:
 
  <p align="center">
-  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2d1c9884-9a04-456d-8ac8-185ad1b7419c" alt="cll">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/ced67777-16c8-4d0d-8be6-89b4b30805c2" alt="Captura de tela 2024-04-06 231121">
 </p>
 
 ## Estimação do Modelo ARX
@@ -997,14 +997,17 @@ $$
 Apesar do reduzido número de amostras utilizadas para a construção do modelo, o SysIdentPy obteve sucesso ao capturar um modelo de alta qualidade, que é capaz de representar adequadamente a complexa dinâmica do LunarLander.
 
 ## Determinação dos Pesos da Função Custo
-
+<p align="justify">
 Inicialmente, a estimação dos pesos foi feita por tentativa e erro, onde foram identificados alguns pontos importantes posteriormente utilizados. O principal foi a separação do ambiente lunar em dois estágios. O primeiro estágio consiste em verificar se a velocidade da sonda é inferior à trajetória de referência. Nesse caso, o peso $\delta$ da função custo, sendo zero, ajuda o modelo a não tomar decisões equivocadas, como inclinar em um ângulo $\theta$ grande e utilizar os motores auxiliares para acelerar e alcançar a referência. Dessa maneira, a sintonização manual se tornou mais tranquila, onde no primeiro estágio o algoritmo se preocupa apenas com os setpoints de posição e inclinação angular. No segundo estágio, a velocidade linear em $y$ passa a fazer parte dos setpoints.
-
-Apesar de muitas tentativas, o GPC apresentou resultados semelhantes ao PD do repositório LunarLander_OpenAIGym. No entanto, ao adotar um algoritmo de Subida de Encosta para estimar os parâmetros proporcionais e derivativos do PD deste trabalho, houve uma melhoria significativa no desempenho do PD. Assim, um ajuste manual do GPC para se equiparar ao PD tornou-se complicado. A ideia foi utilizar o algoritmo de Subida de Encosta para estimar os pesos do primeiro estágio ($\alpha_1$ e $\beta_1$) e do segundo estágio ($\alpha_2$, $\beta_2$ e $\delta_2$). Os pesos estimados pelo algoritmo de Subida de Encosta foram:
-
- <p align="center">
-  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/2de6060a-bd39-4d14-ab7e-c6077b2c7012" alt="pLL">
+</p>
+<p align="justify">
+Apesar de muitas tentativas, o GPC apresentou resultados semelhantes ao PD do repositório LunarLander\_OpenAIGym. No entanto, ao adotar um algoritmo de Subida de Encosta para estimar os parâmetros proporcionais e derivativos do PD deste trabalho, houve uma melhoria significativa no desempenho do PD. Assim, um ajuste manual do GPC para se equiparar ao PD tornou-se complicado. A proposta consistiu em aplicar o algoritmo de Subida de Encosta para estimar os pesos do segundo estágio ($\alpha_2$, $\beta_2$, e $\delta_2$), enquanto os pesos do primeiro estágio foram previamente definidos manualmente como $\alpha=\beta=1$ e $\delta=0$, mantidos devido ao seu desempenho satisfatório. Os pesos empregados foram:
 </p>
 
+ <p align="center">
+  <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/6d0c09d6-2010-4d73-9756-ca56545ff3b6" alt="Captura de tela 2024-04-06 231658">
+
+<p align="justify">
 Os pesos derivados pelo algoritmo de subida de encosta resultaram em uma notável melhoria no desempenho do Controle Preditivo Generalizado (GPC), em comparação com os ajustes manuais realizados por tentativa e erro. Essa otimização automática permitiu uma sintonia mais precisa e eficiente dos parâmetros do controlador, levando a um funcionamento mais eficaz do sistema de controle.
+</p>
 
