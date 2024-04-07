@@ -1,0 +1,107 @@
+\begin{thebibliography}{10}
+
+\bibitem{1922PID}
+A.~S. of~Naval~Engineers, {\em Journal of the American Society of Naval
+  Engineers, Inc}, vol.~42.
+\newblock American Society of Naval Engineers., 1922.
+
+\bibitem{deulkar2020analysis}
+P.~Deulkar and S.~Hanwate, ``Analysis of pso-pid controller for cstr
+  temperature control,'' in {\em 2020 IEEE First International Conference on
+  Smart Technologies for Power, Energy and Control (STPEC)}, pp.~1--6, IEEE,
+  2020.
+
+\bibitem{alba2000control}
+C.~B. Alba and I.~C. d.~E. en~Automatica, ``Control predictivo: metodolog{\i}a,
+  tecnolog{\i}a y nuevas perspectivas,'' {\em Universidad de Sevilla,
+  Aguadulce, Almer{\i}a}, 2000.
+
+\bibitem{lacerda2020sysidentpy}
+W.~R. Lacerda, L.~P.~C. da~Andrade, S.~C.~P. Oliveira, and S.~A.~M. Martins,
+  ``Sysidentpy: A python package for system identification using narmax
+  models,'' {\em Journal of Open Source Software}, vol.~5, no.~54, p.~2384,
+  2020.
+
+\bibitem{ogata2010engenharia}
+Ogata and Katsuhiko, {\em Engenharia de controle moderno}.
+\newblock Prentice Hall do Brasil, 5~ed., 2010.
+
+\bibitem{castrucci2011controle}
+P.~B. d.~L. Castrucci, A.~Bittar, and R.~M. Sales, {\em Controle Automático}.
+\newblock LTC, 1~ed., 2011.
+
+\bibitem{kafetzis2017inverted}
+I.~Kafetzis and L.~Moysis, ``Inverted pendulum: A system with innumerable
+  applications,'' {\em School of Mathematical Sciences}, 2017.
+
+\bibitem{prata2020}
+T.~C. Prata, ``Controle preditivo baseado em modelo (mpc) aplicado a uma planta
+  did{\'a}tica,'' Master's thesis, Instituto Federal de S{\~a}o Paulo, 2020.
+
+\bibitem{taketa2018}
+E.~Taketa {\em et~al.}, ``Aplica{\c{c}}{\~a}o do controle preditivo
+  generalizado em sistemas mec{\^a}nicos,'' Master's thesis, Universidade
+  Tecnol{\'o}gica Federal do Paran{\'a}, 2018.
+
+\bibitem{aguirre2004}
+L.~A. Aguirre, {\em Introdu{\c{c}}{\~a}o {\`a} identifica{\c{c}}{\~a}o de
+  sistemas--T{\'e}cnicas lineares e n{\~a}o-lineares aplicadas a sistemas
+  reais}.
+\newblock Editora UFMG, 2004.
+
+\bibitem{gekko}
+L.~Beal, D.~Hill, R.~Martin, and J.~Hedengren, ``Gekko optimization suite,''
+  {\em Processes}, vol.~6, no.~8, p.~106, 2018.
+
+\bibitem{camacho2004}
+E.~F. Camacho, C.~Bordons, E.~F. Camacho, and C.~Bordons, {\em Model Predictive
+  Control}.
+\newblock Springer, 2004.
+
+\bibitem{mpc2020}
+M.~Alhajeri and M.~Soroush, ``Tuning guidelines for model-predictive control,''
+  {\em Industrial \& Engineering Chemistry Research}, vol.~59, no.~10,
+  pp.~4177--4191, 2020.
+
+\bibitem{GPC1}
+D.~W. Clarke, C.~Mohtadi, and P.~S. Tuffs, ``Generalized predictive
+  control—part i. the basic algorithm,'' {\em Automatica}, vol.~23, no.~2,
+  pp.~137--148, 1987.
+
+\bibitem{GPC2}
+D.~W. Clarke, C.~Mohtadi, and P.~S. Tuffs, ``Generalized predictive
+  control—part ii extensions and interpretations,'' {\em Automatica},
+  vol.~23, no.~2, pp.~149--160, 1987.
+
+\bibitem{cartpole}
+A.~G. Barto, R.~S. Sutton, and C.~W. Anderson, ``Neuronlike adaptive elements
+  that can solve difficult learning control problems,'' {\em IEEE transactions
+  on systems, man, and cybernetics}, no.~5, pp.~834--846, 1983.
+
+\bibitem{gymcartpole}
+{Barto, Sutton e Anderson}, ``Cartpole.'' Online, 2023.
+\newblock [Acesso em setembro 2023].
+
+\bibitem{gymlunarlander}
+{Oleg Klimov}, ``Lunarlander.'' Online, 2023.
+\newblock [Acesso em novembro 2023].
+
+\bibitem{hill}
+{ Alvaro Leandro Cavalcante Carneiro}, ``Algoritmos de otimização: Hill
+  climbing e simulated annealing.'' Online, 2020.
+\newblock [Acesso em dezembro 2023].
+
+\bibitem{cpepid}
+{Ethan Roberts}, ``Using pid to cheat an openai challenge.'' Online, 2021.
+\newblock [Acesso em setembro 2023].
+
+\bibitem{nelles}
+N.~Oliver, ``Nonlinear system identification: from classical approaches to
+  neural networks and fuzzy models,'' {\em Ch}, vol.~11, no.~4, pp.~294--296,
+  2001.
+
+\bibitem{llpid}
+{Piyush Makhija}, ``Lunarlander\_openaigym.'' Online, 2017.
+\newblock [Acesso em novembro 2023].
+
+\end{thebibliography}
