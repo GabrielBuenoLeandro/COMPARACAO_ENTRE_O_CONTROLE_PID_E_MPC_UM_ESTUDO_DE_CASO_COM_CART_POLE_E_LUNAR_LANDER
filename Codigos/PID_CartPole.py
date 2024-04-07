@@ -9,7 +9,7 @@ from time import sleep
 import time
 
 env = gym.make("CartPole-v1", render_mode='human') # Importando o ambiente CartPole
-observation = env.reset() # Reinicia o ambiente de simulação 
+observation = env.reset(seed=42) # Reinicia o ambiente de simulação 
 samples = 500 # Selecione o número de amostras
 Kp = 0.5 # Termo Proporcional
 Ki = 0.25 # Termo Integral
@@ -21,27 +21,23 @@ u = np.zeros(samples) # Array para salvar a ação/entrada do pêndulo
 va = np.zeros(samples) # Array para salvar a velocidade angular do pêndulo
 inicio = time.time() # Início da contagem do tempo 
 for _ in range(samples): # Percorre todos os episódios
-    env.render() 
-    observation, reward, done, info, aux = env.step(force)
-    u[_] = force
-    y[_] = observation[2]
-    va[_] = observation[1]
-    velocity = observation[1]
-    angle = observation[2]
-    angular_velocity = observation[3]
-
-    integral = integral + angle
-
-    F = Kp*(angle) + Kd*(angular_velocity) + Ki*(integral)
-
-    force = 1 if F > 0 else 0
-    if done:
-        observation = env.reset()
-        integral = 0
-env.close()
-fime = time.time()
-# Calcula o tempo decorrido
-tempo_decorrido = fime - inicio
+    env.render() # Renderiza o ambiente
+    observation, reward, done, info, aux = env.step(force) # Aplica a entrada ao sistema
+    u[_] = force # Salva a entrada no vetor u
+    y[_] = observation[2] # Salva o ângulo no vetor y
+    va[_] = observation[1] # Salva a velocidade angular no vetor va
+    velocity = observation[1] # Salva a velocidade no int velocity
+    angle = observation[2] # Salva o ângulo no int angle
+    angular_velocity = observation[3] # Salva a velocidade ângular no int angular_velocity
+    integral = integral + angle # Termo integral, para isso usa um somatório
+    F = Kp*(angle) + Kd*(angular_velocity) + Ki*(integral) # Aplicação do PID
+    force = 1 if F > 0 else 0 # Se F é positivo force recebe 1, se negativo F = 0
+    if done: # Verifica o término
+        observation = env.reset() # Reseta o ambiente
+        integral = 0 # A cada novo episódio, o termo integral deve zerar
+env.close() # Encerra o ambiente
+fime = time.time() # Encerra a contagem de tempo
+tempo_decorrido = fime - inicio # Calcula o tempo decorrido
 print('tempo:', tempo_decorrido)
 plt.figure(1)
 plt.plot(y, 'g', label=r'$\theta$')

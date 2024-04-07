@@ -104,7 +104,7 @@ def predict(y, k, Matriz, action):
     return Matriz[soma.index(min(soma)),:]
 
 env = gym.make("CartPole-v1", render_mode="human")
-observation, info = env.reset()
+observation, info = env.reset(seed=42)
 samples = 500
 y = np.zeros(samples)
 u = np.zeros(samples)
