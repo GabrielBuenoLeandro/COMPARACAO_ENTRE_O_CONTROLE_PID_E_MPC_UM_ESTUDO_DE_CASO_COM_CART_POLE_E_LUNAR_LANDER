@@ -1,0 +1,76 @@
+\definecolor{textblue}{RGB}{20,41,226}
+\definecolor{groupblue}{RGB}{51,102,254}
+
+\begin{figure}
+
+    \begin{center}
+        \begin{adjustbox}{max height = 0.8\textheight, center, width = \textwidth}
+            \begin{ganttchart}[
+                x unit=0.4cm,
+                y unit title=1cm,
+                y unit chart=0.5cm,
+                vgrid,
+                hgrid,
+                % Bar 
+                bar/.append style={fill=green!50}, 
+                bar incomplete/.append style={fill=red!50},
+                bar label node/.append style={left=-2.4cm,align=left,text width=20em},
+                group/.append style={draw=black, fill=groupblue},
+                group incomplete/.append style={fill=black},
+                group progress label font=\bfseries\small,
+                group label node/.append style={align=left, left=-4cm, text width=25em},
+                milestone/.append style={fill=red, rounded corners=3pt},
+                progress label text={\pgfmathprintnumber[fixed, precision=1]{#1}\%},
+                progress=today,
+                today=2
+                ]{1}{18}
+                    \gantttitle{Study Progress}{18}\\
+                    \gantttitle{2023}{12} 
+                    \gantttitle{2024}{6}\\
+                    \gantttitlelist{1,...,12}{1}{WEEKS:\quad1}
+                    \gantttitlelist{1,...,6}{1} \\
+                    % Add MONTHS text
+                    \gantttitle[title label node/.append style={yshift = 28pt, xshift=-1cm}]{MONTHS:}{0}
+                    
+                    % Proposal Writing
+                    \ganttgroup{\textcolor{textblue}{Proposal Writing}}{1}{2} \\
+                    \ganttbar[bar height=0.4]{Initial Literature Review}{1}{1}\\
+                    \ganttbar[bar height=0.4]{Proposal Report Preparation}{2}{2} \\
+                    
+                    % Data Collection Planning
+                    \ganttgroup{\textcolor{textblue}{Data Collection Planning}}{3}{6} \\
+                    \ganttbar[bar height=0.4]{Preliminary Survey}{3}{3} \\
+                    \ganttbar[bar height=0.4]{Location Selection}{4}{4} \\
+                    \ganttbar[bar height=0.4]{Hiring Data Collection Agency}{5}{6} \\
+                    
+                    % Data Collection
+                    \ganttgroup{\textcolor{textblue}{Data Collection}}{6}{7} \\
+                    \ganttbar[bar height=0.4]{Final Data Collection}{6}{7} \\
+                    
+                    % Data Extraction
+                    \ganttgroup{\textcolor{textblue}{Data Extraction}}{7}{12} \\
+                    \ganttbar[bar height=0.4]{Preliminary Data Checking}{7}{7} \\
+                    \ganttbar[bar height=0.4]{Final Data Extraction}{7}{12} \\
+                    \ganttbar[bar height=0.4]{Preparing Data For Analysis}{10}{12} \\
+                    
+                    % Data Analysis
+                    \ganttgroup{\textcolor{textblue}{Data Analysis}}{11}{17} \\
+                    \ganttbar[bar height=0.4]{Exploratory Data Analysis}{11}{12} \\
+                    \ganttbar[bar height=0.4]{Objective 1 Modeling}{12}{15} \\
+                    \ganttbar[bar height=0.4]{Objective 2 Modeling}{12}{17} \\
+                    
+                    % Journal Writing & Submission
+                    \ganttgroup{\textcolor{textblue}{Manuscript Writing}}{9}{18} \\
+                    \ganttbar[bar height=0.4]{Writing Articles/Conferences}{9}{18} \\
+
+                    % Yearly Review
+                    \ganttgroup{\textcolor{textblue}{Report Preparation}}{2}{18} \\
+                    \ganttbar[bar height=0.4]{Yearly Progress}{10}{12} \\
+                \end{ganttchart}
+        \end{adjustbox}
+    \end{center}
+    
+    \caption{}
+    \label{fig:figure3_2}
+
+\end{figure}

@@ -1,0 +1,75 @@
+% adjustbox is used to limit the figure inside page
+% -- means normal arrow
+%  -| horizontal then vertical arrow
+%  |- vertical then horizontal arrow
+
+
+\begin{figure}
+
+    \begin{center}
+        \begin{adjustbox}{height=\textheight, center, width = 0.44\textwidth}
+            \begin{tikzpicture}[node distance=2cm]
+                % Layer 1
+                \node (1) [startstop] {\textbf{Level 1}};
+    
+                % Layer 2
+                \node (2a) [startstop1, left of = 1, xshift = -7cm, yshift = -1.5cm] {Level 2.1};
+                \node (2b) [startstop1, below of = 1, yshift = -3cm, xshift = -2.7cm] {Level 2.2};
+                \node (2c) [startstop1, right of = 1, xshift = 1.5cm, yshift = -1.5cm] {Level 2.3};
+                \node (2d) [startstop1, right of = 1, xshift = 9cm, yshift = -5cm] {Level 2.4};
+    
+                % Arrows Layer 1  to Layer 2
+                \draw [arrow] (1) -| (2a);
+                \draw [arrow] (1) -| (2b);
+                \draw [arrow] (1) -| (2c);
+                 \draw [arrow] (1) -| (2d);
+                
+                % Layer 3a
+                \node (2a_3b) [startstop2, below of = 2a] {Level 2.1.2};
+                \node (2a_3a) [startstop2, left of = 2a_3b, xshift = -2cm] {Level 2.1.1};
+                \node (2a_3c) [startstop2, right of = 2a_3b, xshift = 2cm] {Level 2.1.3};
+    
+                % Arrows Layer 2a  to Layer 3a
+                \draw [arrow] (2a) -| (2a_3a);
+                \draw [arrow] (2a) -- (2a_3b);
+                \draw [arrow] (2a) -| (2a_3c);
+                
+                
+                % Layer 3b
+                \node (2b_3b) [startstop2, below of = 2b] {Level 2.2.2};
+                \node (2b_3a) [startstop2, left of = 2b_3b, xshift = -2cm] {Level 2.2.1};
+                \node (2b_3c) [startstop2, right of = 2b_3b, xshift = 2cm] {Level 2.2.3};
+
+                % Arrows Layer 2b to Layer 3b
+                \draw [arrow] (2b) -- (2b_3b);
+                \draw [arrow] (2b) -| (2b_3a);
+                \draw [arrow] (2b) -| (2b_3c);
+
+                % Layer 3c
+                % \node (2c_3b) [startstop1,  below of = 2c] {Diversity};
+                \node (2c_3a) [startstop2, left of = 2c, xshift = -1cm, yshift = -2cm]  {Level 2.3.1};
+                \node (2c_3b) [startstop2, right of = 2c, xshift = 1cm, yshift = -2cm] {Level 2.3.2};
+    
+                % Arrows Layer 2c to Layer 3c
+                % \draw [arrow] (2c) -- (2c_3b);
+                \draw [arrow] (2c) -| (2c_3a);
+                \draw [arrow] (2c) -| (2c_3b);
+
+                 % Layer 3d
+                \node (2d_3b) [startstop2, left of = 2d, xshift = -3.5cm, yshift = -2cm] {Level 2.4.1};
+                \node (2d_3a) [startstop2, left of = 2d, xshift = 0cm, yshift = -2cm] {Level 2.4.2};
+                \node (2d_3c) [startstop2, right of = 2d, xshift = 0cm, yshift = -2cm] {Level 2.4.3};
+                \node (2d_3d) [startstop2, right of = 2d, xshift = 3.5cm, yshift = -2cm] {Level 2.4.4};
+
+                % Arrows Layer 2d to Layer 3d
+                \draw [arrow] (2d) -| (2d_3b);
+                \draw [arrow] (2d) -| (2d_3a);
+                \draw [arrow] (2d) -| (2d_3c);
+                \draw [arrow] (2d) -| (2d_3d);
+                
+            \end{tikzpicture}
+        \end{adjustbox}
+    \end{center}
+    \caption{}
+    \label{fig:figure2_1}
+\end{figure}

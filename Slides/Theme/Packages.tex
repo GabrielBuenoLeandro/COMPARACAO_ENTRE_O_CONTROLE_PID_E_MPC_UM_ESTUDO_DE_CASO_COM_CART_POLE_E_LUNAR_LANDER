@@ -1,0 +1,96 @@
+% Load Packages
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{tikz} 
+\usetikzlibrary{positioning,calc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{fontawesome}
+\usepackage[center]{caption}
+\usepackage{makecell}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{xspace} 
+\usepackage{etoolbox} % for text size in table
+\usepackage{booktabs} % for \midrule and other
+\usepackage{pgfgantt} % for Gentt Chart
+\usepackage{ragged2e} % Para justificar o texto
+\usepackage{graphicx, animate}
+\usepackage{cancel}
+\usepackage{chngcntr}
+\usepackage{pgfplots}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{amssymb} % Para o comando \checkmark
+\usepackage{enumitem} % Para personalizar o símbolo da lista
+\usepackage[table]{xcolor}
+\usepackage{booktabs} 
+\usepackage{tabularx}
+% Define Commands
+\newcommand*{\ClipSep}{0.06cm} %To adjust footer logo
+\newcommand{\E}{\mathrm{e}\,} %\def\I{e} % used to defined e for exp(x), see later what it should be
+\newcommand{\ud}{\mathrm{d}}
+\lstset{numbers=left, numberstyle=\tiny, stepnumber=1,firstnumber=1,breaklines=true,
+    numbersep=5pt,language=Python,
+    stringstyle=\ttfamily,
+    basicstyle=\footnotesize, 
+    showstringspaces=false
+}
+
+% Remove table's caption using the caption package
+\captionsetup{labelformat=empty}
+
+% For smaller size bibliography at the end slide
+\setbeamerfont{bibliography entry author}{shape=\scshape,size=\tiny}%
+\setbeamerfont{bibliography entry title}{shape=\scshape,size=\tiny}
+\setbeamerfont{bibliography entry journal}{shape=\scshape,size=\tiny}
+\setbeamerfont{bibliography entry note}{shape=\scshape,size=\tiny}
+
+% Numbered items in Bibliography
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+% -------------------------------------------
+% Defining TikZ geometrics 
+% -------------------------------------------
+
+% Tikz library
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\usetikzlibrary{angles,quotes} % Carrega a biblioteca de ângulos
+\usetikzlibrary{babel, quotes,angles}
+% Defining Tickz Style
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=red!40]
+
+\tikzstyle{startstop1} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=pink!30]
+
+\tikzstyle{startstop2} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=teal!10]
+
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, text width = 4.5cm, draw=black, fill=blue!30]
+
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width = 6cm, draw=black, fill=orange!30]
+
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+% Representação do diagrama de blocos
+\tikzstyle{block} = [draw, fill=blue!20, rectangle, 
+    minimum height=3em, minimum width=6em]
+\tikzstyle{sum} = [draw, fill=blue!20, circle, node distance=1cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+
+% Ajustes de estilo para as referências
+\setbeamerfont{bibliography item}{size=\tiny}
+\setbeamerfont{bibliography entry author}{size=\tiny}
+\setbeamerfont{bibliography entry title}{size=\tiny}
+\setbeamerfont{bibliography entry location}{size=\tiny}
+\setbeamerfont{bibliography entry note}{size=\tiny}
+
+
+
+

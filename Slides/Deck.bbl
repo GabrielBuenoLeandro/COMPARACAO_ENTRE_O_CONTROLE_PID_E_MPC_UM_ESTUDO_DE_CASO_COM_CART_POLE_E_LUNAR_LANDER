@@ -1,0 +1,38 @@
+\begin{thebibliography}{1}
+
+\bibitem{deulkar2020analysis}
+P.~Deulkar and S.~Hanwate, ``Analysis of pso-pid controller for cstr
+  temperature control,'' in {\em 2020 IEEE First International Conference on
+  Smart Technologies for Power, Energy and Control (STPEC)}, pp.~1--6, IEEE,
+  2020.
+
+\bibitem{alba2000control}
+C.~B. Alba and I.~C. d.~E. en~Automatica, ``Control predictivo: metodolog{\i}a,
+  tecnolog{\i}a y nuevas perspectivas,'' {\em Universidad de Sevilla,
+  Aguadulce, Almer{\i}a}, 2000.
+
+\bibitem{ogata2010engenharia}
+Ogata and Katsuhiko, {\em Engenharia de controle moderno}.
+\newblock Prentice Hall do Brasil, 5~ed., 2010.
+
+\bibitem{gekko}
+L.~Beal, D.~Hill, R.~Martin, and J.~Hedengren, ``Gekko optimization suite,''
+  {\em Processes}, vol.~6, no.~8, p.~106, 2018.
+
+\bibitem{prata2020}
+T.~C. Prata, ``Controle preditivo baseado em modelo (mpc) aplicado a uma planta
+  did{\'a}tica,'' Master's thesis, Instituto Federal de S{\~a}o Paulo, 2020.
+
+\bibitem{aguirre2004}
+L.~A. Aguirre, {\em Introdu{\c{c}}{\~a}o {\`a} identifica{\c{c}}{\~a}o de
+  sistemas--T{\'e}cnicas lineares e n{\~a}o-lineares aplicadas a sistemas
+  reais}.
+\newblock Editora UFMG, 2004.
+
+\bibitem{lacerda2020sysidentpy}
+W.~R. Lacerda, L.~P.~C. da~Andrade, S.~C.~P. Oliveira, and S.~A.~M. Martins,
+  ``Sysidentpy: A python package for system identification using narmax
+  models,'' {\em Journal of Open Source Software}, vol.~5, no.~54, p.~2384,
+  2020.
+
+\end{thebibliography}
