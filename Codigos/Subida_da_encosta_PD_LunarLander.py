@@ -86,7 +86,6 @@ def run(params, env, verbose=False):
         state,reward,done,_, cc = env.step(a)
         if verbose==True:
             rgb_array = env.render()
-            frames.append(rgb_array)
         total += reward
         if verbose:
             env.render()
@@ -126,7 +125,7 @@ def main():
     for steps in range(101):
         params,score = optimize(params,score,env,steps+1)
         if steps%10 == 0:
-            print("Step:",steps,"Score:",score,"Params:",params)
+            print("Passo:",steps,"Pontuação:",score,"Parâmetros:",params)
 
     # Obter dados para execução final
     scores = []
