@@ -1,5 +1,5 @@
 # Autor: Gabriel Bueno Leandro
-# Título: Aplicação do PD
+# Título: Aplicação do GPC
 
 # Importando as bibliotecas
 from itertools import product

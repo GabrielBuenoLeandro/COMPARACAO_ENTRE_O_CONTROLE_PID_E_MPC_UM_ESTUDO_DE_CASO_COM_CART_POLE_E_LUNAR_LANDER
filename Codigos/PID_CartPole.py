@@ -1,5 +1,5 @@
 # Autor: Gabriel Bueno Leandro
-# Título: Aplicação do PD
+# Título: Aplicação do PID
 
 # Importando as bibliotecas
 import gym

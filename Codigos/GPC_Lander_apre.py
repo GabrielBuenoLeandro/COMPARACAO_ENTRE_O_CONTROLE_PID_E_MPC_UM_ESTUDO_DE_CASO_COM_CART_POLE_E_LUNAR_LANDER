@@ -173,8 +173,8 @@ v = np.zeros(samples) # Array para salvar a velocidade linear em y (v_y)
 vx= np.zeros(samples) # Array para salvar a velocidade linear em x (v_x)
 vt = np.zeros(samples) # Array para salvar a velocidade angular (v_{\theta})
 r = [] # Lista para salvar a pontuação
-env = gym.make("LunarLander-v2", render_mode="human") # Criando o ambiente LunarLander e renderização, onde você pode alterar 'human' para 'rgb_array' ou 'ansi' dependendo do modo que deseja usar
-#env = gym.make("LunarLander-v2", render_mode="human", enable_wind=True, wind_power=3.5, gravity=-11.5, turbulence_power=1)
+#env = gym.make("LunarLander-v2", render_mode="human") # Criando o ambiente LunarLander e renderização, onde você pode alterar 'human' para 'rgb_array' ou 'ansi' dependendo do modo que deseja usar
+env = gym.make("LunarLander-v2", render_mode="human", enable_wind=True, wind_power=3.5, gravity=-11.5, turbulence_power=1)
 #env = gym.make("LunarLander-v2", render_mode="human", gravity=-1.63)
 #env.action_space.seed() # Define a semente (seed) para a geração de números aleatórios no espaço de ações do ambiente
 observation, info = env.reset(seed=47) # Reinicia o ambiente de simulação (LunarLander)
