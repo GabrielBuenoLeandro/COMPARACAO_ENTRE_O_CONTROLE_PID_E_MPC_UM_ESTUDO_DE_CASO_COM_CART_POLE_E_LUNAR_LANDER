@@ -210,7 +210,7 @@ Para continuar, considere a figura abaixo:
   <img src="https://github.com/GabrielBuenoLeandro/Controle_PID_MPC_CartPole_e_LunarLander/assets/89855274/22110556-bcef-44f4-a10b-4475bd02d127" alt="Figura5">
 </p>
 
-O momento de inércia deve ser sempre positivo, conforme a Figura \ref{fig:cartPole}. Para tal análise, será utilizada a Equação \ref{eq:an1}:
+O momento de inércia deve ser sempre positivo, conforme a Figura \ref{fig:cartPole}. Para tal análise, será utilizada a equação abaixo:
 
 $$
  (I + m\ell^2)\frac{d^2\theta}{dt^2} + m\ell\frac{d^2x}{dt^2} - mg\ell\theta = 0,
