@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.3.5)  6 APR 2024 18:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.3.5)  11 APR 2024 14:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3676,7 +3676,7 @@ Package rerunfilecheck Info: File `Deck.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  48454 strings out of 474457
- 1195420 string characters out of 5742286
+ 1195736 string characters out of 5742286
  2640287 words of memory out of 5000000
  69774 multiletter control sequences out of 15000+600000
  574460 words of font info for 97 fonts, out of 8000000 for 9000
@@ -3717,7 +3717,7 @@ c/amsfonts/cm/cmti7.pfb><C:/Users/55359/AppData/Local/Programs/MiKTeXa/fonts/ty
 pe1/public/amsfonts/cm/cmti9.pfb><C:/Users/55359/AppData/Local/Programs/MiKTeXa
 /fonts/type1/public/amsfonts/latxfont/line10.pfb><C:/Users/55359/AppData/Local/
 Programs/MiKTeXa/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on Deck.pdf (38 pages, 2050634 bytes).
+Output written on Deck.pdf (38 pages, 2050628 bytes).
 PDF statistics:
  1273 PDF objects out of 1440 (max. 8388607)
  143 named destinations out of 1000 (max. 500000)

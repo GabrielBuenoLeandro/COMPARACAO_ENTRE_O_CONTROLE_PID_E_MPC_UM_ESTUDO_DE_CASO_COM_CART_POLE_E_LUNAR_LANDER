@@ -10,30 +10,30 @@
 \contentsline {section}{\numberline {2.1}Função de Transferência}{8}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Controle PID}{9}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Controle Preditivo Baseado em Modelo}{10}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Controle Preditivo Generalizado}{12}{subsection.2.3.1}%
-\contentsline {section}{\numberline {2.4}Ambientes de Estudo}{13}{section.2.4}%
+\contentsline {subsection}{\numberline {2.3.1}Controle Preditivo Generalizado}{11}{subsection.2.3.1}%
+\contentsline {section}{\numberline {2.4}Gymnasium}{13}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}\textit {Cart Pole}}{13}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}\textit {Lunar Lander}}{14}{subsection.2.4.2}%
-\contentsline {section}{\numberline {2.5}Método de pesquisa em grade}{15}{section.2.5}%
-\contentsline {section}{\numberline {2.6} Algoritmo \textit {Hill Climbing} (subida da encosta)}{15}{section.2.6}%
-\contentsline {chapter}{\chapternumberline {3}METODOLOGIA}{15}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Considerações Iniciais}{15}{section.3.1}%
+\contentsline {section}{\numberline {2.5}Método de Pesquisa em Grade}{15}{section.2.5}%
+\contentsline {section}{\numberline {2.6} Algoritmo Subida de Encosta)}{15}{section.2.6}%
+\contentsline {chapter}{\chapternumberline {3}METODOLOGIA}{16}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Considerações Iniciais}{16}{section.3.1}%
 \contentsline {section}{\numberline {3.2}\textit {Cart Pole}: Implementação e Sintonia do Controlador PID}{16}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Obtenção da Função de Transferência para o \textit {Cart Pole}}{16}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Sintonia do PID}{24}{subsection.3.2.2}%
 \contentsline {section}{\numberline {3.3}\textit {Cart Pole}: Controle Preditivo Generalizado Aplicado}{26}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Controle Preditivo Generalizado: Formulação para o \textit {Cart Pole}}{26}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.3.2}Estimação do Modelo ARX}{27}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}\textit {Lunar Lander}: Implementação e Sintonia do Controlador PID}{29}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}\textit {Lunar Lander}: Aplicando o controle PID}{29}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.4}\textit {Lunar Lander}: Implementação e Sintonia do Controlador PD}{29}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}\textit {Lunar Lander}: Aplicando o controle PD}{29}{subsection.3.4.1}%
 \contentsline {section}{\numberline {3.5}\textit {Lunar Lander}: Controle Preditivo Generalizado Aplicado}{31}{section.3.5}%
 \contentsline {subsection}{\numberline {3.5.1}Controle Preditivo Generalizado: Formulação para o \textit {Lunar Lander}}{31}{subsection.3.5.1}%
 \contentsline {subsection}{\numberline {3.5.2}Estimação do Modelo ARX}{33}{subsection.3.5.2}%
 \contentsline {subsection}{\numberline {3.5.3}Determinação dos Pesos da Função Custo}{34}{subsection.3.5.3}%
 \contentsline {chapter}{\chapternumberline {4}RESULTADOS}{35}{chapter.4}%
-\contentsline {subsection}{\numberline {4.0.1}\textit {Cart Pole}}{35}{subsection.4.0.1}%
-\contentsline {subsection}{\numberline {4.0.2}\textit {Lunar Lander}}{36}{subsection.4.0.2}%
+\contentsline {section}{\numberline {4.1}\textit {Cart Pole}}{35}{section.4.1}%
+\contentsline {section}{\numberline {4.2}\textit {Lunar Lander}}{36}{section.4.2}%
 \contentsline {chapter}{\chapternumberline {5}CONCLUSÕES}{37}{chapter.5}%
 \contentsline {chapter}{\chapternumberline {6}PROPOSTAS DE TRABALHOS FUTUROS}{38}{chapter.6}%
-\contentsline {chapter}{REFERÊNCIAS BIBLIOGRÁFICAS}{39}{chapter*.46}%
+\contentsline {chapter}{REFERÊNCIAS BIBLIOGRÁFICAS}{39}{chapter*.47}%
 \babel@toc {brazil}{}\relax 

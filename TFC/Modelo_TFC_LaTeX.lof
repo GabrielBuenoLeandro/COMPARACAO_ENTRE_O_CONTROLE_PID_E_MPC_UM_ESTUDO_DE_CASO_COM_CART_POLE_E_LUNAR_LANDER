@@ -1,37 +1,38 @@
 \babel@toc {brazil}{}\relax 
 \babel@toc {brazil}{}\relax 
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Diagrama de blocos da Função de Transferência.}}{8}{figure.caption.6}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces PID aplicado a uma malha de controle.}}{10}{figure.caption.7}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Controle Preditivo Baseado em Modelo.}}{11}{figure.caption.8}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Controle Baseado em Modelo: Representação Gráfica,}}{11}{figure.caption.9}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces \textit {Cart Pole}.}}{13}{figure.caption.10}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces \textit {Lunar Lander}.}}{14}{figure.caption.13}%
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Sistema de pêndulo invertido.}}{16}{figure.caption.16}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagrama de corpo livre do pêndulo invertido.}}{16}{figure.caption.17}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Deslocamento do centro de massa do pêndulo.}}{17}{figure.caption.18}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Deslocamento rotacional do centro de gravidade do pêndulo,}}{17}{figure.caption.19}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Resultados da aplicação de uma força constante à direita.}}{19}{figure.caption.20}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces \textit {Cart Pole}.}}{20}{figure.caption.21}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Relação entre momento de inércia e comprimento, para $m=0,5kg$.}}{20}{figure.caption.22}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Entrada e saída.}}{21}{figure.caption.24}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Episódios inteiros.}}{22}{figure.caption.25}%
-\contentsline {figure}{\numberline {3.10}{\ignorespaces RMSE médio devido ao fator $k$.}}{23}{figure.caption.26}%
-\contentsline {figure}{\numberline {3.11}{\ignorespaces Diagrama do sistema.}}{23}{figure.caption.27}%
-\contentsline {figure}{\numberline {3.12}{\ignorespaces Entrada e saída - Validação da FT.}}{24}{figure.caption.28}%
-\contentsline {figure}{\numberline {3.13}{\ignorespaces Malha de controle para o \textit {Cart Pole}.}}{24}{figure.caption.29}%
-\contentsline {figure}{\numberline {3.14}{\ignorespaces Resposta ao impulso para obtenção dos parâmetros do PID.}}{26}{figure.caption.31}%
-\contentsline {figure}{\numberline {3.15}{\ignorespaces Aplicando o PRBS.}}{28}{figure.caption.32}%
-\contentsline {figure}{\numberline {3.16}{\ignorespaces Maior episódio.}}{29}{figure.caption.33}%
-\contentsline {figure}{\numberline {3.17}{\ignorespaces \textit {Setpoints} para o controle PD.}}{30}{figure.caption.35}%
-\contentsline {figure}{\numberline {3.18}{\ignorespaces Plano cartesiano do \textit {Lunar Lander},}}{32}{figure.caption.36}%
-\contentsline {figure}{\numberline {3.19}{\ignorespaces \textit {Setpoints} para o GPC,}}{32}{figure.caption.37}%
-\contentsline {figure}{\numberline {3.20}{\ignorespaces Pesos da Função de Custo para o \textit {Lunar Lander}.}}{34}{figure.caption.39}%
-\contentsline {figure}{\numberline {4.1}{\ignorespaces PID: \textit {Cart Pole} GIF.}}{35}{figure.caption.40}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces GPC: \textit {Cart Pole} GIF.}}{35}{figure.caption.40}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces PID: \textit {Cart Pole}.}}{35}{figure.caption.41}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces GPC: \textit {Cart Pole}.}}{35}{figure.caption.41}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces PD: \textit {Lunar Lander} GIF.}}{36}{figure.caption.43}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces GPC: \textit {Lunar Lander} GIF.}}{36}{figure.caption.43}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces PD: \textit {Lunar Lander}.}}{36}{figure.caption.44}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces GPC: \textit {Lunar Lander}.}}{36}{figure.caption.44}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces PID aplicado a uma malha de controle.}}{9}{figure.caption.7}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Controle Preditivo Baseado em Modelo.}}{10}{figure.caption.8}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Controle Baseado em Modelo: Representação Gráfica.}}{11}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Gymnasium.}}{13}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces \textit {Cart Pole}.}}{13}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces \textit {Lunar Lander}.}}{14}{figure.caption.14}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Sistema de pêndulo invertido.}}{16}{figure.caption.17}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagrama de corpo livre do pêndulo invertido.}}{16}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Deslocamento do centro de massa do pêndulo.}}{17}{figure.caption.19}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Deslocamento rotacional do centro de gravidade do pêndulo,}}{17}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Resultados da aplicação de uma força constante à direita.}}{19}{figure.caption.21}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces \textit {Cart Pole}.}}{20}{figure.caption.22}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Relação entre momento de inércia e o comprimento, para $m=0,5kg$.}}{20}{figure.caption.23}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Entrada e saída.}}{21}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Episódios inteiros.}}{22}{figure.caption.26}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces RMSE médio devido ao fator $k$.}}{23}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Diagrama do sistema.}}{23}{figure.caption.28}%
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Entrada e saída - Validação da FT.}}{24}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Malha de controle para o \textit {Cart Pole}.}}{24}{figure.caption.30}%
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Resposta ao impulso para obtenção dos parâmetros do PID.}}{26}{figure.caption.32}%
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Aplicando o PRBS.}}{28}{figure.caption.33}%
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Maior episódio.}}{29}{figure.caption.34}%
+\contentsline {figure}{\numberline {3.17}{\ignorespaces \textit {Setpoints} para o controle PD.}}{30}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Plano cartesiano do \textit {Lunar Lander},}}{32}{figure.caption.37}%
+\contentsline {figure}{\numberline {3.19}{\ignorespaces \textit {Setpoints} para o GPC,}}{32}{figure.caption.38}%
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Pesos da Função de Custo para o \textit {Lunar Lander}.}}{34}{figure.caption.40}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces PID: \textit {Cart Pole} GIF.}}{35}{figure.caption.41}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces GPC: \textit {Cart Pole} GIF.}}{35}{figure.caption.41}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces PID: \textit {Cart Pole}.}}{35}{figure.caption.42}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces GPC: \textit {Cart Pole}.}}{35}{figure.caption.42}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces PD: \textit {Lunar Lander} GIF.}}{36}{figure.caption.44}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces GPC: \textit {Lunar Lander} GIF.}}{36}{figure.caption.44}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces PD: \textit {Lunar Lander}.}}{36}{figure.caption.45}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces GPC: \textit {Lunar Lander}.}}{36}{figure.caption.45}%
 \babel@toc {brazil}{}\relax 
