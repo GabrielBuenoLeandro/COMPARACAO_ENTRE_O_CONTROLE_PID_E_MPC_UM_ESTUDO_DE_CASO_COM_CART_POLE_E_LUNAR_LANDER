@@ -1184,7 +1184,7 @@ Ao total, foram realizados 47 episódios completos. Portanto, para cada valor de
 \label{eq:RMSE}
 \end{equation}
 
-\noindent onde $\hat{y}_{ep}(i)$ representa a simulação livre para cada episódio (FT) e ${y}_k$ é o sinal medido para cada episódio, com a média ($\bar{y}_{ep}$) sendo calculada na janela de identificação. O resuldado da Equação \label{eq:RMSE} será plotado na Figura \ref{fig:R}.
+\noindent onde $\hat{y}_{ep}(i)$ representa a simulação livre para cada episódio (FT) e ${y}_k$ é o sinal medido para cada episódio, com a média ($\bar{y}_{ep}$) sendo calculada na janela de identificação. O resuldado da Equação \ref{eq:RMSE} será plotado na Figura \ref{fig:R}.
 
 \begin{figure}[H]
      \centering
@@ -1763,7 +1763,7 @@ Mesmo com o uso de apenas 70 amostras para a identificação do modelo, o SysIde
 
 Inicialmente, a estimação dos pesos foi feita por tentativa e erro, onde foram identificados alguns pontos importantes posteriormente utilizados. O principal foi a separação do ambiente lunar em dois estágios. O primeiro estágio consiste em verificar se a velocidade da sonda é inferior à trajetória de referência. Nesse caso, o peso $\delta$ na Equação \ref{eq:custogpc}, sendo zero, ajuda o modelo a não tomar decisões equivocadas, como inclinar em um ângulo $\theta$ grande e utilizar os motores auxiliares para acelerar e alcançar a referência. Dessa maneira, a sintonização manual se tornou mais tranquila, onde no primeiro estágio o algoritmo monitora apenas com os \textit{setpoints} de posição e inclinação angular. No segundo estágio, a velocidade linear em $y$ passa a fazer parte dos \textit{setpoints}.
 
-Depois de muitas tentativas, o GPC apresentou resultados semelhantes ao PD do repositório LunarLander\_OpenAIGym. No entanto, ao adotar um algoritmo de Subida de Encosta para estimar os parâmetros proporcionais e derivativos do PD deste trabalho, houve uma melhoria significativa no desempenho do PD. Assim, um ajuste manual do GPC para se equiparar ao PD tornou-se complicado. A proposta consistiu em aplicar o algoritmo de Subida de Encosta para estimar os pesos do segundo estágio ($\alpha_2$, $\beta_2$, e $\delta_2$), enquanto os pesos do primeiro estágio foram previamente definidos manualmente como $\alpha=\beta=1$ e $\delta=0$, mantidos devido ao seu desempenho satisfatório. Os pesos encontrados se encontram na Figura \label{fig:setp12}.
+Depois de muitas tentativas, o GPC apresentou resultados semelhantes ao PD do repositório LunarLander\_OpenAIGym. No entanto, ao adotar um algoritmo de Subida de Encosta para estimar os parâmetros proporcionais e derivativos do PD deste trabalho, houve uma melhoria significativa no desempenho do PD. Assim, um ajuste manual do GPC para se equiparar ao PD tornou-se complicado. A proposta consistiu em aplicar o algoritmo de Subida de Encosta para estimar os pesos do segundo estágio ($\alpha_2$, $\beta_2$, e $\delta_2$), enquanto os pesos do primeiro estágio foram previamente definidos manualmente como $\alpha=\beta=1$ e $\delta=0$, mantidos devido ao seu desempenho satisfatório. Os pesos encontrados se encontram na Figura \ref{fig:setp12}.
 
 \begin{figure}[H]
     \definecolor{rpurple}{RGB}{156, 112, 214}

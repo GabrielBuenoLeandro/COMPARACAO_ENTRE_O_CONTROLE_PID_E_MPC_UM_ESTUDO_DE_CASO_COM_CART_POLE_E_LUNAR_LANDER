@@ -154,7 +154,7 @@ def predict(y, k, Matriz, action):
 
 env = gym.make("CartPole-v1", render_mode="human") # Inicio do ambiente e o seu modo de rederinzação
 observation, info = env.reset(seed=42) # Reseta o ambiente e estabelece as condições iniciais
-samples = 500 # Número de amostras 
+samples = 5000 # Número de amostras 
 y = np.zeros(samples) # Array para salvar o ângulo 
 u = np.zeros(samples) # Array para salvar a entrada do CartPole
 us = np.ones(samples) # Array para salvar a entrada da Função de Transferência

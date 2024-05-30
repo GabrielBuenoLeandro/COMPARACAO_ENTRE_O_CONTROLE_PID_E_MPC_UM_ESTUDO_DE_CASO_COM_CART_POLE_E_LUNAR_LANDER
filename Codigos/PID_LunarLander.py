@@ -55,11 +55,11 @@ cont = 0
 ooo = 0
 inicio = time.time()
 # 100 trials for landing
-for t in range(10):
+for t in range(1000):
     observation = env.reset()
     observation = observation[0]
     while 1:
-        env.render()
+        #env.render()
         cont+=1
         #print(observation)
         # select action using pid method
